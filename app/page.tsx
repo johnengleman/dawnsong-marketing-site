@@ -28,7 +28,10 @@ const highlights = [
 
 export default function Version1() {
   const feedbackUrl = "https://sonahabitsapp.userjot.com/";
-  const waitlistUrl = "https://tally.so/r/Zj82ko";
+  const appStoreUrl =
+    "https://apps.apple.com/us/app/habit-tracker-sona/id6758967586";
+  const appStoreBadgeUrl =
+    "https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83";
 
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--text)] font-sans selection:bg-[var(--primary-light)] overflow-x-hidden">
@@ -129,12 +132,17 @@ export default function Version1() {
             </a>
           </nav>
           <a
-            href={waitlistUrl}
+            href={appStoreUrl}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-[var(--text)] text-[var(--background)] text-sm font-semibold hover:bg-[#2a231e] transition-colors shadow-xl shadow-[#1f1915]/10 sm:gap-3 sm:px-6 sm:py-2.5 sm:rounded-2xl"
+            className="inline-flex items-center rounded-xl transition-transform duration-200 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-blue)] focus-visible:ring-offset-4"
+            aria-label="Download Sona on the App Store"
           >
-            <span>Join the waitlist now</span>
+            <img
+              src={appStoreBadgeUrl}
+              alt="Download on the App Store"
+              className="block h-9 w-auto sm:h-10"
+            />
           </a>
         </div>
       </header>
@@ -152,17 +160,19 @@ export default function Version1() {
               >
                 <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-[color:var(--hairline)] bg-[var(--surface)] text-[11px] uppercase tracking-[0.28em] text-[var(--text-tertiary)] mb-6">
                   <span className="w-2 h-2 rounded-full bg-[var(--primary)] shadow-[0_0_0_4px_rgba(212,131,91,0.18)]" />
-                  Join the waitlist
+                  Now available on iPhone
                 </div>
                 <h1 className="text-5xl md:text-6xl font-bold leading-[1.03] mb-6 tracking-tight">
                   Consistency without
-                  <span className="relative inline-block ml-2">
-                    <span className="relative z-10">the guilt</span>
-                    <span className="absolute inset-x-0 -bottom-1 h-[6px] bg-[var(--primary-light)] -z-0 rounded-full" />
+                  <span className="ml-2 inline-flex items-baseline whitespace-nowrap">
+                    <span className="relative inline-block">
+                      <span className="relative z-10">the guilt</span>
+                      <span className="absolute inset-x-0 -bottom-1 h-[6px] bg-[var(--primary-light)] -z-0 rounded-full" />
+                    </span>
+                    <span>.</span>
                   </span>
-                  .
                   <br />
-                  <span className="block mt-3">
+                  <span className="block mt-5 sm:mt-6">
                     A habit tracker built for{" "}
                     <span className="relative inline-block whitespace-nowrap">
                       <span className="relative z-10">real life</span>
@@ -192,22 +202,24 @@ export default function Version1() {
 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <a
-                    href={waitlistUrl}
+                    href={appStoreUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-[var(--text)] text-[var(--background)] font-semibold hover:bg-[#2a231e] transition-colors shadow-xl shadow-[#1f1915]/15"
+                    className="inline-flex items-center transition-transform duration-200 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-blue)] focus-visible:ring-offset-4"
+                    aria-label="Download Sona on the App Store"
                   >
-                    Join the waitlist now
+                    <img
+                      src={appStoreBadgeUrl}
+                      alt="Download on the App Store"
+                      className="block h-16 sm:h-[72px] w-auto"
+                    />
                   </a>
-                  <a
-                    href="#screens"
-                    className="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl border border-[color:var(--hairline)] text-[var(--text)] font-semibold hover:border-[color:var(--text-tertiary)] transition-colors"
-                  >
-                    See the screens
-                  </a>
+                  <div className="inline-flex items-center px-4 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--text-tertiary)] sm:px-2">
+                    Android coming soon
+                  </div>
                 </div>
                 <p className="mt-4 text-sm text-[var(--text-tertiary)]">
-                  Join the waitlist for early access and product updates.
+                  Available now for iPhone with premium features and stats.
                 </p>
               </motion.div>
 
@@ -403,16 +415,21 @@ export default function Version1() {
                   without the pressure?
                 </h2>
                 <p className="text-base sm:text-lg md:text-xl text-[var(--text-secondary)] mb-8 sm:mb-10 max-w-lg mx-auto">
-                  Build habits that last in real life, then join the waitlist to
-                  hear when new access opens up.
+                  Build habits that last in real life with a tracker designed to
+                  keep missed days from wiping out your momentum.
                 </p>
                 <a
-                  href={waitlistUrl}
+                  href={appStoreUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-3 px-8 py-4 sm:px-10 sm:py-5 rounded-2xl bg-[var(--text)] text-[var(--background)] font-bold text-base sm:text-lg hover:bg-[#2a231e] transition-colors shadow-xl shadow-[#1f1915]/15"
+                  className="inline-flex items-center justify-center transition-transform duration-200 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-blue)] focus-visible:ring-offset-4"
+                  aria-label="Download Sona on the App Store"
                 >
-                  Join the waitlist now
+                  <img
+                    src={appStoreBadgeUrl}
+                    alt="Download on the App Store"
+                    className="block h-14 sm:h-16 w-auto"
+                  />
                 </a>
               </div>
             </div>
