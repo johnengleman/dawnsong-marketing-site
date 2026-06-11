@@ -1,32 +1,31 @@
 import type { Metadata } from "next";
 
 import { Analytics } from "@vercel/analytics/next";
-import { Alegreya_Sans, Fraunces, Geist_Mono } from "next/font/google";
+import { Inter, Nunito, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-body",
   subsets: ["latin"],
 });
 
-const alegreyaSans = Alegreya_Sans({
-  variable: "--font-alegreya-sans",
+const nunito = Nunito({
+  variable: "--font-heading",
   subsets: ["latin"],
-  style: ["normal", "italic"],
-  weight: ["300", "400", "500", "700", "800"],
+  weight: ["400", "600", "700"],
 });
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const playfair = Playfair_Display({
+  variable: "--font-display",
   subsets: ["latin"],
   style: ["normal", "italic"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Sona - Habit Tracking That Forgives",
+  title: "Sona - Habit & Routine Builder. Consistency, Not Streaks.",
   description:
-    "Build habits that survive real life. Sona tracks consistency (not fragile streaks) and lets you earn rest days so one missed day doesn’t erase your progress.",
+    "Sona is a calm habit and routine builder for people who are tired of starting over. Keep a consistency score that survives missed days, build habits inside beautiful areas, and take real rest without losing your progress.",
   icons: {
     icon: "/icon.png",
     shortcut: "/icon.png",
@@ -42,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${alegreyaSans.variable} ${geistMono.variable} ${fraunces.variable} antialiased`}
+        className={`${inter.variable} ${nunito.variable} ${playfair.variable} antialiased`}
       >
         {children}
         <Analytics />

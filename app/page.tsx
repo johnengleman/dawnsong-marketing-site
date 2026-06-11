@@ -1,497 +1,437 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { Icon } from "./components/Icon";
 import NoiseOverlay from "./components/NoiseOverlay";
-import { ParallaxPill } from "./components/Pill";
 
-/**
- * VERSION 1: Light & Airy
- * - Warm cream palette matching app's light mode
- * - Parallax floating pills with app's actual colors
- * - Focus on the app's visual language
- * - Friendly, welcoming tone
- */
+const appStoreUrl =
+  "https://apps.apple.com/us/app/habit-tracker-sona/id6758967586";
+const feedbackUrl = "https://sonahabitsapp.userjot.com/";
 
-const highlights = [
+const proofPoints = [
+  "One missed day ruins your motivation.",
+  "You keep carrying the same goal into another month.",
+  "You want structure, but not another guilt dashboard.",
+];
+
+const systemSteps = [
   {
-    title: "Consistency over streaks",
-    desc: "A rolling score rewards real progress instead of all‑or‑nothing streaks.",
+    label: "Name the life area",
+    title: "Turn the big thing into a place.",
+    copy: "Health, learning, recovery, morning, writing, home. Sona starts with the reason, not a random checklist.",
   },
   {
-    title: "Rest days that protect momentum",
-    desc: "Take a break when you need it without losing momentum.",
+    label: "Add the repeated promises",
+    title: "Build the habits inside it.",
+    copy: "Daily, weekly, and monthly habits can live together because real goals do not all run on the same schedule.",
+  },
+  {
+    label: "Return after real life",
+    title: "Watch consistency recover.",
+    copy: "A missed day is a dip, not a reset. The score keeps the long run visible without turning it into a verdict.",
   },
 ];
 
-export default function Version1() {
-  const feedbackUrl = "https://sonahabitsapp.userjot.com/";
-  const appStoreUrl =
-    "https://apps.apple.com/us/app/habit-tracker-sona/id6758967586";
-  const appStoreBadgeUrl =
-    "https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83";
+const screenshotTour = [
+  {
+    src: "/dark-home-morning.png",
+    alt: "Sona morning routine home screen",
+    title: "A home for each goal",
+    copy: "Open directly into the area you are building, with the habits that matter today.",
+  },
+  {
+    src: "/dark-area-picker.png",
+    alt: "Sona area picker screen",
+    title: "Create purpose containers",
+    copy: "Keep habits organized by the life they support: health, learning, home, fitness, or anything you choose.",
+  },
+  {
+    src: "/dark-progress.png",
+    alt: "Sona progress consistency screen",
+    title: "See the long run",
+    copy: "Consistency trends make progress visible without the all-or-nothing pressure of a reset counter.",
+  },
+  {
+    src: "/dark-home-italian.png",
+    alt: "Sona habit card resting state",
+    title: "Rest without losing the thread",
+    copy: "Rest periods are part of the system, so a hard day does not have to become a failed goal.",
+  },
+  {
+    src: "/dark-stats.png",
+    alt: "Sona stats screen",
+    title: "Understand what is working",
+    copy: "Review history, rhythm, and momentum when you need insight, then get back to living.",
+  },
+];
+
+const outcomes = [
+  "Stop treating one bad week like a failed identity.",
+  "Turn vague intentions into a calm daily system.",
+  "Become someone who returns, not someone who restarts.",
+];
+
+function DownloadButton({ className = "" }: { className?: string }) {
+  return (
+    <a
+      href={appStoreUrl}
+      target="_blank"
+      rel="noreferrer"
+      className={`download-button ${className}`}
+      aria-label="Download Sona on the App Store"
+    >
+      <Icon icon="solar:download-minimalistic-bold" className="h-5 w-5" />
+      <span>Download Sona</span>
+    </a>
+  );
+}
+
+function PhoneShot({
+  src,
+  alt,
+  className = "",
+  priority = false,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  priority?: boolean;
+}) {
+  return (
+    <div className={`phone-shot ${className}`}>
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        priority={priority}
+        sizes="(max-width: 700px) 76vw, 340px"
+        className="object-cover object-top"
+      />
+    </div>
+  );
+}
+
+function SectionLabel({
+  children,
+  tone = "warm",
+}: {
+  children: ReactNode;
+  tone?: "warm" | "night";
+}) {
+  return (
+    <p className={`section-label ${tone === "night" ? "section-label-night" : ""}`}>
+      {children}
+    </p>
+  );
+}
+
+function HeroScreens() {
+  const reduceMotion = useReducedMotion();
 
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--text)] font-sans selection:bg-[var(--primary-light)] overflow-x-hidden">
+    <div className="hero-stage" aria-label="Sona app screenshots">
+      <motion.div
+        initial={reduceMotion ? false : { opacity: 0, y: 24, rotate: -4 }}
+        animate={reduceMotion ? undefined : { opacity: 1, y: 0, rotate: -7 }}
+        transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+        className="hero-phone hero-phone-back-left"
+      >
+        <PhoneShot
+          src="/dark-progress.png"
+          alt="Sona progress view showing consistency score"
+        />
+      </motion.div>
+
+      <motion.div
+        initial={reduceMotion ? false : { opacity: 0, y: 18, scale: 0.96 }}
+        animate={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.8, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+        className="hero-phone hero-phone-main"
+      >
+        <PhoneShot
+          src="/dark-home-morning.png"
+          alt="Sona routine builder home screen"
+          priority
+        />
+      </motion.div>
+
+      <motion.div
+        initial={reduceMotion ? false : { opacity: 0, y: 24, rotate: 4 }}
+        animate={reduceMotion ? undefined : { opacity: 1, y: 0, rotate: 6 }}
+        transition={{ duration: 0.8, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+        className="hero-phone hero-phone-back-right"
+      >
+        <PhoneShot
+          src="/dark-area-picker.png"
+          alt="Sona area picker for organizing habits"
+        />
+      </motion.div>
+
+      <motion.div
+        initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+        animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.35 }}
+        className="consistency-float"
+      >
+        <span className="float-number">70%</span>
+        <span className="float-label">consistency, not a reset</span>
+      </motion.div>
+    </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <div className="min-h-screen overflow-x-hidden bg-[var(--paper)] text-[var(--ink)] selection:bg-[var(--honey)] selection:text-[var(--forest)]">
       <NoiseOverlay />
-      {/* Warm background gradients */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute -top-[10%] right-[-10%] w-[70%] h-[70%] bg-[radial-gradient(circle_at_center,rgba(212,131,91,0.25),transparent_60%)]" />
-        <div className="absolute top-[15%] left-[-5%] w-[50%] h-[50%] bg-[radial-gradient(circle_at_center,rgba(46,138,122,0.2),transparent_60%)]" />
-        <div className="absolute -bottom-[15%] left-[20%] w-[65%] h-[65%] bg-[radial-gradient(circle_at_center,rgba(227,161,95,0.2),transparent_60%)]" />
-      </div>
 
-      {/* Parallax Pills Background */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <ParallaxPill
-          color="blue"
-          variant="filled"
-          size="xl"
-          speed={-0.3}
-          rotate={-15}
-          opacity={0.15}
-          className="absolute top-[15%] left-[8%]"
-        />
-        <ParallaxPill
-          color="green"
-          variant="filled"
-          size="lg"
-          speed={0.4}
-          rotate={20}
-          opacity={0.12}
-          className="absolute top-[25%] right-[10%]"
-        />
-        <ParallaxPill
-          color="amber"
-          variant="filled"
-          size="md"
-          speed={-0.5}
-          rotate={10}
-          opacity={0.2}
-          className="absolute top-[60%] left-[5%]"
-        />
-        <ParallaxPill
-          color="blue"
-          variant="faded"
-          size="lg"
-          speed={0.3}
-          rotate={-10}
-          opacity={0.1}
-          className="absolute top-[70%] right-[15%]"
-        />
-        <ParallaxPill
-          color="green"
-          variant="filled"
-          size="sm"
-          speed={-0.2}
-          rotate={25}
-          opacity={0.25}
-          className="absolute top-[40%] right-[5%]"
-        />
-      </div>
-
-      {/* Nav */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[rgba(247,241,232,0.82)] backdrop-blur-xl border-b border-[color:var(--hairline)]">
-        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 min-h-14 sm:min-h-16 py-2 sm:py-0 flex flex-row items-center justify-between gap-4">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="relative w-9 h-9">
-              <Image
-                src="/icon.png"
-                alt="Sona logo"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <span className="flex flex-col justify-center leading-none">
-              <span className="font-bold text-lg">Sona</span>
-              <span className="hidden sm:block text-[11px] uppercase tracking-[0.22em] text-[var(--text-tertiary)] font-semibold">
-                the no‑streak habit tracker
-              </span>
-            </span>
-          </Link>
-          <nav className="hidden md:flex items-center gap-6 text-sm text-[var(--text-secondary)]">
-            <a
-              href="#why"
-              className="hover:text-[var(--text)] transition-colors"
-            >
-              Why it works
-            </a>
-            <a
-              href="#stats"
-              className="hover:text-[var(--text)] transition-colors"
-            >
-              Stats
-            </a>
-            <a
-              href="#screens"
-              className="hover:text-[var(--text)] transition-colors"
-            >
-              Screens
-            </a>
-          </nav>
-          <a
-            href={appStoreUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center rounded-xl transition-transform duration-200 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-blue)] focus-visible:ring-offset-4"
-            aria-label="Download Sona on the App Store"
-          >
-            <img
-              src={appStoreBadgeUrl}
-              alt="Download on the App Store"
-              className="block h-9 w-auto sm:h-10"
-            />
-          </a>
-        </div>
+      <header className="site-header">
+        <Link href="/" className="brand-lockup" aria-label="Sona home">
+          <Image
+            src="/icon.png"
+            alt=""
+            width={38}
+            height={38}
+            className="brand-icon"
+          />
+          <span>Sona</span>
+        </Link>
+        <nav className="hidden items-center gap-8 text-sm font-bold text-[var(--forest)] md:flex">
+          <a href="#fit">Is it for you?</a>
+          <a href="#system">How it works</a>
+          <a href="#screens">Screens</a>
+        </nav>
+        <DownloadButton className="hidden sm:inline-flex" />
       </header>
 
-      <main className="relative z-10 pt-14 sm:pt-16">
-        {/* Hero */}
-        <section className="pt-10 sm:pt-24 pb-16 sm:pb-32">
-          <div className="mx-auto w-full max-w-6xl px-6">
-            <div className="grid lg:grid-cols-[1.05fr_0.95fr] gap-16 items-start">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="text-left"
-              >
-                <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-[color:var(--hairline)] bg-[var(--surface)] text-[11px] uppercase tracking-[0.28em] text-[var(--text-tertiary)] mb-6">
-                  <span className="w-2 h-2 rounded-full bg-[var(--primary)] shadow-[0_0_0_4px_rgba(212,131,91,0.18)]" />
-                  Now available on iPhone
-                </div>
-                <h1 className="text-5xl md:text-6xl font-bold leading-[1.03] mb-6 tracking-tight">
-                  Consistency without
-                  <span className="ml-2 inline-flex items-baseline whitespace-nowrap">
-                    <span className="relative inline-block">
-                      <span className="relative z-10">the guilt</span>
-                      <span className="absolute inset-x-0 -bottom-1 h-[6px] bg-[var(--primary-light)] -z-0 rounded-full" />
-                    </span>
-                    <span>.</span>
-                  </span>
-                  <br />
-                  <span className="block mt-5 sm:mt-6">
-                    A habit tracker built for{" "}
-                    <span className="relative inline-block whitespace-nowrap">
-                      <span className="relative z-10">real life</span>
-                      <svg
-                        className="absolute -bottom-2 left-0 w-full"
-                        viewBox="0 0 200 12"
-                        fill="none"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M2 8 Q 100 2 198 8"
-                          stroke="#2d6c7c"
-                          strokeWidth="4"
-                          strokeLinecap="round"
-                        />
-                      </svg>
-                    </span>
-                    .
-                  </span>
-                </h1>
-
-                <p className="text-xl text-[var(--text-secondary)] leading-relaxed mb-10 max-w-xl">
-                  Sona replaces fragile streaks with a rolling consistency score
-                  and built‑in rest days—so a missed day doesn&rsquo;t erase
-                  your progress and you keep showing up.
-                </p>
-
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <a
-                    href={appStoreUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center transition-transform duration-200 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-blue)] focus-visible:ring-offset-4"
-                    aria-label="Download Sona on the App Store"
-                  >
-                    <img
-                      src={appStoreBadgeUrl}
-                      alt="Download on the App Store"
-                      className="block h-16 sm:h-[72px] w-auto"
-                    />
-                  </a>
-                  <div className="inline-flex items-center px-4 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--text-tertiary)] sm:px-2">
-                    Android coming soon
-                  </div>
-                </div>
-                <p className="mt-4 text-sm text-[var(--text-tertiary)]">
-                  Available now for iPhone with premium features and stats.
-                </p>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="flex items-start justify-center lg:justify-end"
-              >
-                <div className="w-full max-w-none">
-                  <img
-                    src="/daily.png"
-                    alt="Sona daily view"
-                    className="block w-full h-auto max-h-[75vh] object-contain"
-                    loading="eager"
-                  />
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        {/* Why it works */}
-        <section
-          id="why"
-          className="py-20 border-t border-[color:var(--hairline)]"
-        >
-          <div className="mx-auto w-full max-w-5xl px-0 sm:px-6">
-            <div className="text-left md:text-center mb-12 px-6 sm:px-0">
-              <p className="text-sm font-semibold text-[var(--accent-blue)] uppercase tracking-[0.3em] mb-3">
-                Why it works
+      <main>
+        <section className="hero-section">
+          <div className="hero-light" aria-hidden="true" />
+          <div className="hero-grid">
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="hero-copy"
+            >
+              <SectionLabel>Goal and routine builder</SectionLabel>
+              <h1>Sona helps you stop restarting the same goal.</h1>
+              <p className="hero-subhead">
+                Build goals from small habits, track consistency instead of
+                punishing streaks, and return after real life gets messy.
               </p>
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-                Built to help you follow through
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 gap-8">
-              {highlights.map((item) => (
-                <div
-                  key={item.title}
-                  className="p-6 pb-0 sm:p-8 sm:pb-0 rounded-[2rem] bg-[var(--surface-secondary)] border border-[color:var(--hairline)] shadow-[0_18px_40px_rgba(32,26,22,0.08)]"
-                >
-                  <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                  <p className="text-[var(--text-secondary)] leading-relaxed">
-                    {item.desc}
-                  </p>
-                  {item.title === "Consistency over streaks" ? (
-                    <div className="mt-6 grid grid-cols-2 gap-4">
-                      <img
-                        src="/consistency-1.png"
-                        alt="Consistency over streaks screenshot 1"
-                        className="w-full sm:w-[90%] h-auto object-contain mx-auto"
-                      />
-                      <img
-                        src="/consistency-2.png"
-                        alt="Consistency over streaks screenshot 2"
-                        className="w-full sm:w-[90%] h-auto object-contain mx-auto translate-y-[3px]"
-                      />
-                    </div>
-                  ) : item.title === "Rest days that protect momentum" ? (
-                    <div className="mt-6 grid grid-cols-2 gap-4">
-                      <img
-                        src="/rest-1.png"
-                        alt="Rest days screenshot 1"
-                        className="w-full sm:w-[90%] h-auto object-contain mx-auto self-end"
-                        style={{
-                          WebkitMaskImage:
-                            "linear-gradient(to bottom, transparent 0%, black 30%)",
-                          maskImage:
-                            "linear-gradient(to bottom, transparent 0%, black 30%)",
-                        }}
-                      />
-                      <img
-                        src="/rest-2.png"
-                        alt="Rest days screenshot 2"
-                        className="w-full sm:w-[90%] h-auto object-contain mx-auto"
-                      />
-                    </div>
-                  ) : null}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Statistics */}
-        <section
-          id="stats"
-          className="py-20 border-t border-[color:var(--hairline)]"
-        >
-          <div className="mx-auto w-full max-w-6xl px-6">
-            <div className="text-left md:text-center mb-12">
-              <p className="text-sm font-semibold text-[var(--primary)] uppercase tracking-[0.3em] mb-3">
-                Statistics
-              </p>
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-                See your progress clearly
-              </h2>
-              <p className="text-lg text-[var(--text-secondary)] max-w-2xl md:mx-auto">
-                Track consistency trends and spot what&rsquo;s working at a
-                glance.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-[minmax(0,30%)_minmax(0,30%)] md:justify-center gap-10">
-              {[
-                { src: "/stats-1.png", label: "Statistics screenshot 1" },
-                { src: "/stats-2.png", label: "Statistics screenshot 2" },
-              ].map((item) => (
-                <div key={item.label} className="text-center">
-                  <div className="mx-auto w-full max-w-[280px] sm:max-w-[420px]">
-                    <Image
-                      src={item.src}
-                      alt={item.label}
-                      width={720}
-                      height={480}
-                      className="w-full h-auto object-contain"
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Screenshots */}
-        <section
-          id="screens"
-          className="py-20 border-t border-[color:var(--hairline)]"
-        >
-          <div className="mx-auto w-full max-w-6xl px-6">
-            <div className="text-left md:text-center mb-12">
-              <p className="text-sm font-semibold text-[var(--accent-blue)] uppercase tracking-[0.3em] mb-3">
-                See it at a glance
-              </p>
-              <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-                A calm, clear view of your habits
-              </h2>
-              <p className="text-lg text-[var(--text-secondary)] max-w-2xl md:mx-auto">
-                Daily, weekly, or monthly—choose what fits your life and keep
-                moving forward without the pressure to be perfect.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-[repeat(3,minmax(0,30%))] md:justify-center gap-10">
-              {[
-                { src: "/daily.png", label: "Daily" },
-                { src: "/weekly.png", label: "Weekly" },
-                { src: "/monthly.png", label: "Monthly" },
-              ].map((item, i) => (
-                <motion.div
-                  key={item.label}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
-                  className="text-center w-full"
-                >
-                  <div className="mb-4 text-lg font-bold tracking-wide text-[var(--text)]">
-                    {item.label}
-                  </div>
-                  <div
-                    style={{ aspectRatio: "10 / 16" }}
-                    className="relative w-full rounded-[2rem] overflow-hidden"
-                  >
-                    <Image
-                      src={item.src}
-                      alt={`${item.label} habits view`}
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section
-          id="download"
-          className="py-20 md:py-24 border-t border-[color:var(--hairline)]"
-        >
-          <div className="mx-auto w-full max-w-5xl px-6">
-            <div className="relative rounded-[2rem] md:rounded-[2.5rem] overflow-hidden bg-[linear-gradient(135deg,rgba(212,131,91,0.14),rgba(46,108,124,0.1),rgba(227,161,95,0.2))] border border-[color:var(--hairline)] p-8 sm:p-10 md:p-16 text-center shadow-[0_28px_60px_rgba(32,26,22,0.12)]">
-              <div className="absolute top-4 left-4 w-20 h-20 rounded-full bg-[rgba(46,108,124,0.15)] blur-xl" />
-              <div className="absolute bottom-4 right-4 w-32 h-32 rounded-full bg-[rgba(212,131,91,0.18)] blur-xl" />
-
-              <div className="relative">
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
-                  Ready to feel consistent
-                  <br />
-                  without the pressure?
-                </h2>
-                <p className="text-base sm:text-lg md:text-xl text-[var(--text-secondary)] mb-8 sm:mb-10 max-w-lg mx-auto">
-                  Build habits that last in real life with a tracker designed to
-                  keep missed days from wiping out your momentum.
-                </p>
-                <a
-                  href={appStoreUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center transition-transform duration-200 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-blue)] focus-visible:ring-offset-4"
-                  aria-label="Download Sona on the App Store"
-                >
-                  <img
-                    src={appStoreBadgeUrl}
-                    alt="Download on the App Store"
-                    className="block h-14 sm:h-16 w-auto"
-                  />
+              <div className="hero-actions">
+                <DownloadButton />
+                <a href="#fit" className="text-link">
+                  See if Sona is for you
                 </a>
+              </div>
+              <p className="hero-note">
+                Made for people who want to follow through from calm, not panic.
+              </p>
+            </motion.div>
+
+            <HeroScreens />
+          </div>
+        </section>
+
+        <section id="fit" className="fit-section">
+          <div className="section-wrap">
+            <div className="fit-intro">
+              <SectionLabel>It is probably for you if</SectionLabel>
+              <h2>You are not lazy. You are tired of starting over.</h2>
+            </div>
+            <div className="proof-list">
+              {proofPoints.map((point, index) => (
+                <motion.article
+                  key={point}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.4 }}
+                  transition={{ duration: 0.45, delay: index * 0.06 }}
+                  className="proof-card"
+                >
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <p>{point}</p>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="difference-section">
+          <div className="section-wrap difference-grid">
+            <div className="difference-copy">
+              <SectionLabel>Consistency, not punishment</SectionLabel>
+              <h2>A missed day is a dip, not a reset.</h2>
+              <p>
+                The old model asks you to protect a fragile number. Sona helps
+                you build a long run of returning. Your score can bend, recover,
+                and still tell the truth about your progress.
+              </p>
+            </div>
+            <div className="score-panel">
+              <div className="score-ring" aria-hidden="true">
+                <span>82%</span>
+                <small>long-run consistency</small>
+              </div>
+              <div className="score-lines">
+                <div>
+                  <span>Old streak apps</span>
+                  <strong>Miss one day, start over.</strong>
+                </div>
+                <div>
+                  <span>Sona</span>
+                  <strong>Miss, learn, return.</strong>
+                </div>
               </div>
             </div>
           </div>
         </section>
+
+        <section id="system" className="system-section">
+          <div className="section-wrap">
+            <div className="center-heading">
+              <SectionLabel>How Sona changes the loop</SectionLabel>
+              <h2>Give the goal a system you can emotionally tolerate opening.</h2>
+              <p>
+                Sona stays focused on the thing that actually changes a life:
+                returning to small promises for a long time.
+              </p>
+            </div>
+
+            <div className="step-grid">
+              {systemSteps.map((step, index) => (
+                <motion.article
+                  key={step.label}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.45, delay: index * 0.08 }}
+                  className="step-card"
+                >
+                  <span className="step-label">{step.label}</span>
+                  <h3>{step.title}</h3>
+                  <p>{step.copy}</p>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="screens" className="tour-section">
+          <div className="section-wrap">
+            <div className="tour-heading">
+              <SectionLabel tone="night">Actual app screens</SectionLabel>
+              <h2>Beautiful enough to reopen after a hard week.</h2>
+              <p>
+                The visuals are not decoration. They lower the cost of coming
+                back, while the system keeps your next action clear.
+              </p>
+            </div>
+
+            <div className="tour-grid">
+              {screenshotTour.map((screen, index) => (
+                <motion.article
+                  key={screen.src}
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.24 }}
+                  transition={{ duration: 0.55, delay: index * 0.06 }}
+                  className="tour-card"
+                >
+                  <div className="tour-image">
+                    <Image
+                      src={screen.src}
+                      alt={screen.alt}
+                      fill
+                      sizes="(max-width: 900px) 88vw, 420px"
+                      className="object-cover object-top"
+                    />
+                  </div>
+                  <div>
+                    <h3>{screen.title}</h3>
+                    <p>{screen.copy}</p>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="outcome-section">
+          <div className="section-wrap outcome-grid">
+            <div>
+              <SectionLabel>The transformation</SectionLabel>
+              <h2>Become someone who keeps returning.</h2>
+              <p>
+                Sona is for building an extraordinary life the ordinary way:
+                through small days repeated, protected rest, honest progress,
+                and a system that does not punish you for being human.
+              </p>
+            </div>
+            <div className="outcome-list">
+              {outcomes.map((outcome) => (
+                <div key={outcome} className="outcome-item">
+                  <Icon icon="solar:leaf-bold" className="h-5 w-5" />
+                  <span>{outcome}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="final-section">
+          <div className="final-backdrop" aria-hidden="true" />
+          <div className="final-content">
+            <SectionLabel>Start the long run</SectionLabel>
+            <h2>One goal. A few habits. A place you can come back to.</h2>
+            <p>
+              Download Sona and build the first routine that can survive your
+              real life.
+            </p>
+            <DownloadButton />
+          </div>
+        </section>
       </main>
 
-      {/* Footer */}
-      <footer className="py-12 border-t border-[color:var(--hairline)]">
-        <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-3">
-            <div className="relative w-8 h-8">
-              <Image
-                src="/icon.png"
-                alt="Sona logo"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <span className="flex flex-col leading-tight">
-              <span className="font-bold">Sona</span>
-              <span className="text-[11px] uppercase tracking-[0.22em] text-[var(--text-tertiary)] font-semibold">
-                the no‑streak habit tracker
-              </span>
-            </span>
-          </div>
-          <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-6 gap-y-2 text-sm text-[var(--text-secondary)]">
-            <Link href="/privacy" className="hover:text-[var(--text)]">
-              Privacy
-            </Link>
-            <Link href="/terms" className="hover:text-[var(--text)]">
-              Terms
-            </Link>
-            <Link href="/support" className="hover:text-[var(--text)]">
-              Support
-            </Link>
-            <a href={feedbackUrl} className="hover:text-[var(--text)]">
-              Feedback
-            </a>
-            <div className="flex w-full justify-center md:w-auto md:justify-end gap-6 mt-2 sm:mt-0">
-              <a
-                href="https://www.reddit.com/r/SonaHabits/"
-                className="inline-flex items-center hover:text-[var(--text)] align-middle"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Sona Habits on Reddit"
-              >
-                <Icon icon="simple-icons:reddit" className="w-4 h-4" />
-              </a>
-              <a
-                href="https://x.com/sonahabits"
-                className="inline-flex items-center hover:text-[var(--text)] align-middle"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Sona Habits on X"
-              >
-                <Icon icon="simple-icons:x" className="w-4 h-4" />
-              </a>
-            </div>
-          </div>
-          <p className="text-[var(--text-tertiary)] text-sm">© 2026 Sona.</p>
+      <footer className="footer">
+        <Link href="/" className="brand-lockup" aria-label="Sona home">
+          <Image
+            src="/icon.png"
+            alt=""
+            width={34}
+            height={34}
+            className="brand-icon"
+          />
+          <span>Sona</span>
+        </Link>
+        <div className="footer-links">
+          <Link href="/privacy">Privacy</Link>
+          <Link href="/terms">Terms</Link>
+          <Link href="/support">Support</Link>
+          <a href={feedbackUrl}>Feedback</a>
+          <a
+            href="https://www.reddit.com/r/SonaHabits/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Sona Habits on Reddit"
+          >
+            <Icon icon="simple-icons:reddit" className="h-4 w-4" />
+          </a>
+          <a
+            href="https://x.com/sonahabits"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Sona Habits on X"
+          >
+            <Icon icon="simple-icons:x" className="h-4 w-4" />
+          </a>
         </div>
+        <p>© 2026 Sona.</p>
       </footer>
     </div>
   );
