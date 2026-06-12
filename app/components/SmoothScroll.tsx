@@ -18,6 +18,16 @@ export default function SmoothScroll() {
       anchors: { offset: -88 },
     });
 
+    // Exposed for debugging and scripted verification.
+    const w = window as unknown as {
+      __lenis?: Lenis;
+      __gsap?: typeof gsap;
+      __ScrollTrigger?: typeof ScrollTrigger;
+    };
+    w.__lenis = lenis;
+    w.__gsap = gsap;
+    w.__ScrollTrigger = ScrollTrigger;
+
     lenis.on("scroll", ScrollTrigger.update);
 
     const raf = (time: number) => {

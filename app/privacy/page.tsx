@@ -1,7 +1,7 @@
 export const metadata = {
-  title: "Privacy Policy - Sona",
+  title: "Privacy Policy - Dawn Song",
   description:
-    "Sona privacy policy describing data collection, use, and user rights.",
+    "Dawn Song privacy policy describing data collection, use, and user rights.",
 };
 
 export default function PrivacyPage() {
@@ -17,8 +17,8 @@ export default function PrivacyPage() {
 
         <section className="space-y-4 text-[#4b4742] leading-relaxed">
           <p>
-            This Privacy Policy explains how Sona (“we,” “us,” or “our”) handles
-            information when you use the Sona mobile application and related
+            This Privacy Policy explains how Dawn Song (“we,” “us,” or “our”) handles
+            information when you use the Dawn Song mobile application and related
             services (the “Service”).
           </p>
 

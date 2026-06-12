@@ -16,9 +16,15 @@ type Mote = {
 /**
  * A slow drift of warm dust motes — the "golden light" of the brand,
  * rendered cheaply on a single canvas. Renders nothing when the user
- * prefers reduced motion.
+ * prefers reduced motion. `rgb` is the mote color as "r, g, b".
  */
-export default function Dust({ density = 1 }: { density?: number }) {
+export default function Dust({
+  density = 1,
+  rgb = "171, 122, 48",
+}: {
+  density?: number;
+  rgb?: string;
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -83,7 +89,7 @@ export default function Dust({ density = 1 }: { density?: number }) {
           mote.alpha * (0.55 + 0.45 * Math.sin(t * mote.twinkle + mote.phase));
         ctx.beginPath();
         ctx.arc(mote.x, mote.y, mote.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(232, 190, 122, ${Math.max(glow, 0.04)})`;
+        ctx.fillStyle = `rgba(${rgb}, ${Math.max(glow, 0.04)})`;
         ctx.fill();
       }
 
@@ -101,7 +107,7 @@ export default function Dust({ density = 1 }: { density?: number }) {
       cancelAnimationFrame(frame);
       observer.disconnect();
     };
-  }, [density]);
+  }, [density, rgb]);
 
   return <canvas ref={canvasRef} className="dust-canvas" aria-hidden="true" />;
 }

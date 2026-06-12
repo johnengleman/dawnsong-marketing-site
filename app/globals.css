@@ -1,30 +1,193 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------
+   Theme tokens. :root is the light "dawn" theme; html[data-theme="dark"]
+   restores the night theme. Every color in the page flows through these.
+   --------------------------------------------------------------- */
+
 :root {
-  --night-0: #0a0d14;
-  --night-1: #0f131d;
-  --night-2: #151b28;
-  --night-3: #1c2434;
-  --cream: #f3e9d6;
-  --cream-dim: rgba(243, 233, 214, 0.64);
-  --cream-faint: rgba(243, 233, 214, 0.4);
+  --bg: #f7efe1;
+  --bg-deep: #efe2cb;
+  --surface: #fffaf0;
+  --surface-input: #fffdf7;
+  --glass: rgba(255, 250, 240, 0.74);
+  --text-strong: #1f3a2c;
+  --text-soft: #48634f;
+  --text-faint: rgba(31, 58, 44, 0.46);
+  --gold: #9a7430;
+  --gold-bright: #c89a4d;
+  --honey: #e8bd73;
+  --moon: #5c7fa3;
+  --line: rgba(82, 62, 38, 0.14);
+  --line-strong: rgba(82, 62, 38, 0.24);
+  --card-border: rgba(255, 255, 255, 0.7);
+  --shadow-rgb: 96, 66, 28;
+  --accent-hover: #b5573f;
+  --danger: #b5573f;
+  --sel-bg: #e8bd73;
+  --sel-text: #1f3a2c;
+
+  --cta-top: #c97356;
+  --cta-bottom: #a94d35;
+  --cta-text: #fff7eb;
+  --cta-border: rgba(255, 235, 210, 0.5);
+  --cta-shadow-rgb: 169, 77, 53;
+
+  --chart-stop-1: #5c7fa3;
+  --chart-stop-2: #b8893d;
+  --chart-grid: rgba(31, 58, 44, 0.09);
+  --chart-bar: rgba(154, 116, 48, 0.45);
+  --chart-axis: rgba(31, 58, 44, 0.38);
+  --chart-glow: rgba(154, 116, 48, 0.3);
+
+  --rest-bg: #eef3f0;
+  --chip-on-bg: rgba(232, 189, 115, 0.18);
+  --chip-on-border: rgba(154, 116, 48, 0.45);
+  --em-image: #9c4733;
+  --imagine-border: rgba(154, 116, 48, 0.45);
+
+  --hero-bg:
+    radial-gradient(
+      1100px 620px at 72% 108%,
+      rgba(244, 196, 120, 0.55),
+      transparent 62%
+    ),
+    radial-gradient(
+      900px 520px at 12% -10%,
+      rgba(154, 170, 139, 0.22),
+      transparent 60%
+    ),
+    linear-gradient(
+      180deg,
+      #cce0f5 0%,
+      #eee5cf 46%,
+      var(--bg) 88%
+    );
+  --curve-bg:
+    radial-gradient(
+      1100px 600px at 50% 0%,
+      rgba(92, 127, 163, 0.1),
+      transparent 65%
+    ),
+    linear-gradient(180deg, var(--bg), var(--bg-deep));
+  --progress-bg:
+    radial-gradient(
+      1000px 640px at 82% 30%,
+      rgba(244, 196, 120, 0.26),
+      transparent 64%
+    ),
+    linear-gradient(180deg, var(--bg), #f8e9cd 55%, var(--bg));
+  --final-bg:
+    radial-gradient(
+      900px 560px at 50% 110%,
+      rgba(244, 196, 120, 0.45),
+      transparent 64%
+    ),
+    linear-gradient(180deg, var(--bg), #f8e9cd);
+  --tomb-glow: rgba(232, 189, 115, 0.2);
+  --imagine-glow: rgba(232, 189, 115, 0.22);
+  --shade-bottom: rgba(82, 52, 22, 0.16);
+  --becoming-veil-edge: #f7efe1;
+  --becoming-veil-mid: rgba(247, 239, 225, 0.38);
+  --becoming-text-shadow: rgba(247, 239, 225, 0.9);
+
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  --bg: #0f131d;
+  --bg-deep: #0a0d14;
+  --surface: #151b28;
+  --surface-input: #10141d;
+  --glass: rgba(13, 17, 26, 0.7);
+  --text-strong: #f3e9d6;
+  --text-soft: rgba(243, 233, 214, 0.64);
+  --text-faint: rgba(243, 233, 214, 0.4);
   --gold: #e6bc7d;
-  --gold-deep: #c8965a;
-  --peach: #efb185;
-  --ember: #dd8a5d;
+  --gold-bright: #e6bc7d;
+  --honey: #e8bd73;
   --moon: #8fa9c9;
-  --sage-night: #9eb39a;
-  --ink-on-gold: #2b1810;
   --line: rgba(243, 233, 214, 0.1);
   --line-strong: rgba(243, 233, 214, 0.18);
+  --card-border: rgba(243, 233, 214, 0.14);
+  --shadow-rgb: 0, 0, 0;
+  --accent-hover: #e6bc7d;
+  --danger: #dd8a5d;
+  --sel-bg: #e6bc7d;
+  --sel-text: #0a0d14;
+
+  --cta-top: #f3c693;
+  --cta-bottom: #d98456;
+  --cta-text: #2b1810;
+  --cta-border: rgba(255, 224, 178, 0.45);
+  --cta-shadow-rgb: 221, 138, 93;
+
+  --chart-stop-1: #8fa9c9;
+  --chart-stop-2: #e6bc7d;
+  --chart-grid: rgba(243, 233, 214, 0.07);
+  --chart-bar: rgba(230, 188, 125, 0.3);
+  --chart-axis: rgba(243, 233, 214, 0.32);
+  --chart-glow: rgba(230, 188, 125, 0.35);
+
+  --rest-bg: #1c2434;
+  --chip-on-bg: rgba(230, 188, 125, 0.08);
+  --chip-on-border: rgba(230, 188, 125, 0.5);
+  --em-image: #e6bc7d;
+  --imagine-border: rgba(230, 188, 125, 0.4);
+
+  --hero-bg:
+    radial-gradient(
+      900px 520px at 18% -6%,
+      rgba(230, 188, 125, 0.16),
+      transparent 65%
+    ),
+    radial-gradient(
+      820px 600px at 88% 16%,
+      rgba(78, 102, 142, 0.2),
+      transparent 64%
+    ),
+    radial-gradient(
+      1200px 700px at 50% 118%,
+      rgba(221, 138, 93, 0.1),
+      transparent 60%
+    ),
+    #0a0d14;
+  --curve-bg:
+    radial-gradient(
+      1100px 600px at 50% 0%,
+      rgba(78, 102, 142, 0.12),
+      transparent 65%
+    ),
+    #0a0d14;
+  --progress-bg:
+    radial-gradient(
+      1000px 640px at 82% 30%,
+      rgba(78, 102, 142, 0.16),
+      transparent 64%
+    ),
+    #0a0d14;
+  --final-bg:
+    radial-gradient(
+      900px 560px at 50% 8%,
+      rgba(230, 188, 125, 0.13),
+      transparent 64%
+    ),
+    #0a0d14;
+  --tomb-glow: rgba(221, 138, 93, 0.07);
+  --imagine-glow: rgba(230, 188, 125, 0.1);
+  --shade-bottom: rgba(10, 13, 20, 0.55);
+  --becoming-veil-edge: #0f131d;
+  --becoming-veil-mid: rgba(15, 19, 29, 0.6);
+  --becoming-text-shadow: rgba(10, 13, 20, 0.8);
+
   color-scheme: dark;
 }
 
 @theme {
-  --color-background: var(--night-1);
-  --color-surface: var(--night-2);
-  --color-text: var(--cream);
-  --color-primary: var(--gold);
+  --color-background: var(--bg);
+  --color-surface: var(--surface);
+  --color-text: var(--text-strong);
+  --color-primary: var(--danger);
   --font-sans: var(--font-body);
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
@@ -50,15 +213,16 @@ html.lenis body {
 body {
   min-height: 100vh;
   margin: 0;
-  background: var(--night-1);
-  color: var(--cream);
+  background: var(--bg);
+  color: var(--text-strong);
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 400ms ease;
 }
 
 ::selection {
-  background: var(--gold);
-  color: var(--night-0);
+  background: var(--sel-bg);
+  color: var(--sel-text);
 }
 
 h1,
@@ -76,7 +240,7 @@ button {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--accent-hover);
   outline-offset: 4px;
   border-radius: 4px;
 }
@@ -97,7 +261,7 @@ button:focus-visible {
   margin: 0 0 22px;
   color: var(--gold);
   font-size: 0.78rem;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.22em;
 }
@@ -124,9 +288,9 @@ button:focus-visible {
 
 .display {
   margin: 0;
-  color: var(--cream);
+  color: var(--text-strong);
   font-weight: 500;
-  line-height: 1.04;
+  line-height: 1.06;
 }
 
 .display em {
@@ -136,7 +300,7 @@ button:focus-visible {
 
 .lede {
   margin: 26px 0 0;
-  color: var(--cream-dim);
+  color: var(--text-soft);
   font-size: 1.22rem;
   font-weight: 400;
   line-height: 1.65;
@@ -165,31 +329,38 @@ button:focus-visible {
   transform: translateX(-50%);
   align-items: center;
   justify-content: space-between;
-  gap: 18px;
-  border: 1px solid var(--line);
+  gap: 14px;
+  border: 1px solid var(--card-border);
   border-radius: 20px;
-  background: rgba(13, 17, 26, 0.66);
+  background: var(--glass);
   padding: 10px 12px 10px 18px;
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 18px 50px rgba(var(--shadow-rgb), 0.14);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .brand-lockup {
   display: inline-flex;
   align-items: center;
   gap: 11px;
-  color: var(--cream);
+  color: var(--text-strong);
   font-family: var(--font-display), ui-serif, Georgia, serif;
-  font-size: 1.5rem;
+  font-size: 1.42rem;
   font-weight: 600;
   line-height: 1;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .brand-icon {
   border-radius: 10px;
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 8px 20px rgba(var(--shadow-rgb), 0.25);
 }
 
 .site-nav {
@@ -199,7 +370,7 @@ button:focus-visible {
 }
 
 .site-nav a {
-  color: var(--cream-dim);
+  color: var(--text-soft);
   font-size: 0.95rem;
   font-weight: 500;
   text-decoration: none;
@@ -207,13 +378,33 @@ button:focus-visible {
 }
 
 .site-nav a:hover {
-  color: var(--gold);
+  color: var(--accent-hover);
 }
 
 @media (min-width: 880px) {
   .site-nav {
     display: flex;
   }
+}
+
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-soft);
+  cursor: pointer;
+  transition: color 200ms ease, border-color 200ms ease, transform 200ms ease;
+}
+
+.theme-toggle:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+  transform: rotate(12deg);
 }
 
 /* ---------- buttons ---------- */
@@ -226,17 +417,17 @@ button:focus-visible {
   justify-content: center;
   gap: 10px;
   overflow: hidden;
-  border: 1px solid rgba(255, 224, 178, 0.45);
+  border: 1px solid var(--cta-border);
   border-radius: 999px;
-  background: linear-gradient(180deg, #f3c693, #d98456);
-  color: var(--ink-on-gold);
+  background: linear-gradient(180deg, var(--cta-top), var(--cta-bottom));
+  color: var(--cta-text);
   padding: 0 28px;
   font-size: 1rem;
   font-weight: 700;
   text-decoration: none;
   box-shadow:
-    0 18px 44px rgba(221, 138, 93, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    0 16px 38px rgba(var(--cta-shadow-rgb), 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
   transition:
     transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 260ms ease,
@@ -245,10 +436,10 @@ button:focus-visible {
 
 .cta-button:hover {
   transform: translateY(-2px);
-  filter: brightness(1.05);
+  filter: brightness(1.06);
   box-shadow:
-    0 24px 56px rgba(221, 138, 93, 0.38),
-    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    0 22px 48px rgba(var(--cta-shadow-rgb), 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .cta-button-sm {
@@ -261,7 +452,7 @@ button:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--cream-dim);
+  color: var(--text-strong);
   font-size: 1rem;
   font-weight: 500;
   text-decoration: none;
@@ -271,8 +462,8 @@ button:focus-visible {
 }
 
 .ghost-link:hover {
-  color: var(--gold);
-  border-color: var(--gold);
+  color: var(--accent-hover);
+  border-color: var(--accent-hover);
 }
 
 /* ---------- hero ---------- */
@@ -283,23 +474,7 @@ button:focus-visible {
   overflow: hidden;
   min-height: 100svh;
   padding: 168px 24px 90px;
-  background:
-    radial-gradient(
-      900px 520px at 18% -6%,
-      rgba(230, 188, 125, 0.16),
-      transparent 65%
-    ),
-    radial-gradient(
-      820px 600px at 88% 16%,
-      rgba(78, 102, 142, 0.2),
-      transparent 64%
-    ),
-    radial-gradient(
-      1200px 700px at 50% 118%,
-      rgba(221, 138, 93, 0.1),
-      transparent 60%
-    ),
-    var(--night-0);
+  background: var(--hero-bg);
 }
 
 .hero-grid {
@@ -336,9 +511,9 @@ button:focus-visible {
 
 .hero-note {
   margin: 30px 0 0;
-  color: var(--cream-faint);
+  color: var(--text-faint);
   font-size: 0.92rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.04em;
 }
 
@@ -350,63 +525,47 @@ button:focus-visible {
 
 .hero-glow {
   position: absolute;
-  top: 50%;
+  top: 54%;
   left: 50%;
   z-index: 0;
-  width: 560px;
-  height: 560px;
+  width: 600px;
+  height: 600px;
   transform: translate(-50%, -50%);
   border-radius: 999px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 224, 158, 0.8),
+    rgba(244, 196, 120, 0.26) 48%,
+    transparent 72%
+  );
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+html[data-theme="dark"] .hero-glow {
   background: radial-gradient(
     circle,
     rgba(230, 188, 125, 0.2),
     rgba(221, 138, 93, 0.07) 46%,
     transparent 70%
   );
-  filter: blur(8px);
-  pointer-events: none;
 }
 
 .phone {
   position: relative;
   overflow: hidden;
-  border: 9px solid #06080c;
-  border-radius: 50px;
-  background: #06080c;
+  border-radius: 34px;
+  background: var(--surface);
   box-shadow:
-    0 50px 110px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(243, 233, 214, 0.14),
-    0 0 90px rgba(230, 188, 125, 0.08);
-}
-
-.phone::before {
-  content: "";
-  position: absolute;
-  top: 9px;
-  left: 50%;
-  z-index: 3;
-  width: 33%;
-  height: 21px;
-  transform: translateX(-50%);
-  border-radius: 0 0 999px 999px;
-  background: #04050a;
-}
-
-.phone::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  border-radius: 41px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    0 36px 84px rgba(var(--shadow-rgb), 0.3),
+    0 0 0 1px var(--line),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .hero-phone {
   position: relative;
   z-index: 1;
   width: min(330px, 78vw);
-  aspect-ratio: 1170 / 2532;
 }
 
 .hero-float {
@@ -414,11 +573,11 @@ button:focus-visible {
   z-index: 3;
   display: grid;
   gap: 3px;
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--card-border);
   border-radius: 18px;
-  background: rgba(16, 21, 32, 0.78);
+  background: var(--glass);
   padding: 14px 18px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 20px 50px rgba(var(--shadow-rgb), 0.22);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
@@ -434,7 +593,7 @@ button:focus-visible {
 }
 
 .hero-float strong {
-  color: var(--cream);
+  color: var(--text-strong);
   font-family: var(--font-display), ui-serif, Georgia, serif;
   font-size: 1.9rem;
   font-weight: 500;
@@ -442,7 +601,7 @@ button:focus-visible {
 }
 
 .hero-float span {
-  color: var(--cream-faint);
+  color: var(--text-soft);
   font-size: 0.82rem;
   font-weight: 500;
   letter-spacing: 0.02em;
@@ -454,8 +613,8 @@ button:focus-visible {
   right: 0;
   bottom: 0;
   z-index: 1;
-  height: 180px;
-  background: linear-gradient(180deg, transparent, var(--night-1));
+  height: 160px;
+  background: linear-gradient(180deg, transparent, var(--bg));
   pointer-events: none;
 }
 
@@ -463,7 +622,7 @@ button:focus-visible {
 
 .problem {
   position: relative;
-  background: var(--night-1);
+  background: var(--bg);
 }
 
 .problem-grid {
@@ -490,13 +649,13 @@ button:focus-visible {
   align-items: baseline;
   border-bottom: 1px solid var(--line);
   padding: 20px 4px;
-  color: var(--cream-dim);
+  color: var(--text-soft);
   font-size: 1.08rem;
   line-height: 1.55;
 }
 
 .problem-point span {
-  color: var(--gold-deep);
+  color: var(--gold);
   font-family: var(--font-display), ui-serif, Georgia, serif;
   font-size: 0.95rem;
 }
@@ -506,24 +665,21 @@ button:focus-visible {
   display: grid;
   justify-items: center;
   gap: 10px;
-  border: 1px solid var(--line);
+  margin: 0;
+  border: 1px solid var(--card-border);
   border-radius: 30px;
   background:
-    radial-gradient(
-      420px 300px at 50% 0%,
-      rgba(221, 138, 93, 0.07),
-      transparent 70%
-    ),
-    var(--night-2);
+    radial-gradient(420px 300px at 50% 0%, var(--tomb-glow), transparent 70%),
+    var(--surface);
   padding: 56px 32px 48px;
   text-align: center;
-  box-shadow: 0 34px 80px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 30px 70px rgba(var(--shadow-rgb), 0.16);
 }
 
 .streak-tomb-label {
-  color: var(--cream-faint);
+  color: var(--text-faint);
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
@@ -537,7 +693,7 @@ button:focus-visible {
 
 .streak-was {
   position: relative;
-  color: var(--cream-faint);
+  color: var(--text-faint);
   font-size: 4.6rem;
   line-height: 1;
 }
@@ -549,32 +705,32 @@ button:focus-visible {
   top: 52%;
   width: 112%;
   height: 3px;
-  background: var(--ember);
+  background: var(--danger);
   border-radius: 2px;
   transform: rotate(-7deg) scaleX(var(--strike, 1));
   transform-origin: left center;
 }
 
 .streak-arrow {
-  color: var(--cream-faint);
+  color: var(--text-faint);
   font-size: 1.6rem;
 }
 
 .streak-now {
-  color: var(--ember);
+  color: var(--danger);
   font-size: 6.4rem;
   line-height: 1;
 }
 
 .streak-tomb figcaption {
   margin-top: 14px;
-  color: var(--cream-dim);
+  color: var(--text-soft);
   font-size: 0.98rem;
   font-style: italic;
 }
 
 .streak-tomb-sub {
-  color: var(--cream-faint);
+  color: var(--text-faint);
   font-size: 0.88rem;
 }
 
@@ -582,13 +738,7 @@ button:focus-visible {
 
 .curve-section {
   position: relative;
-  background:
-    radial-gradient(
-      1100px 600px at 50% 0%,
-      rgba(78, 102, 142, 0.12),
-      transparent 65%
-    ),
-    var(--night-0);
+  background: var(--curve-bg);
 }
 
 .curve-pin {
@@ -635,30 +785,30 @@ button:focus-visible {
   stroke: url(#curveGradient);
   stroke-width: 4;
   stroke-linecap: round;
-  filter: drop-shadow(0 0 14px rgba(230, 188, 125, 0.35));
+  filter: drop-shadow(0 4px 12px var(--chart-glow));
 }
 
 .curve-grid-line {
-  stroke: rgba(243, 233, 214, 0.07);
+  stroke: var(--chart-grid);
   stroke-width: 1;
 }
 
 .curve-bar-line {
-  stroke: rgba(230, 188, 125, 0.3);
+  stroke: var(--chart-bar);
   stroke-width: 1.5;
   stroke-dasharray: 7 9;
 }
 
 .curve-bar-text {
-  fill: rgba(230, 188, 125, 0.75);
+  fill: var(--gold);
   font-family: var(--font-body), sans-serif;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.12em;
 }
 
 .curve-axis-text {
-  fill: rgba(243, 233, 214, 0.32);
+  fill: var(--chart-axis);
   font-family: var(--font-body), sans-serif;
   font-size: 12px;
   font-weight: 500;
@@ -678,25 +828,27 @@ button:focus-visible {
   width: 11px;
   height: 11px;
   border-radius: 999px;
-  background: var(--gold);
-  box-shadow: 0 0 0 6px rgba(230, 188, 125, 0.16);
+  background: var(--gold-bright);
+  box-shadow: 0 0 0 6px rgba(200, 154, 77, 0.22);
 }
 
 .curve-marker-label {
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--card-border);
   border-radius: 999px;
-  background: rgba(16, 21, 32, 0.88);
+  background: var(--glass);
   padding: 7px 14px;
-  color: var(--cream);
+  color: var(--text-strong);
   font-size: 0.88rem;
   font-weight: 500;
   white-space: nowrap;
+  box-shadow: 0 10px 26px rgba(var(--shadow-rgb), 0.16);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .curve-marker-dip .curve-marker-dot {
   background: var(--moon);
-  box-shadow: 0 0 0 6px rgba(143, 169, 201, 0.16);
+  box-shadow: 0 0 0 6px rgba(92, 127, 163, 0.2);
 }
 
 .curve-marker-up {
@@ -718,7 +870,7 @@ button:focus-visible {
 }
 
 .curve-score strong {
-  color: var(--cream);
+  color: var(--text-strong);
   font-family: var(--font-display), ui-serif, Georgia, serif;
   font-size: clamp(3rem, 6vw, 4.6rem);
   font-weight: 500;
@@ -726,7 +878,7 @@ button:focus-visible {
 }
 
 .curve-score > span {
-  color: var(--cream-faint);
+  color: var(--text-faint);
   font-size: 0.9rem;
   letter-spacing: 0.06em;
 }
@@ -737,7 +889,7 @@ button:focus-visible {
   max-width: 660px;
   margin-top: 30px;
   text-align: center;
-  color: var(--cream-dim);
+  color: var(--text-soft);
   font-size: 1.18rem;
   line-height: 1.65;
 }
@@ -753,7 +905,7 @@ button:focus-visible {
 .paintings {
   position: relative;
   overflow: clip;
-  background: var(--night-1);
+  background: var(--bg);
 }
 
 .paintings-intro {
@@ -799,12 +951,12 @@ button:focus-visible {
   position: relative;
   overflow: hidden;
   aspect-ratio: 5 / 6;
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--card-border);
   border-radius: 28px;
-  background: var(--night-2);
+  background: var(--surface);
   box-shadow:
-    0 40px 90px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(0, 0, 0, 0.4);
+    0 34px 76px rgba(var(--shadow-rgb), 0.24),
+    0 0 0 1px var(--line);
 }
 
 .gallery-card img {
@@ -819,11 +971,7 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(
-    180deg,
-    transparent 62%,
-    rgba(10, 13, 20, 0.55)
-  );
+  background: linear-gradient(180deg, transparent 70%, var(--shade-bottom));
   pointer-events: none;
 }
 
@@ -839,19 +987,20 @@ button:focus-visible {
   align-items: center;
   gap: 9px;
   justify-self: start;
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--line);
   border-radius: 999px;
-  background: var(--night-2);
+  background: var(--surface);
   padding: 8px 16px;
   color: var(--gold);
   font-size: 0.92rem;
   font-style: italic;
   font-family: var(--font-display), ui-serif, Georgia, serif;
+  box-shadow: 0 8px 22px rgba(var(--shadow-rgb), 0.1);
 }
 
 .gallery-caption p {
   margin: 6px 0 0;
-  color: var(--cream-dim);
+  color: var(--text-soft);
   font-size: 1.02rem;
   line-height: 1.6;
 }
@@ -867,15 +1016,11 @@ button:focus-visible {
   justify-content: center;
   gap: 22px;
   overflow: hidden;
-  border: 1px dashed rgba(230, 188, 125, 0.4);
+  border: 1px dashed var(--imagine-border);
   border-radius: 28px;
   background:
-    radial-gradient(
-      460px 420px at 50% 14%,
-      rgba(230, 188, 125, 0.1),
-      transparent 70%
-    ),
-    var(--night-2);
+    radial-gradient(460px 420px at 50% 14%, var(--imagine-glow), transparent 70%),
+    var(--surface);
   padding: 40px 32px;
   text-align: center;
 }
@@ -886,14 +1031,14 @@ button:focus-visible {
   width: 58px;
   height: 58px;
   border-radius: 999px;
-  background: linear-gradient(180deg, #f3c693, #d98456);
-  color: var(--ink-on-gold);
-  box-shadow: 0 14px 36px rgba(221, 138, 93, 0.35);
+  background: linear-gradient(180deg, var(--cta-top), var(--cta-bottom));
+  color: var(--cta-text);
+  box-shadow: 0 14px 32px rgba(var(--cta-shadow-rgb), 0.4);
 }
 
 .imagine-card h3 {
   margin: 0;
-  color: var(--cream);
+  color: var(--text-strong);
   font-size: 1.7rem;
   font-weight: 500;
 }
@@ -906,18 +1051,19 @@ button:focus-visible {
   gap: 10px;
   border: 1px solid var(--line-strong);
   border-radius: 16px;
-  background: var(--night-1);
+  background: var(--surface-input);
   padding: 15px 18px;
-  color: var(--cream);
+  color: var(--text-strong);
   font-size: 1rem;
   text-align: left;
+  box-shadow: inset 0 1px 3px rgba(var(--shadow-rgb), 0.08);
 }
 
 .imagine-cursor {
   display: inline-block;
   width: 1px;
   height: 1.15em;
-  background: var(--gold);
+  background: var(--accent-hover);
   animation: blink 1.05s steps(1) infinite;
 }
 
@@ -929,7 +1075,7 @@ button:focus-visible {
 
 .imagine-card p {
   margin: 0;
-  color: var(--cream-faint);
+  color: var(--text-soft);
   font-size: 0.95rem;
   line-height: 1.6;
   max-width: 300px;
@@ -940,13 +1086,7 @@ button:focus-visible {
 .progress-section {
   position: relative;
   overflow: hidden;
-  background:
-    radial-gradient(
-      1000px 640px at 82% 30%,
-      rgba(78, 102, 142, 0.16),
-      transparent 64%
-    ),
-    var(--night-0);
+  background: var(--progress-bg);
 }
 
 .progress-grid {
@@ -978,15 +1118,16 @@ button:focus-visible {
   place-items: center;
   width: 44px;
   height: 44px;
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--card-border);
   border-radius: 14px;
-  background: var(--night-2);
+  background: var(--surface);
   color: var(--gold);
+  box-shadow: 0 8px 20px rgba(var(--shadow-rgb), 0.12);
 }
 
 .progress-item h3 {
   margin: 0;
-  color: var(--cream);
+  color: var(--text-strong);
   font-family: var(--font-body), sans-serif;
   font-size: 1.12rem;
   font-weight: 600;
@@ -994,7 +1135,7 @@ button:focus-visible {
 
 .progress-item p {
   margin: 6px 0 0;
-  color: var(--cream-dim);
+  color: var(--text-soft);
   font-size: 1rem;
   line-height: 1.6;
 }
@@ -1009,7 +1150,6 @@ button:focus-visible {
   position: relative;
   z-index: 1;
   width: min(330px, 80vw);
-  aspect-ratio: 1170 / 2532;
 }
 
 .progress-float {
@@ -1018,15 +1158,16 @@ button:focus-visible {
   display: flex;
   align-items: center;
   gap: 10px;
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--card-border);
   border-radius: 999px;
-  background: rgba(16, 21, 32, 0.82);
+  background: var(--glass);
   padding: 11px 18px;
-  color: var(--cream);
+  color: var(--text-strong);
   font-size: 0.92rem;
   font-weight: 500;
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 16px 40px rgba(var(--shadow-rgb), 0.2);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   white-space: nowrap;
 }
 
@@ -1044,7 +1185,7 @@ button:focus-visible {
 /* ---------- human trio ---------- */
 
 .human-section {
-  background: var(--night-1);
+  background: var(--bg);
 }
 
 .human-heading {
@@ -1068,87 +1209,34 @@ button:focus-visible {
   display: grid;
   align-content: start;
   gap: 18px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--card-border);
   border-radius: 26px;
-  background:
-    linear-gradient(180deg, rgba(243, 233, 214, 0.03), transparent 50%),
-    var(--night-2);
+  background: var(--surface);
   padding: 30px 28px 34px;
-  box-shadow: 0 26px 64px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 22px 56px rgba(var(--shadow-rgb), 0.14);
 }
 
 .human-card h3 {
   margin: 4px 0 0;
-  color: var(--cream);
+  color: var(--text-strong);
   font-size: 1.55rem;
   font-weight: 500;
 }
 
 .human-card > p {
   margin: 0;
-  color: var(--cream-dim);
+  color: var(--text-soft);
   font-size: 1.02rem;
   line-height: 1.65;
 }
 
-.rest-pill {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  border: 1px solid rgba(143, 169, 201, 0.3);
+.rest-figure {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 8 / 5;
   border-radius: 18px;
-  background:
-    radial-gradient(
-      240px 120px at 18% 0%,
-      rgba(143, 169, 201, 0.16),
-      transparent 70%
-    ),
-    var(--night-1);
-  padding: 16px 18px;
-}
-
-.rest-pill-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.rest-moon {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 999px;
-  background: rgba(230, 188, 125, 0.14);
-  color: var(--gold);
-}
-
-.rest-pill-text {
-  display: grid;
-}
-
-.rest-pill-text small {
-  color: var(--moon);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-}
-
-.rest-pill-text strong {
-  color: var(--cream);
-  font-size: 1.02rem;
-  font-weight: 600;
-}
-
-.rest-resume {
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  background: var(--night-2);
-  padding: 8px 14px;
-  color: var(--cream-dim);
-  font-size: 0.85rem;
-  font-weight: 600;
+  border: 1px solid var(--line);
+  background: var(--rest-bg);
 }
 
 .cadence-chips {
@@ -1161,19 +1249,19 @@ button:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--line);
   border-radius: 999px;
-  background: var(--night-1);
+  background: var(--bg);
   padding: 9px 15px;
-  color: var(--cream-dim);
+  color: var(--text-soft);
   font-size: 0.9rem;
   font-weight: 600;
 }
 
 .cadence-chip-on {
-  border-color: rgba(230, 188, 125, 0.5);
+  border-color: var(--chip-on-border);
   color: var(--gold);
-  background: rgba(230, 188, 125, 0.08);
+  background: var(--chip-on-bg);
 }
 
 .zero-mark {
@@ -1184,9 +1272,9 @@ button:focus-visible {
 }
 
 .zero-mark s {
-  color: var(--cream-faint);
+  color: var(--text-faint);
   font-size: 2.3rem;
-  text-decoration-color: var(--ember);
+  text-decoration-color: var(--danger);
   text-decoration-thickness: 2.5px;
 }
 
@@ -1218,18 +1306,17 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background:
-    linear-gradient(
-      180deg,
-      var(--night-1) 0%,
-      rgba(15, 19, 29, 0.62) 22%,
-      rgba(15, 19, 29, 0.58) 78%,
-      var(--night-1) 100%
-    );
+  background: linear-gradient(
+    180deg,
+    var(--becoming-veil-edge) 0%,
+    var(--becoming-veil-mid) 24%,
+    var(--becoming-veil-mid) 76%,
+    var(--becoming-veil-edge) 100%
+  );
 }
 
 .becoming .eyebrow {
-  color: #f0d9ad;
+  color: var(--gold);
 }
 
 .becoming-lines {
@@ -1241,17 +1328,17 @@ button:focus-visible {
 
 .becoming-line {
   margin: 0;
-  color: var(--cream);
+  color: var(--text-strong);
   font-family: var(--font-display), ui-serif, Georgia, serif;
   font-size: clamp(1.7rem, 3.4vw, 2.7rem);
   font-weight: 500;
   line-height: 1.3;
-  text-shadow: 0 4px 40px rgba(10, 13, 20, 0.8);
+  text-shadow: 0 2px 28px var(--becoming-text-shadow);
 }
 
 .becoming-line em {
   font-style: italic;
-  color: var(--gold);
+  color: var(--em-image);
 }
 
 /* ---------- final ---------- */
@@ -1262,13 +1349,7 @@ button:focus-visible {
   overflow: hidden;
   padding: 170px 24px 150px;
   text-align: center;
-  background:
-    radial-gradient(
-      900px 560px at 50% 8%,
-      rgba(230, 188, 125, 0.13),
-      transparent 64%
-    ),
-    var(--night-0);
+  background: var(--final-bg);
 }
 
 .final-content {
@@ -1299,8 +1380,9 @@ button:focus-visible {
 
 .final-note {
   margin: 26px 0 0;
-  color: var(--cream-faint);
+  color: var(--text-faint);
   font-size: 0.92rem;
+  font-weight: 600;
   letter-spacing: 0.04em;
 }
 
@@ -1317,12 +1399,12 @@ button:focus-visible {
   margin: 0 auto;
   border-top: 1px solid var(--line);
   padding: 34px 0 46px;
-  color: var(--cream-faint);
+  color: var(--text-faint);
   background: transparent;
 }
 
 .footer .brand-lockup {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
 }
 
 .footer-links {
@@ -1334,7 +1416,7 @@ button:focus-visible {
 }
 
 .footer a {
-  color: var(--cream-dim);
+  color: var(--text-soft);
   font-size: 0.95rem;
   font-weight: 500;
   text-decoration: none;
@@ -1342,7 +1424,7 @@ button:focus-visible {
 }
 
 .footer a:hover {
-  color: var(--gold);
+  color: var(--accent-hover);
 }
 
 .footer p {
@@ -1426,6 +1508,25 @@ button:focus-visible {
     bottom: 8%;
   }
 
+  .site-header {
+    padding-left: 12px;
+  }
+
+  .brand-lockup {
+    font-size: 1.15rem;
+    gap: 8px;
+  }
+
+  .cta-button-sm {
+    padding: 0 14px;
+    font-size: 0.85rem;
+  }
+
+  .theme-toggle {
+    width: 38px;
+    height: 38px;
+  }
+
   .streak-was {
     font-size: 3.4rem;
   }
@@ -1470,7 +1571,8 @@ button:focus-visible {
   }
 
   .gallery-card img,
-  .cta-button {
+  .cta-button,
+  .theme-toggle {
     transition: none;
   }
 

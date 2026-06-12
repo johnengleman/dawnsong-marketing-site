@@ -17,9 +17,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Sona — Make Your Life Extraordinary",
+  title: "Dawn Song — Make Your Life Extraordinary",
   description:
-    "Sona is a calm, beautiful routine builder for people tired of starting over. A consistency score that survives missed days, personalized painted worlds for every area of your life, and progress you'll actually want to look at. No streak resets. No shame.",
+    "Dawn Song is a calm, beautiful routine builder for people tired of starting over. A consistency score that survives missed days, personalized painted worlds for every part of your life, and progress you'll actually want to look at. No streak resets. No shame.",
   icons: {
     icon: "/icon.png",
     shortcut: "/icon.png",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0f131d",
+  themeColor: "#f7efe1",
 };
 
 export default function RootLayout({
@@ -37,8 +37,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${playfair.variable} antialiased`}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(localStorage.getItem('ds-theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}",
+          }}
+        />
         {children}
         <Analytics />
       </body>

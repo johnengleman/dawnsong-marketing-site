@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Terms of Use - Sona",
-  description: "Terms of Use for the Sona mobile application and services.",
+  title: "Terms of Use - Dawn Song",
+  description: "Terms of Use for the Dawn Song mobile application and services.",
 };
 
 export default function TermsPage() {
@@ -16,7 +16,7 @@ export default function TermsPage() {
 
         <section className="space-y-4 text-[#4b4742] leading-relaxed">
           <p>
-            These Terms of Use govern your use of the Sona mobile application
+            These Terms of Use govern your use of the Dawn Song mobile application
             and related services (the “Service”). By using the Service, you
             agree to these terms.
           </p>

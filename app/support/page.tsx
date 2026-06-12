@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Support - Sona",
-  description: "Get help with the Sona app.",
+  title: "Support - Dawn Song",
+  description: "Get help with the Dawn Song app.",
 };
 
 export default function SupportPage() {
@@ -11,7 +11,7 @@ export default function SupportPage() {
           Support
         </h1>
         <p className="text-lg text-[#6b6560] mb-8">
-          Need help with Sona? Email us and we’ll get back to you.
+          Need help with Dawn Song? Email us and we’ll get back to you.
         </p>
         <a
           className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-[#2d2a26] text-white font-semibold hover:bg-[#3d3a36] transition-colors shadow-xl shadow-amber-900/10"

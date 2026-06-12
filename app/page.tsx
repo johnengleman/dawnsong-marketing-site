@@ -51,13 +51,13 @@ const progressItems = [
   {
     icon: "solar:layers-minimalistic-bold",
     title: "Every habit, one glance",
-    copy: "Each habit keeps its own long run inside the area it serves, so you always know where to return first — without a dashboard's worth of noise.",
+    copy: "Each habit keeps its own long run inside the routine it serves, so you always know where to return first — without a dashboard's worth of noise.",
   },
 ];
 
 const imaginePrompts = [
   "quiet mornings before the city wakes",
-  "learning italian by candlelight",
+  "learning italian in a sunlit study",
   "a stronger body by spring",
   "evenings that end offline",
 ];
@@ -90,7 +90,7 @@ function DownloadButton({
       target="_blank"
       rel="noreferrer"
       className={`cta-button ${className}`}
-      aria-label="Download Sona on the App Store"
+      aria-label="Download Dawn Song on the App Store"
     >
       <Icon icon="simple-icons:apple" className="h-[18px] w-[18px]" />
       <span>{label}</span>
@@ -150,6 +150,32 @@ function ImagineTypewriter() {
 
 export default function Home() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const dark = theme === "dark";
+
+  useEffect(() => {
+    if (document.documentElement.dataset.theme !== "dark") return;
+    const id = setTimeout(() => setTheme("dark"), 0);
+    return () => clearTimeout(id);
+  }, []);
+
+  const toggleTheme = () => {
+    const next = dark ? "light" : "dark";
+    setTheme(next);
+    if (next === "dark") {
+      document.documentElement.dataset.theme = "dark";
+    } else {
+      delete document.documentElement.dataset.theme;
+    }
+    try {
+      localStorage.setItem("ds-theme", next);
+    } catch {
+      /* storage unavailable; theme still applies for this visit */
+    }
+    // the hero/progress screenshots change aspect ratio per theme,
+    // which shifts layout below them
+    setTimeout(() => ScrollTrigger.refresh(), 80);
+  };
 
   useEffect(() => {
     const root = rootRef.current;
@@ -168,14 +194,17 @@ export default function Home() {
         stagger: 0.13,
         delay: 0.08,
       });
-      gsap.from($(".hero-copy .eyebrow, .hero-copy .lede, .hero-actions, .hero-note"), {
-        opacity: 0,
-        y: 26,
-        duration: 1,
-        ease: "power3.out",
-        stagger: 0.09,
-        delay: 0.5,
-      });
+      gsap.from(
+        $(".hero-copy .eyebrow, .hero-copy .lede, .hero-actions, .hero-note"),
+        {
+          opacity: 0,
+          y: 26,
+          duration: 1,
+          ease: "power3.out",
+          stagger: 0.09,
+          delay: 0.5,
+        },
+      );
       gsap.from($(".hero-stage"), {
         opacity: 0,
         y: 80,
@@ -363,7 +392,7 @@ export default function Home() {
       <NoiseOverlay />
 
       <header className="site-header">
-        <Link href="/" className="brand-lockup" aria-label="Sona home">
+        <Link href="/" className="brand-lockup" aria-label="Dawn Song home">
           <Image
             src="/icon.png"
             alt=""
@@ -371,20 +400,39 @@ export default function Home() {
             height={34}
             className="brand-icon"
           />
-          <span>Sona</span>
+          <span>Dawn Song</span>
         </Link>
         <nav className="site-nav" aria-label="Sections">
           <a href="#philosophy">The philosophy</a>
           <a href="#paintings">Your worlds</a>
           <a href="#progress">Progress</a>
         </nav>
-        <DownloadButton className="cta-button-sm" label="Download" />
+        <div className="header-actions">
+          <button
+            type="button"
+            className="theme-toggle"
+            onClick={toggleTheme}
+            aria-pressed={dark}
+            aria-label={
+              dark ? "Switch to light theme" : "Switch to dark theme"
+            }
+          >
+            <Icon
+              icon={dark ? "solar:sun-2-bold" : "solar:moon-bold"}
+              className="h-5 w-5"
+            />
+          </button>
+          <DownloadButton className="cta-button-sm" label="Download" />
+        </div>
       </header>
 
       <main>
         {/* ------------------------------------------------ hero */}
         <section className="hero">
-          <Dust />
+          <Dust
+            key={`hero-${theme}`}
+            rgb={dark ? "232, 190, 122" : "171, 122, 48"}
+          />
           <div className="hero-grid">
             <div className="hero-copy">
               <p className="eyebrow">For people tired of starting over</p>
@@ -397,9 +445,10 @@ export default function Home() {
                 </span>
               </h1>
               <p className="lede">
-                Sona is a calm, beautiful place to keep the promises you make
-                to yourself. No streaks to lose. No shame when life happens.
-                Just small days, repeated — and a life that quietly changes.
+                Dawn Song is a calm, beautiful place to keep the promises you
+                make to yourself. No streaks to lose. No shame when life
+                happens. Just small days, repeated — and a life that quietly
+                changes.
               </p>
               <div className="hero-actions">
                 <DownloadButton />
@@ -413,10 +462,17 @@ export default function Home() {
 
             <div className="hero-stage">
               <div className="hero-glow" aria-hidden="true" />
-              <div className="phone hero-phone">
+              <div
+                className="phone hero-phone"
+                style={{ aspectRatio: dark ? "1170 / 2532" : "941 / 1672" }}
+              >
                 <Image
-                  src="/dark-home-morning.png"
-                  alt="Sona home screen: a painted morning scene above today's habits"
+                  src={dark ? "/dark-home-morning.png" : "/sona-home-cozy.png"}
+                  alt={
+                    dark
+                      ? "Dawn Song home screen in dark mode: a painted rainy-window scene above today's habits"
+                      : "Dawn Song home screen: a watercolor morning scene above today's habits"
+                  }
                   fill
                   priority
                   sizes="(max-width: 700px) 78vw, 330px"
@@ -424,7 +480,7 @@ export default function Home() {
                 />
               </div>
               <div className="hero-float hero-float-score">
-                <strong>84%</strong>
+                <strong>93%</strong>
                 <span>consistency — survives missed days</span>
               </div>
               <div className="hero-float hero-float-rest">
@@ -459,7 +515,11 @@ export default function Home() {
               </div>
             </div>
 
-            <figure className="streak-tomb" data-reveal data-reveal-delay="0.15">
+            <figure
+              className="streak-tomb"
+              data-reveal
+              data-reveal-delay="0.15"
+            >
               <span className="streak-tomb-label">
                 Other apps, after one sick day
               </span>
@@ -472,7 +532,7 @@ export default function Home() {
                 Forty-six days of showing up, erased by one.
               </figcaption>
               <span className="streak-tomb-sub">
-                Sona will never do this to you.
+                Dawn Song will never do this to you.
               </span>
             </figure>
           </div>
@@ -482,7 +542,7 @@ export default function Home() {
         <section id="philosophy" className="curve-section">
           <div className="curve-pin">
             <div className="curve-heading">
-              <p className="eyebrow eyebrow-center">The Sona way</p>
+              <p className="eyebrow eyebrow-center">The Dawn Song way</p>
               <h2 className="display">
                 A missed day is a <em>dip</em>, not a reset.
               </h2>
@@ -497,65 +557,95 @@ export default function Home() {
               </div>
 
               <div className="curve-plot">
-              <svg
-                className="curve-svg"
-                viewBox="0 0 1000 440"
-                role="img"
-                aria-label="A consistency score over several months: it climbs, dips during a flu week and travel, and recovers each time, ending above the 90% bar"
-              >
-                <defs>
-                  <linearGradient
-                    id="curveGradient"
-                    x1="0"
-                    y1="0"
-                    x2="1"
-                    y2="0"
-                  >
-                    <stop offset="0" stopColor="#8fa9c9" />
-                    <stop offset="1" stopColor="#e6bc7d" />
-                  </linearGradient>
-                </defs>
-
-                <line className="curve-grid-line" x1="0" y1="180" x2="1000" y2="180" />
-                <line className="curve-grid-line" x1="0" y1="270" x2="1000" y2="270" />
-                <line className="curve-grid-line" x1="0" y1="360" x2="1000" y2="360" />
-
-                <line className="curve-bar-line" x1="0" y1="94" x2="1000" y2="94" />
-                <text className="curve-bar-text" x="0" y="80">
-                  THE 90% BAR
-                </text>
-                <text className="curve-axis-text" x="0" y="430">
-                  spring
-                </text>
-                <text className="curve-axis-text" x="952" y="430">
-                  now
-                </text>
-
-                <path
-                  className="curve-path"
-                  d="M0,281 C70,260 150,170 250,128 C290,111 320,150 355,205 C370,228 385,222 400,200 C450,135 500,115 560,108 C610,103 650,135 695,166 C720,183 745,170 775,150 C840,110 920,96 1000,91"
-                />
-              </svg>
-
-              {curveMarkers.map((marker) => (
-                <div
-                  key={marker.label}
-                  className={`curve-marker ${
-                    marker.dip ? "curve-marker-dip" : ""
-                  } ${marker.up ? "curve-marker-up" : ""}`}
-                  style={{ left: marker.left, top: marker.top }}
+                <svg
+                  className="curve-svg"
+                  viewBox="0 0 1000 440"
+                  role="img"
+                  aria-label="A consistency score over several months: it climbs, dips during a flu week and travel, and recovers each time, ending above the 90% bar"
                 >
-                  <span className="curve-marker-dot" aria-hidden="true" />
-                  <span className="curve-marker-label">{marker.label}</span>
-                </div>
-              ))}
+                  <defs>
+                    <linearGradient
+                      id="curveGradient"
+                      x1="0"
+                      y1="0"
+                      x2="1"
+                      y2="0"
+                    >
+                      <stop
+                        offset="0"
+                        style={{ stopColor: "var(--chart-stop-1)" }}
+                      />
+                      <stop
+                        offset="1"
+                        style={{ stopColor: "var(--chart-stop-2)" }}
+                      />
+                    </linearGradient>
+                  </defs>
+
+                  <line
+                    className="curve-grid-line"
+                    x1="0"
+                    y1="180"
+                    x2="1000"
+                    y2="180"
+                  />
+                  <line
+                    className="curve-grid-line"
+                    x1="0"
+                    y1="270"
+                    x2="1000"
+                    y2="270"
+                  />
+                  <line
+                    className="curve-grid-line"
+                    x1="0"
+                    y1="360"
+                    x2="1000"
+                    y2="360"
+                  />
+
+                  <line
+                    className="curve-bar-line"
+                    x1="0"
+                    y1="94"
+                    x2="1000"
+                    y2="94"
+                  />
+                  <text className="curve-bar-text" x="0" y="80">
+                    THE 90% BAR
+                  </text>
+                  <text className="curve-axis-text" x="0" y="430">
+                    spring
+                  </text>
+                  <text className="curve-axis-text" x="952" y="430">
+                    now
+                  </text>
+
+                  <path
+                    className="curve-path"
+                    d="M0,281 C70,260 150,170 250,128 C290,111 320,150 355,205 C370,228 385,222 400,200 C450,135 500,115 560,108 C610,103 650,135 695,166 C720,183 745,170 775,150 C840,110 920,96 1000,91"
+                  />
+                </svg>
+
+                {curveMarkers.map((marker) => (
+                  <div
+                    key={marker.label}
+                    className={`curve-marker ${
+                      marker.dip ? "curve-marker-dip" : ""
+                    } ${marker.up ? "curve-marker-up" : ""}`}
+                    style={{ left: marker.left, top: marker.top }}
+                  >
+                    <span className="curve-marker-dot" aria-hidden="true" />
+                    <span className="curve-marker-label">{marker.label}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
             <p className="curve-coda">
               Your score bends and recovers the way a real life does.{" "}
-              <em>Returning</em> is the skill — and Sona makes it feel safe,
-              even sweet, to come back.
+              <em>Returning</em> is the skill — and every dawn is another
+              gentle invitation to come back.
             </p>
           </div>
         </section>
@@ -563,16 +653,17 @@ export default function Home() {
         {/* ------------------------------------------------ paintings */}
         <section id="paintings" className="paintings">
           <div className="paintings-intro" data-reveal>
-            <p className="eyebrow eyebrow-center">Your areas, your art</p>
+            <p className="eyebrow eyebrow-center">Your routines, your art</p>
             <h2 className="display">
               Give every promise <em>a world</em> of its own.
             </h2>
             <p className="lede">
-              In Sona, habits live inside areas — the parts of your life
-              you&rsquo;re building. Describe one in a few words, and Sona
-              paints it: a personal scene that crowns that area and holds its
-              habits, styled however speaks to you. You don&rsquo;t open a
-              checklist. You step into a place you made.
+              In Dawn Song, habits live inside the parts of your life
+              you&rsquo;re building — mornings, health, learning, anything.
+              Describe one in a few words, and Dawn Song paints it: a personal
+              scene that crowns that routine and holds its habits, styled
+              however speaks to you. You don&rsquo;t open a checklist. You
+              step into a place you made.
             </p>
           </div>
 
@@ -581,8 +672,8 @@ export default function Home() {
               <div className="gallery-panel">
                 <div className="gallery-card">
                   <Image
-                    src="/dark-home-morning.png"
-                    alt="Morning Routine area: a painted rainy-window scene above the morning's habits"
+                    src="/light-morning-routine.png"
+                    alt="Morning Routine in Dawn Song: a sunlit bedroom painting above the morning's habits"
                     fill
                     sizes="(max-width: 900px) 78vw, 470px"
                     className="object-cover object-top"
@@ -591,11 +682,11 @@ export default function Home() {
                 </div>
                 <div className="gallery-caption">
                   <span className="gallery-prompt">
-                    &ldquo;quiet mornings before the city wakes&rdquo;
+                    &ldquo;soft light, slow mornings&rdquo;
                   </span>
                   <p>
-                    Sona painted this Morning Routine — and the stretches,
-                    walks, and weekly planning live right beneath it.
+                    Dawn Song painted this Morning Routine — and the skincare,
+                    pilates, and planning live right beneath it.
                   </p>
                 </div>
               </div>
@@ -603,8 +694,8 @@ export default function Home() {
               <div className="gallery-panel">
                 <div className="gallery-card">
                   <Image
-                    src="/dark-home-italian.png"
-                    alt="Learn Italian area: a candlelit study painting above reading and practice habits"
+                    src="/sona-goals.png"
+                    alt="Dawn Song goals screen: painted cards for Strength, Focus, Peace, Financial Freedom, and Health"
                     fill
                     sizes="(max-width: 900px) 78vw, 470px"
                     className="object-cover object-top"
@@ -613,11 +704,11 @@ export default function Home() {
                 </div>
                 <div className="gallery-caption">
                   <span className="gallery-prompt">
-                    &ldquo;learning italian in a candlelit study&rdquo;
+                    &ldquo;who do you want to become?&rdquo;
                   </span>
                   <p>
-                    Every time you show up to read or practice, you return to
-                    this room. It starts to feel like yours — because it is.
+                    Strength. Focus. Peace. Every goal gets its own painting —
+                    a postcard from the life you&rsquo;re walking toward.
                   </p>
                 </div>
               </div>
@@ -627,7 +718,7 @@ export default function Home() {
                   <span className="imagine-icon">
                     <Icon icon="solar:magic-stick-3-bold" className="h-6 w-6" />
                   </span>
-                  <h3>Imagine a new area</h3>
+                  <h3>Imagine a new routine</h3>
                   <ImagineTypewriter />
                   <p>
                     A few words become a name and a painting. Regenerate it,
@@ -670,10 +761,17 @@ export default function Home() {
             </div>
 
             <div className="progress-stage" data-reveal data-reveal-delay="0.1">
-              <div className="phone progress-phone">
+              <div
+                className="phone progress-phone"
+                style={{ aspectRatio: dark ? "1170 / 2532" : "941 / 1672" }}
+              >
                 <Image
-                  src="/dark-progress.png"
-                  alt="Sona progress screen: 70% consistency over a painted mountain, with a gentle trend line and per-habit breakdown"
+                  src={dark ? "/dark-progress.png" : "/sona-progress.png"}
+                  alt={
+                    dark
+                      ? "Dawn Song progress screen in dark mode: 70% consistency over a night mountain, with a gentle trend line and per-habit breakdown"
+                      : "Dawn Song progress screen: 82% consistency over a golden mountain at dawn, with a gentle trend line and per-habit breakdown"
+                  }
                   fill
                   sizes="(max-width: 700px) 80vw, 330px"
                   className="object-cover object-top"
@@ -681,7 +779,7 @@ export default function Home() {
               </div>
               <div className="progress-float progress-float-trophy">
                 <Icon icon="solar:cup-star-bold" className="h-4 w-4" />
-                91% · trophy earned
+                a gold trophy waits at 90%
               </div>
               <div className="progress-float progress-float-rest">
                 no resets. ever.
@@ -702,28 +800,29 @@ export default function Home() {
 
             <div className="human-grid">
               <article className="human-card" data-reveal>
-                <div className="rest-pill" aria-hidden="true">
-                  <div className="rest-pill-left">
-                    <span className="rest-moon">
-                      <Icon icon="solar:moon-sleep-bold" className="h-5 w-5" />
-                    </span>
-                    <span className="rest-pill-text">
-                      <small>RESTING</small>
-                      <strong>1 hour left</strong>
-                    </span>
-                  </div>
-                  <span className="rest-resume">Resume</span>
+                <div className="rest-figure">
+                  <Image
+                    src="/light-rest.png"
+                    alt="Dawn Song rest sheet: the hedgehog mascot asks 'Want to rest today? It won't hurt your metrics.'"
+                    fill
+                    sizes="(max-width: 1080px) 90vw, 360px"
+                    className="object-cover object-top"
+                  />
                 </div>
                 <h3>Rest is part of the practice</h3>
                 <p>
                   Sick? Traveling? Burned out? Declare rest and nothing breaks
-                  — your score is protected, and Sona resumes with you when
-                  you&rsquo;re ready. Rest isn&rsquo;t a loophole here.
+                  — your score is protected, and Dawn Song resumes with you
+                  when you&rsquo;re ready. Rest isn&rsquo;t a loophole here.
                   It&rsquo;s the system working as designed.
                 </p>
               </article>
 
-              <article className="human-card" data-reveal data-reveal-delay="0.08">
+              <article
+                className="human-card"
+                data-reveal
+                data-reveal-delay="0.08"
+              >
                 <div className="cadence-chips" aria-hidden="true">
                   <span className="cadence-chip cadence-chip-on">
                     <Icon icon="solar:check-circle-bold" className="h-4 w-4" />
@@ -741,21 +840,26 @@ export default function Home() {
                 <h3>Your rhythm, not the app&rsquo;s</h3>
                 <p>
                   A morning stretch is daily. A long run is weekly. A budget
-                  review is monthly. Sona lets every habit live at its natural
-                  pace — together, inside the same area, scored fairly.
+                  review is monthly. Dawn Song lets every habit live at its
+                  natural pace — together, inside the same routine, scored
+                  fairly.
                 </p>
               </article>
 
-              <article className="human-card" data-reveal data-reveal-delay="0.16">
+              <article
+                className="human-card"
+                data-reveal
+                data-reveal-delay="0.16"
+              >
                 <div className="zero-mark" aria-hidden="true">
                   <s>Day 0</s>
                   <span>Day 213</span>
                 </div>
                 <h3>No streak counter. Anywhere.</h3>
                 <p>
-                  There is no number in Sona that resets to zero, and no day
-                  zero waiting to greet you after a hard week. Just a long run
-                  of returning that keeps counting <em>with</em> you.
+                  There is no number in Dawn Song that resets to zero, and no
+                  day zero waiting to greet you after a hard week. Just a long
+                  run of returning that keeps counting <em>with</em> you.
                 </p>
               </article>
             </div>
@@ -777,15 +881,20 @@ export default function Home() {
 
         {/* ------------------------------------------------ final */}
         <section className="final">
-          <Dust density={0.7} />
+          <Dust
+            key={`final-${theme}`}
+            density={0.7}
+            rgb={dark ? "232, 190, 122" : "171, 122, 48"}
+          />
           <div className="final-content" data-reveal>
             <p className="eyebrow eyebrow-center">Start the long run</p>
             <h2 className="display">
               Make your life <em>extraordinary</em>.
             </h2>
             <p className="lede">
-              One area. A few small promises. A painting worth returning to.
-              The rest is just days — and the days are what Sona is for.
+              One routine. A few small promises. A painting worth returning
+              to. The rest is just days — and the days are what Dawn Song is
+              for.
             </p>
             <div className="final-actions">
               <DownloadButton />
@@ -799,7 +908,7 @@ export default function Home() {
       </main>
 
       <footer className="footer">
-        <Link href="/" className="brand-lockup" aria-label="Sona home">
+        <Link href="/" className="brand-lockup" aria-label="Dawn Song home">
           <Image
             src="/icon.png"
             alt=""
@@ -807,7 +916,7 @@ export default function Home() {
             height={28}
             className="brand-icon"
           />
-          <span>Sona</span>
+          <span>Dawn Song</span>
         </Link>
         <div className="footer-links">
           <Link href="/privacy">Privacy</Link>
@@ -818,7 +927,7 @@ export default function Home() {
             href="https://www.reddit.com/r/SonaHabits/"
             target="_blank"
             rel="noreferrer"
-            aria-label="Sona Habits on Reddit"
+            aria-label="Dawn Song on Reddit"
           >
             <Icon icon="simple-icons:reddit" className="h-4 w-4" />
           </a>
@@ -826,12 +935,12 @@ export default function Home() {
             href="https://x.com/sonahabits"
             target="_blank"
             rel="noreferrer"
-            aria-label="Sona Habits on X"
+            aria-label="Dawn Song on X"
           >
             <Icon icon="simple-icons:x" className="h-4 w-4" />
           </a>
         </div>
-        <p>© 2026 Sona.</p>
+        <p>© 2026 Dawn Song.</p>
       </footer>
     </div>
   );
