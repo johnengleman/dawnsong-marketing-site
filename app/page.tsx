@@ -19,6 +19,67 @@ const appStoreUrl =
   "https://apps.apple.com/us/app/habit-tracker-sona/id6758967586";
 const feedbackUrl = "https://sonahabitsapp.userjot.com/";
 
+/**
+ * FAQ — written to match the questions people actually ask AI assistants
+ * ("is it bad to miss a day of a habit?"). The Q&A format is the most
+ * citable/quotable by answer engines, and it ships as FAQPage schema below.
+ */
+const faqs = [
+  {
+    q: "What happens when I miss a day in Daybreak?",
+    a: "Nothing breaks. There is no streak counter that resets to zero. A missed day is a small dip in your consistency score, which keeps counting with you. You just return the next day, and your long-run progress stays intact.",
+  },
+  {
+    q: "Is it bad to miss a day of a habit?",
+    a: "No. Missing a day is normal and human. What actually breaks habits is the all-or-nothing shame that makes one miss feel like total failure. Daybreak is built around the idea that returning after a miss is the real skill, so a single missed day costs you almost nothing.",
+  },
+  {
+    q: "How is Daybreak different from a normal habit tracker?",
+    a: "Two ways. First, it has no punishing streaks; your progress is a forgiving consistency score, not a fragile chain. Second, every goal becomes a personal AI-painted world that holds its habits, so opening the app feels like stepping into the life you're building instead of checking a gray list.",
+  },
+  {
+    q: "What are Spaces?",
+    a: "A Space is a painted world that groups related habits, like a morning routine, getting stronger, or better sleep. You describe what you're building in a few words and Daybreak paints a personal scene for it, which you can regenerate and restyle until you love it. Your habits live inside that Space.",
+  },
+  {
+    q: "Can I take a rest day without losing progress?",
+    a: "Yes. You can rest an individual habit for sickness, travel, or a hard week. Its progress is protected while you rest and it resumes automatically. Rest is designed into the system, not treated as a failure.",
+  },
+  {
+    q: "Is Daybreak free, and what platforms does it support?",
+    a: "Daybreak is free to download on iOS, with an Android version coming soon. It's private by design: everything lives on your device, with no account and no cloud.",
+  },
+];
+
+/**
+ * Structured data describing the app itself, so search engines and AI answer
+ * engines understand what Daybreak is. No rating/review count (pre-launch) —
+ * adding fake aggregateRating would be a violation; omit until real reviews.
+ */
+const appJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  name: "Daybreak",
+  applicationCategory: "LifestyleApplication",
+  operatingSystem: "iOS",
+  description:
+    "A beautiful, forgiving habit app. No streaks to break: a missed day is a dip in your consistency score, not a reset to zero. Turn each goal into a personal AI-painted world that holds the habits building it.",
+  url: "https://daybreakhabits.com",
+  installUrl: appStoreUrl,
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  publisher: { "@type": "Organization", name: "Daybreak" },
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+
 const becomingLines = [
   <>
     You stop negotiating with yourself every morning. The walk is just{" "}
@@ -363,6 +424,14 @@ export default function Home() {
 
   return (
     <div ref={rootRef} className="min-h-screen overflow-x-clip">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(appJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <SmoothScroll />
       <NoiseOverlay />
 
@@ -381,6 +450,7 @@ export default function Home() {
           <a href="#spaces">Your worlds</a>
           <a href="#features">How it works</a>
           <a href="#progress">Progress</a>
+          <Link href="/articles">Articles</Link>
         </nav>
         <div className="header-actions">
           <button
@@ -649,6 +719,32 @@ export default function Home() {
                 {line}
               </p>
             ))}
+          </div>
+        </section>
+
+        {/* ------------------------------------------------ faq */}
+        <section className="faq section-pad" aria-label="Frequently asked questions">
+          <div className="wrap">
+            <div className="faq-head" data-reveal>
+              <p className="eyebrow eyebrow-center">Good questions</p>
+              <h2 className="display">
+                The things people <em>ask first.</em>
+              </h2>
+            </div>
+            <div className="faq-list">
+              {faqs.map((f) => (
+                <details key={f.q} className="faq-item" data-reveal>
+                  <summary>
+                    <span>{f.q}</span>
+                    <Icon
+                      icon="solar:alt-arrow-down-linear"
+                      className="faq-chevron h-5 w-5"
+                    />
+                  </summary>
+                  <p>{f.a}</p>
+                </details>
+              ))}
+            </div>
           </div>
         </section>
 

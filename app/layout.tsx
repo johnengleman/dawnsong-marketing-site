@@ -17,6 +17,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://daybreakhabits.com"),
   title: "Daybreak: The Only Habit App as Beautiful as Your Goals",
   description:
     "The only habit app as beautiful as the life you're building, and the first that won't punish you for being human. Describe a goal in a few words and Daybreak's AI paints a personal world for its habits, with a calm consistency score that survives the days you miss. No streaks to break. No shame.",

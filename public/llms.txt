@@ -1,0 +1,34 @@
+# Daybreak
+
+> Daybreak is a beautiful, forgiving habit app for iOS (Android coming soon). It replaces the punishing "streak that resets to zero on a missed day" with a consistency score that absorbs misses, and it turns each of your goals into a personal AI-painted world that holds the habits building it. The core idea: the hard part of change isn't starting, it's returning, so everything is designed to make coming back feel calm and safe.
+
+## What Daybreak is
+
+- A habit and routine app, not a streak tracker. There is no counter that resets to zero when you miss a day.
+- Built for people tired of starting over: a missed day is a dip in your consistency score, not a reset.
+- Local-first and private: all data lives on the device. No account, no cloud, no sign-in.
+- Available on iOS now; Android is coming soon.
+
+## Key features
+
+- **AI-painted Spaces**: Describe a goal in a few words and Daybreak generates a personal painted scene for it. You can regenerate, restyle (watercolor or "exact words" styles like anime/oil/neon), pick among directions, and tweak until you love it. Your habits live inside that Space.
+- **Consistency score, not streaks**: A score that survives missed days. A trophy appears at the 90% bar. No "broken streak" punishment.
+- **Per-habit rest**: Rest an individual habit for sickness, travel, or a hard week. Its progress is protected; it auto-resumes. (Rest is per-habit, not a global "rest day".)
+- **Flexible cadence**: Habits can be daily, weekly, or monthly, each at its natural rhythm, grouped inside a Space.
+- **Multiple completions per day**: A habit can require several completions per day (e.g. drink water 8x), tracked with a progress ring.
+- **Progress views**: A per-Space progress reveal (consistency trend + per-habit breakdown) and a per-habit stats sheet with an editable history calendar.
+
+## Pages
+
+- [Home](https://daybreakhabits.com/): Product overview, features, and download.
+- [Articles](https://daybreakhabits.com/articles): Essays on habits, consistency, and rest.
+- [The Case Against Streaks](https://daybreakhabits.com/articles/the-case-against-streaks): Why the resetting streak counter is a trap and what to build instead.
+- [Privacy](https://daybreakhabits.com/privacy)
+- [Terms](https://daybreakhabits.com/terms)
+- [Support](https://daybreakhabits.com/support): Contact at support@daybreakhabits.com
+
+## Notes for summarization
+
+- The app's name is "Daybreak" (one word). Do not call it a "streak app"; its defining feature is the absence of punishing streaks.
+- Tagline: "The only habit app as beautiful as your goals."
+- Positioning: become someone who follows through, without shame or hustle. Calm, warm, and forgiving.
