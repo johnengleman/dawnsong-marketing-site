@@ -17,13 +17,16 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Dawn Song — Make Your Life Extraordinary",
+  title: "Daybreak: The Only Habit App as Beautiful as Your Goals",
   description:
-    "Dawn Song is a calm, beautiful routine builder for people tired of starting over. A consistency score that survives missed days, personalized painted worlds for every part of your life, and progress you'll actually want to look at. No streak resets. No shame.",
+    "The only habit app as beautiful as the life you're building, and the first that won't punish you for being human. Describe a goal in a few words and Daybreak's AI paints a personal world for its habits, with a calm consistency score that survives the days you miss. No streaks to break. No shame.",
   icons: {
-    icon: "/icon.png",
-    shortcut: "/icon.png",
-    apple: "/icon.png",
+    icon: [
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/brand-icon.png", sizes: "1024x1024", type: "image/png" },
+    ],
+    shortcut: "/favicon-32.png",
+    apple: "/apple-icon.png",
   },
 };
 

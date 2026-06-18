@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import Dust from "./components/Dust";
 import { Icon } from "./components/Icon";
 import NoiseOverlay from "./components/NoiseOverlay";
+import { Placeholder, SpaceTile, SpaceTileCustom } from "./components/Placeholder";
 import SmoothScroll from "./components/SmoothScroll";
 
 if (typeof window !== "undefined") {
@@ -18,63 +19,185 @@ const appStoreUrl =
   "https://apps.apple.com/us/app/habit-tracker-sona/id6758967586";
 const feedbackUrl = "https://sonahabitsapp.userjot.com/";
 
-const problemPoints = [
-  "You start strong. Day 12, day 23, day 47 — the number becomes the whole reason.",
-  "Then life happens. A fever, a deadline, a newborn, a hard week. One missed day, and the counter falls to zero.",
-  "Starting over feels so heavy that eventually you stop starting. Not because you're lazy — because the system punished you for being human.",
-];
-
-const curveMarkers = [
-  { label: "the flu week", left: "36%", top: "48.4%", dip: true, up: false },
-  { label: "you came back", left: "56%", top: "24.5%", dip: false, up: true },
-  {
-    label: "two weeks of travel",
-    left: "69.5%",
-    top: "37.7%",
-    dip: true,
-    up: false,
-  },
-  { label: "back again", left: "84%", top: "23%", dip: false, up: true },
-];
-
-const progressItems = [
-  {
-    icon: "solar:graph-up-bold",
-    title: "One calm line",
-    copy: "Your consistency drifts, dips, and recovers across the weeks — the truth about your long run, told gently. No wall of red. No broken chains.",
-  },
-  {
-    icon: "solar:cup-star-bold",
-    title: "The 90% bar",
-    copy: "Reach it and a quiet gold trophy appears. It's recognition, not pressure — and nothing shames you when you're below it.",
-  },
-  {
-    icon: "solar:layers-minimalistic-bold",
-    title: "Every habit, one glance",
-    copy: "Each habit keeps its own long run inside the routine it serves, so you always know where to return first — without a dashboard's worth of noise.",
-  },
-];
-
-const imaginePrompts = [
-  "quiet mornings before the city wakes",
-  "learning italian in a sunlit study",
-  "a stronger body by spring",
-  "evenings that end offline",
-];
-
 const becomingLines = [
   <>
     You stop negotiating with yourself every morning. The walk is just{" "}
     <em>what you do</em>.
   </>,
   <>
-    A bad week arrives — and for the first time, it doesn&rsquo;t take
+    A bad week arrives, and for the first time, it doesn&rsquo;t take
     everything down with it.
   </>,
   <>
-    And one ordinary evening you notice: the life you kept postponing —{" "}
-    <em>you&rsquo;re living it</em>.
+    And one ordinary evening you notice the life you kept postponing.{" "}
+    <em>You&rsquo;re living it</em>.
   </>,
+];
+
+/**
+ * The "wall of worlds": common, relatable spaces a person might build. These
+ * stand in for the AI-painted scenes. Every name is custom and steerable, not
+ * a baked-in preset. Keep the list broad (no niche) so every visitor sees
+ * theirs. Split across two marquee rows below.
+ */
+const spaceGallery = [
+  "Morning Routine",
+  "Better Sleep",
+  "Get Strong",
+  "Eat Well",
+  "Wind Down",
+  "Quiet Mind",
+  "Read More",
+  "Money Habits",
+  "A Tidy Home",
+  "Time With Family",
+  "Deep Work",
+  "Quit the Scroll",
+];
+const galleryRowA = spaceGallery.slice(0, 6);
+const galleryRowB = spaceGallery.slice(6);
+
+/**
+ * The painting-iteration story, grounded in the app's real EditSpaceModal flow
+ * and i18n strings. Each step's `shot` names the exact screen to capture.
+ */
+const paintSteps = [
+  {
+    n: "01",
+    title: "Describe it",
+    copy: "A few words is all it takes. Keep Daybreak's signature watercolor look, or switch to “exact words” for anime, oil paint, or neon. Whatever you picture.",
+    shot: "Describe input · Watercolor / Exact words toggle",
+    ratio: "1170 / 2532",
+  },
+  {
+    n: "02",
+    title: "Watch it paint",
+    copy: "Daybreak lays in the atmosphere and the final brushstrokes. A few seconds later, your world appears.",
+    shot: "Generating state · “Adding the final brushstrokes”",
+    ratio: "1170 / 2532",
+  },
+  {
+    n: "03",
+    title: "Pick a direction",
+    copy: "Not one option, but several. Daybreak offers a handful of takes and asks the only question that matters: which one speaks to you?",
+    shot: "Direction picker · “Which speaks to you?”",
+    ratio: "1170 / 2532",
+  },
+  {
+    n: "04",
+    title: "Tweak until you love it",
+    copy: "Nudge it calmer or warmer, try a whole new scene, repaint the same idea, or describe exactly what you see. When it's right, save it. It's yours.",
+    shot: "Review controls · Tweak / New scene / Repaint / Save",
+    ratio: "1170 / 2532",
+  },
+];
+
+type Step = {
+  id?: string;
+  eyebrow: string;
+  title: React.ReactNode;
+  copy: React.ReactNode;
+  /** what screenshot/state belongs in this row's slot */
+  shot: string;
+  ratio: string;
+  shape: "phone" | "card";
+  chip?: string;
+};
+
+const steps: Step[] = [
+  {
+    id: "spaces",
+    eyebrow: "Your routines, your art",
+    title: (
+      <>
+        Describe it in a few words. <em>Watch a world appear.</em>
+      </>
+    ),
+    copy: "Tell Daybreak what you're building, like “soft light, slow mornings” or “a stronger body by spring,” and it paints a personal scene for it. Don't love the first one? Regenerate it, restyle it, or describe exactly what you see, and keep adjusting until it's a place you can't wait to open. Then your habits live inside that space, building the life it pictures.",
+    shot: "Painting review · Tweak / New scene / Describe controls",
+    ratio: "1170 / 2532",
+    shape: "phone",
+    chip: "✨ painted by Daybreak",
+  },
+  {
+    eyebrow: "A place, not a checklist",
+    title: (
+      <>
+        Step into the space you <em>made</em>.
+      </>
+    ),
+    copy: "Each space opens onto its own painting, with the habits that belong to it living right beneath. You don't open a to-do list. You return to a world you want to be in.",
+    shot: "Space painted header + habit list (Morning Routine)",
+    ratio: "1170 / 2532",
+    shape: "phone",
+    chip: "a world per goal",
+  },
+  {
+    eyebrow: "One day, many times",
+    title: (
+      <>
+        Some habits aren&rsquo;t <em>once</em> a day.
+      </>
+    ),
+    copy: "Drink water eight times. Stretch twice. Set how many completions a day needs, and tap them off one by one as the ring quietly fills.",
+    shot: "Habit card · multi-completion in progress (e.g. 2/3 ring)",
+    ratio: "734 / 520",
+    shape: "card",
+    chip: "0 / 3 → done",
+  },
+  {
+    eyebrow: "Daily · weekly · monthly",
+    title: (
+      <>
+        Every habit at its <em>own</em> rhythm.
+      </>
+    ),
+    copy: "A morning stretch is daily. A long run lives in your week. A budget review lives in your month. Daybreak respects each one's natural cadence instead of forcing it into a daily checkbox, and every one strengthens the space it belongs to.",
+    shot: "Space with Today / Week / Month cadence tabs",
+    ratio: "1170 / 2532",
+    shape: "phone",
+    chip: "Today · Week · Month",
+  },
+  {
+    eyebrow: "Rest is part of the practice",
+    title: (
+      <>
+        A hard week shouldn&rsquo;t <em>cost</em> you everything.
+      </>
+    ),
+    copy: "Sick, traveling, or just spent? Rest a habit and nothing breaks. Its score holds, and Daybreak resumes with you when you're ready. Rest isn't a loophole here. It's the system working as designed.",
+    shot: "Habit resting state (night sky · “Resume”) + rest sheet",
+    ratio: "734 / 560",
+    shape: "card",
+    chip: "your score stays steady",
+  },
+  {
+    id: "progress",
+    eyebrow: "A score, not a streak",
+    title: (
+      <>
+        A missed day is a <em>dip</em>, not a reset.
+      </>
+    ),
+    copy: "No counter crashes to zero here. A gentle consistency score absorbs the misses and keeps counting with you. Every space gets a progress reveal of its own: one calm trend line, the month's consistency, every habit at a glance.",
+    shot: "Per-space Progress reveal (consistency % + trend + breakdown)",
+    ratio: "1170 / 2532",
+    shape: "phone",
+    chip: "no resets, ever",
+  },
+  {
+    eyebrow: "Private by design",
+    title: (
+      <>
+        Yours alone. <em>On your device.</em>
+      </>
+    ),
+    copy: "Everything lives on your phone. No account, no cloud, no one watching over your shoulder. Just you, your worlds, and the quiet evidence that you're becoming someone who follows through.",
+    shot: "Settings · local backup (Export / Import) · light",
+    ratio: "1170 / 2532",
+    shape: "phone",
+    chip: "no account · no cloud",
+  },
 ];
 
 function DownloadButton({
@@ -90,7 +213,7 @@ function DownloadButton({
       target="_blank"
       rel="noreferrer"
       className={`cta-button ${className}`}
-      aria-label="Download Dawn Song on the App Store"
+      aria-label="Download Daybreak on the App Store"
     >
       <Icon icon="simple-icons:apple" className="h-[18px] w-[18px]" />
       <span>{label}</span>
@@ -98,52 +221,18 @@ function DownloadButton({
   );
 }
 
-function ImagineTypewriter() {
-  const [text, setText] = useState(imaginePrompts[0]);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
-
-    let promptIndex = 0;
-    let charIndex = imaginePrompts[0].length;
-    let deleting = true;
-    let timer: ReturnType<typeof setTimeout>;
-
-    const step = () => {
-      const current = imaginePrompts[promptIndex];
-
-      if (deleting) {
-        charIndex -= 1;
-        setText(current.slice(0, charIndex));
-        if (charIndex <= 0) {
-          deleting = false;
-          promptIndex = (promptIndex + 1) % imaginePrompts.length;
-        }
-        timer = setTimeout(step, 26);
-      } else {
-        const next = imaginePrompts[promptIndex];
-        charIndex += 1;
-        setText(next.slice(0, charIndex));
-        if (charIndex >= next.length) {
-          deleting = true;
-          timer = setTimeout(step, 2400);
-          return;
-        }
-        timer = setTimeout(step, 55);
-      }
-    };
-
-    timer = setTimeout(step, 2200);
-    return () => clearTimeout(timer);
-  }, []);
-
+/** Android isn't out yet — a soft, non-clickable "coming soon" companion. */
+function AndroidSoon({ className = "" }: { className?: string }) {
   return (
-    <span className="imagine-input" aria-hidden="true">
-      <Icon icon="solar:pen-2-linear" className="h-4 w-4 opacity-50" />
-      <span>{text}</span>
-      <span className="imagine-cursor" />
+    <span
+      className={`android-soon ${className}`}
+      role="note"
+      aria-label="Android version coming soon"
+    >
+      <Icon icon="simple-icons:android" className="h-[18px] w-[18px]" />
+      <span>
+        Android <em>coming soon</em>
+      </span>
     </span>
   );
 }
@@ -172,8 +261,6 @@ export default function Home() {
     } catch {
       /* storage unavailable; theme still applies for this visit */
     }
-    // the hero/progress screenshots change aspect ratio per theme,
-    // which shifts layout below them
     setTimeout(() => ScrollTrigger.refresh(), 80);
   };
 
@@ -221,7 +308,7 @@ export default function Home() {
         delay: 1.05,
       });
       gsap.to($(".hero-stage"), {
-        y: -70,
+        y: -60,
         ease: "none",
         scrollTrigger: {
           trigger: $(".hero")[0],
@@ -241,94 +328,6 @@ export default function Home() {
           delay: Number(el.dataset.revealDelay ?? 0),
           scrollTrigger: { trigger: el, start: "top 86%" },
         });
-      });
-
-      /* streak tombstone */
-      const tomb = $(".streak-tomb")[0];
-      if (tomb) {
-        gsap.fromTo(
-          $(".streak-was"),
-          { "--strike": 0 },
-          {
-            "--strike": 1,
-            duration: 0.7,
-            ease: "power2.inOut",
-            delay: 0.35,
-            scrollTrigger: { trigger: tomb, start: "top 72%" },
-          },
-        );
-        gsap.from($(".streak-now"), {
-          opacity: 0,
-          scale: 0.5,
-          duration: 0.8,
-          ease: "back.out(1.8)",
-          delay: 0.85,
-          scrollTrigger: { trigger: tomb, start: "top 72%" },
-        });
-      }
-
-      /* the consistency curve — pinned & scrubbed */
-      const path = $(".curve-path")[0] as unknown as
-        | SVGPathElement
-        | undefined;
-      const pin = $(".curve-pin")[0];
-      const scoreEl = $("[data-score]")[0];
-
-      if (path && pin && scoreEl) {
-        const length = path.getTotalLength();
-        gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
-
-        const markers = $(".curve-marker");
-        const coda = $(".curve-coda")[0];
-        gsap.set(markers, { autoAlpha: 0, y: 16 });
-        gsap.set(coda, { autoAlpha: 0, y: 22 });
-
-        const score = { value: 35 };
-        scoreEl.textContent = "35";
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: pin,
-            start: "top top",
-            end: "+=2000",
-            scrub: 0.7,
-            pin: true,
-            anticipatePin: 1,
-          },
-          onUpdate: () => {
-            scoreEl.textContent = String(Math.round(score.value));
-          },
-        });
-
-        tl.to(path, { strokeDashoffset: 0, ease: "none", duration: 1 }, 0)
-          .to(score, { value: 80, ease: "none", duration: 0.25 }, 0)
-          .to(score, { value: 55, ease: "none", duration: 0.11 }, 0.25)
-          .to(score, { value: 86, ease: "none", duration: 0.2 }, 0.36)
-          .to(score, { value: 68, ease: "none", duration: 0.14 }, 0.56)
-          .to(score, { value: 91, ease: "none", duration: 0.3 }, 0.7);
-
-        const markerTimes = [0.34, 0.54, 0.68, 0.84];
-        markers.forEach((marker, index) => {
-          tl.to(
-            marker,
-            { autoAlpha: 1, y: 0, duration: 0.05, ease: "power2.out" },
-            markerTimes[index] ?? 0.85,
-          );
-        });
-
-        tl.to(coda, { autoAlpha: 1, y: 0, duration: 0.08 }, 0.88);
-      }
-
-      /* progress phone drift */
-      gsap.to($(".progress-stage"), {
-        y: -50,
-        ease: "none",
-        scrollTrigger: {
-          trigger: $(".progress-section")[0],
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true,
-        },
       });
 
       /* becoming: parallax painting + lines */
@@ -357,30 +356,6 @@ export default function Home() {
       });
     });
 
-    /* horizontal gallery — desktop only */
-    mm.add(
-      "(min-width: 900px) and (prefers-reduced-motion: no-preference)",
-      () => {
-        const track = $(".gallery-track")[0];
-        const pin = $(".gallery-pin")[0];
-        if (!track || !pin) return;
-
-        gsap.to(track, {
-          x: () => -(track.scrollWidth - window.innerWidth),
-          ease: "none",
-          scrollTrigger: {
-            trigger: pin,
-            start: "center center",
-            end: () => "+=" + (track.scrollWidth - window.innerWidth),
-            scrub: 0.6,
-            pin: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        });
-      },
-    );
-
     return () => {
       mm.revert();
     };
@@ -392,19 +367,19 @@ export default function Home() {
       <NoiseOverlay />
 
       <header className="site-header">
-        <Link href="/" className="brand-lockup" aria-label="Dawn Song home">
+        <Link href="/" className="brand-lockup" aria-label="Daybreak home">
           <Image
-            src="/icon.png"
+            src="/brand-icon.png"
             alt=""
             width={34}
             height={34}
             className="brand-icon"
           />
-          <span>Dawn Song</span>
+          <span>Daybreak</span>
         </Link>
         <nav className="site-nav" aria-label="Sections">
-          <a href="#philosophy">The philosophy</a>
-          <a href="#paintings">Your worlds</a>
+          <a href="#spaces">Your worlds</a>
+          <a href="#features">How it works</a>
           <a href="#progress">Progress</a>
         </nav>
         <div className="header-actions">
@@ -437,431 +412,229 @@ export default function Home() {
             <div className="hero-copy">
               <p className="eyebrow">For people tired of starting over</p>
               <h1 className="display">
+                <span className="hero-line">The only habit app</span>
                 <span className="hero-line">
-                  An extraordinary life isn&rsquo;t built in a day.
-                </span>
-                <span className="hero-line">
-                  <em>It&rsquo;s built on the days you come back.</em>
+                  as beautiful as <em>your goals.</em>
                 </span>
               </h1>
               <p className="lede">
-                Dawn Song is a calm, beautiful place to keep the promises you
-                make to yourself. No streaks to lose. No shame when life
-                happens. Just small days, repeated — and a life that quietly
-                changes.
+                You&rsquo;re not lazy. You&rsquo;re tired of starting over.
+                Daybreak gives every goal a beautiful world to live in, and a
+                consistency score that survives the days you miss. So this time,
+                you actually keep going.
               </p>
               <div className="hero-actions">
                 <DownloadButton />
-                <a href="#philosophy" className="ghost-link">
+                <AndroidSoon />
+                <a href="#spaces" className="ghost-link">
                   See how it works
                   <Icon icon="solar:arrow-down-linear" className="h-4 w-4" />
                 </a>
               </div>
-              <p className="hero-note">Free to download · iOS</p>
+              <p className="hero-note">Free to download · iOS now, Android coming soon</p>
             </div>
 
             <div className="hero-stage">
               <div className="hero-glow" aria-hidden="true" />
-              <div
-                className="phone hero-phone"
-                style={{ aspectRatio: dark ? "1170 / 2532" : "941 / 1672" }}
-              >
-                <Image
-                  src={dark ? "/dark-home-morning.png" : "/sona-home-cozy.png"}
-                  alt={
-                    dark
-                      ? "Dawn Song home screen in dark mode: a painted rainy-window scene above today's habits"
-                      : "Dawn Song home screen: a watercolor morning scene above today's habits"
-                  }
-                  fill
-                  priority
-                  sizes="(max-width: 700px) 78vw, 330px"
-                  className="object-cover object-top"
-                />
-              </div>
+              <Placeholder
+                label="Hero · Spaces gallery (painted worlds)"
+                ratio="1170 / 2532"
+                shape="phone"
+                className="hero-phone"
+              />
               <div className="hero-float hero-float-score">
                 <strong>93%</strong>
-                <span>consistency — survives missed days</span>
+                <span>consistency that survives missed days</span>
               </div>
               <div className="hero-float hero-float-rest">
                 <strong>
                   <Icon
-                    icon="solar:moon-sleep-bold"
+                    icon="solar:magic-stick-3-bold"
                     className="inline h-6 w-6 text-[var(--gold)]"
                   />
                 </strong>
-                <span>resting · nothing breaks</span>
+                <span>painted from a few words</span>
               </div>
             </div>
           </div>
           <div className="hero-fade" aria-hidden="true" />
         </section>
 
-        {/* ------------------------------------------------ problem */}
-        <section className="problem section-pad">
-          <div className="wrap problem-grid">
-            <div data-reveal>
-              <p className="eyebrow">The old way</p>
-              <h2 className="display">
-                You were never the problem. <em>Day&nbsp;zero</em> was.
-              </h2>
-              <div className="problem-points">
-                {problemPoints.map((point, index) => (
-                  <p key={point} className="problem-point">
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                    {point}
-                  </p>
-                ))}
-              </div>
-            </div>
-
-            <figure
-              className="streak-tomb"
-              data-reveal
-              data-reveal-delay="0.15"
-            >
-              <span className="streak-tomb-label">
-                Other apps, after one sick day
-              </span>
-              <div className="streak-numbers" aria-hidden="true">
-                <span className="streak-was">47</span>
-                <span className="streak-arrow">→</span>
-                <span className="streak-now">0</span>
-              </div>
-              <figcaption>
-                Forty-six days of showing up, erased by one.
-              </figcaption>
-              <span className="streak-tomb-sub">
-                Dawn Song will never do this to you.
-              </span>
-            </figure>
+        {/* ------------------------------------------------ trust strip */}
+        {/* No social proof: the app is pre-launch. These are true,
+            no-claims signals only. Do not add fabricated reviews/ratings. */}
+        <section className="trust" aria-label="Why Daybreak is safe to try">
+          <div className="wrap trust-inner" data-reveal>
+            <span className="trust-item">
+              <Icon icon="solar:lock-keyhole-minimalistic-bold" className="h-[18px] w-[18px]" />
+              Private by design. No account, no cloud
+            </span>
+            <span className="trust-dot" aria-hidden="true" />
+            <span className="trust-item">
+              <Icon icon="solar:download-minimalistic-bold" className="h-[18px] w-[18px]" />
+              Free to download
+            </span>
+            <span className="trust-dot" aria-hidden="true" />
+            <span className="trust-item">
+              <Icon icon="simple-icons:apple" className="h-[16px] w-[16px]" />
+              <Icon icon="simple-icons:android" className="h-[16px] w-[16px]" />
+              iPhone now · Android soon
+            </span>
           </div>
         </section>
 
-        {/* ------------------------------------------------ the curve */}
-        <section id="philosophy" className="curve-section">
-          <div className="curve-pin">
-            <div className="curve-heading">
-              <p className="eyebrow eyebrow-center">The Dawn Song way</p>
-              <h2 className="display">
-                A missed day is a <em>dip</em>, not a reset.
-              </h2>
-            </div>
-
-            <div className="curve-stage">
-              <div className="curve-score">
-                <strong>
-                  <span data-score>91</span>%
-                </strong>
-                <span>your consistency</span>
-              </div>
-
-              <div className="curve-plot">
-                <svg
-                  className="curve-svg"
-                  viewBox="0 0 1000 440"
-                  role="img"
-                  aria-label="A consistency score over several months: it climbs, dips during a flu week and travel, and recovers each time, ending above the 90% bar"
-                >
-                  <defs>
-                    <linearGradient
-                      id="curveGradient"
-                      x1="0"
-                      y1="0"
-                      x2="1"
-                      y2="0"
-                    >
-                      <stop
-                        offset="0"
-                        style={{ stopColor: "var(--chart-stop-1)" }}
-                      />
-                      <stop
-                        offset="1"
-                        style={{ stopColor: "var(--chart-stop-2)" }}
-                      />
-                    </linearGradient>
-                  </defs>
-
-                  <line
-                    className="curve-grid-line"
-                    x1="0"
-                    y1="180"
-                    x2="1000"
-                    y2="180"
-                  />
-                  <line
-                    className="curve-grid-line"
-                    x1="0"
-                    y1="270"
-                    x2="1000"
-                    y2="270"
-                  />
-                  <line
-                    className="curve-grid-line"
-                    x1="0"
-                    y1="360"
-                    x2="1000"
-                    y2="360"
-                  />
-
-                  <line
-                    className="curve-bar-line"
-                    x1="0"
-                    y1="94"
-                    x2="1000"
-                    y2="94"
-                  />
-                  <text className="curve-bar-text" x="0" y="80">
-                    THE 90% BAR
-                  </text>
-                  <text className="curve-axis-text" x="0" y="430">
-                    spring
-                  </text>
-                  <text className="curve-axis-text" x="952" y="430">
-                    now
-                  </text>
-
-                  <path
-                    className="curve-path"
-                    d="M0,281 C70,260 150,170 250,128 C290,111 320,150 355,205 C370,228 385,222 400,200 C450,135 500,115 560,108 C610,103 650,135 695,166 C720,183 745,170 775,150 C840,110 920,96 1000,91"
-                  />
-                </svg>
-
-                {curveMarkers.map((marker) => (
-                  <div
-                    key={marker.label}
-                    className={`curve-marker ${
-                      marker.dip ? "curve-marker-dip" : ""
-                    } ${marker.up ? "curve-marker-up" : ""}`}
-                    style={{ left: marker.left, top: marker.top }}
-                  >
-                    <span className="curve-marker-dot" aria-hidden="true" />
-                    <span className="curve-marker-label">{marker.label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <p className="curve-coda">
-              Your score bends and recovers the way a real life does.{" "}
-              <em>Returning</em> is the skill — and every dawn is another
-              gentle invitation to come back.
-            </p>
-          </div>
-        </section>
-
-        {/* ------------------------------------------------ paintings */}
-        <section id="paintings" className="paintings">
-          <div className="paintings-intro" data-reveal>
-            <p className="eyebrow eyebrow-center">Your routines, your art</p>
+        {/* ------------------------------------------------ spaces gallery */}
+        <section id="spaces" className="gallery" aria-label="Spaces people build in Daybreak">
+          <div className="wrap gallery-head" data-reveal>
+            <p className="eyebrow eyebrow-center">Picture the life you want</p>
             <h2 className="display">
-              Give every promise <em>a world</em> of its own.
+              Whatever you&rsquo;re building, <em>Daybreak paints it.</em>
             </h2>
             <p className="lede">
-              In Dawn Song, habits live inside the parts of your life
-              you&rsquo;re building — mornings, health, learning, anything.
-              Describe one in a few words, and Dawn Song paints it: a personal
-              scene that crowns that routine and holds its habits, styled
-              however speaks to you. You don&rsquo;t open a checklist. You
-              step into a place you made.
+              Describe it in a few words and a personal world appears. Regenerate
+              it, restyle it, or describe exactly what you see, and keep adjusting
+              until you love it. Nothing here is a preset. Every space is made for
+              you, and your habits live inside the life it pictures.
             </p>
           </div>
 
-          <div className="gallery-pin">
-            <div className="gallery-track">
-              <div className="gallery-panel">
-                <div className="gallery-card">
-                  <Image
-                    src="/light-morning-routine.png"
-                    alt="Morning Routine in Dawn Song: a sunlit bedroom painting above the morning's habits"
-                    fill
-                    sizes="(max-width: 900px) 78vw, 470px"
-                    className="object-cover object-top"
-                  />
-                  <div className="gallery-card-shade" aria-hidden="true" />
-                </div>
-                <div className="gallery-caption">
-                  <span className="gallery-prompt">
-                    &ldquo;soft light, slow mornings&rdquo;
-                  </span>
-                  <p>
-                    Dawn Song painted this Morning Routine — and the skincare,
-                    pilates, and planning live right beneath it.
-                  </p>
-                </div>
-              </div>
-
-              <div className="gallery-panel">
-                <div className="gallery-card">
-                  <Image
-                    src="/sona-goals.png"
-                    alt="Dawn Song goals screen: painted cards for Strength, Focus, Peace, Financial Freedom, and Health"
-                    fill
-                    sizes="(max-width: 900px) 78vw, 470px"
-                    className="object-cover object-top"
-                  />
-                  <div className="gallery-card-shade" aria-hidden="true" />
-                </div>
-                <div className="gallery-caption">
-                  <span className="gallery-prompt">
-                    &ldquo;who do you want to become?&rdquo;
-                  </span>
-                  <p>
-                    Strength. Focus. Peace. Every goal gets its own painting —
-                    a postcard from the life you&rsquo;re walking toward.
-                  </p>
-                </div>
-              </div>
-
-              <div className="gallery-panel">
-                <div className="imagine-card">
-                  <span className="imagine-icon">
-                    <Icon icon="solar:magic-stick-3-bold" className="h-6 w-6" />
-                  </span>
-                  <h3>Imagine a new routine</h3>
-                  <ImagineTypewriter />
-                  <p>
-                    A few words become a name and a painting. Regenerate it,
-                    restyle it, or describe exactly what you see — until it
-                    feels like the life you&rsquo;re walking toward.
-                  </p>
-                </div>
-                <div className="gallery-caption">
-                  <span className="gallery-prompt">
-                    &ldquo;what are you becoming?&rdquo;
-                  </span>
-                  <p>Type it. Watch a world appear. Then live into it.</p>
-                </div>
+          {/* Top row is always LIGHT paintings, bottom row always DARK, so
+              every visitor sees both palettes no matter their page theme. */}
+          <div className="gallery-rows">
+            <div className="gallery-row gallery-row-a">
+              <div className="gallery-track">
+                {galleryRowA.map((name) => (
+                  <SpaceTile key={name} name={name} variant="light" />
+                ))}
+                <SpaceTileCustom variant="light" />
+                {/* duplicate for a seamless loop */}
+                {galleryRowA.map((name) => (
+                  <SpaceTile key={`dup-${name}`} name={name} variant="light" />
+                ))}
+                <SpaceTileCustom variant="light" />
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* ------------------------------------------------ progress */}
-        <section id="progress" className="progress-section section-pad">
-          <div className="wrap progress-grid">
-            <div className="progress-copy" data-reveal>
-              <p className="eyebrow">The long view</p>
-              <h2 className="display">
-                Progress so beautiful, you&rsquo;ll <em>want</em> to check in.
-              </h2>
-              <div className="progress-list">
-                {progressItems.map((item) => (
-                  <div key={item.title} className="progress-item">
-                    <span className="progress-item-icon">
-                      <Icon icon={item.icon} className="h-5 w-5" />
-                    </span>
-                    <div>
-                      <h3>{item.title}</h3>
-                      <p>{item.copy}</p>
-                    </div>
-                  </div>
+            <div className="gallery-row gallery-row-b">
+              <div className="gallery-track">
+                {galleryRowB.map((name) => (
+                  <SpaceTile key={name} name={name} variant="dark" />
+                ))}
+                {galleryRowB.map((name) => (
+                  <SpaceTile key={`dup-${name}`} name={name} variant="dark" />
                 ))}
               </div>
             </div>
-
-            <div className="progress-stage" data-reveal data-reveal-delay="0.1">
-              <div
-                className="phone progress-phone"
-                style={{ aspectRatio: dark ? "1170 / 2532" : "941 / 1672" }}
-              >
-                <Image
-                  src={dark ? "/dark-progress.png" : "/sona-progress.png"}
-                  alt={
-                    dark
-                      ? "Dawn Song progress screen in dark mode: 70% consistency over a night mountain, with a gentle trend line and per-habit breakdown"
-                      : "Dawn Song progress screen: 82% consistency over a golden mountain at dawn, with a gentle trend line and per-habit breakdown"
-                  }
-                  fill
-                  sizes="(max-width: 700px) 80vw, 330px"
-                  className="object-cover object-top"
-                />
-              </div>
-              <div className="progress-float progress-float-trophy">
-                <Icon icon="solar:cup-star-bold" className="h-4 w-4" />
-                a gold trophy waits at 90%
-              </div>
-              <div className="progress-float progress-float-rest">
-                no resets. ever.
-              </div>
-            </div>
           </div>
         </section>
 
-        {/* ------------------------------------------------ human trio */}
-        <section className="human-section section-pad">
-          <div className="wrap">
-            <div className="human-heading" data-reveal>
-              <p className="eyebrow eyebrow-center">Built for real life</p>
-              <h2 className="display">
-                A system shaped like a <em>human</em>.
-              </h2>
-            </div>
+        {/* ------------------------------------------------ paint iteration */}
+        <section className="paint" aria-label="How Daybreak paints your space">
+          <div className="wrap paint-head" data-reveal>
+            <p className="eyebrow eyebrow-center">From a few words to a world</p>
+            <h2 className="display">
+              You stay in the chair until <em>it&rsquo;s yours.</em>
+            </h2>
+            <p className="lede">
+              Daybreak doesn&rsquo;t hand you one stock image and call it done.
+              You shape the painting, step by step, until it&rsquo;s a place
+              you&rsquo;ll want to return to.
+            </p>
+          </div>
 
-            <div className="human-grid">
-              <article className="human-card" data-reveal>
-                <div className="rest-figure">
-                  <Image
-                    src="/light-rest.png"
-                    alt="Dawn Song rest sheet: the hedgehog mascot asks 'Want to rest today? It won't hurt your metrics.'"
-                    fill
-                    sizes="(max-width: 1080px) 90vw, 360px"
-                    className="object-cover object-top"
+          <ol className="paint-steps">
+            {paintSteps.map((step) => (
+              <li key={step.n} className="paint-step" data-reveal>
+                <div className="paint-shot">
+                  <span className="paint-step-num" aria-hidden="true">
+                    {step.n}
+                  </span>
+                  <Placeholder
+                    label={step.shot}
+                    ratio={step.ratio}
+                    shape="phone"
                   />
                 </div>
-                <h3>Rest is part of the practice</h3>
-                <p>
-                  Sick? Traveling? Burned out? Declare rest and nothing breaks
-                  — your score is protected, and Dawn Song resumes with you
-                  when you&rsquo;re ready. Rest isn&rsquo;t a loophole here.
-                  It&rsquo;s the system working as designed.
-                </p>
-              </article>
-
-              <article
-                className="human-card"
-                data-reveal
-                data-reveal-delay="0.08"
-              >
-                <div className="cadence-chips" aria-hidden="true">
-                  <span className="cadence-chip cadence-chip-on">
-                    <Icon icon="solar:check-circle-bold" className="h-4 w-4" />
-                    Daily
-                  </span>
-                  <span className="cadence-chip cadence-chip-on">
-                    <Icon icon="solar:check-circle-bold" className="h-4 w-4" />
-                    Weekly
-                  </span>
-                  <span className="cadence-chip cadence-chip-on">
-                    <Icon icon="solar:check-circle-bold" className="h-4 w-4" />
-                    Monthly
-                  </span>
+                <div className="paint-step-text">
+                  <h3>{step.title}</h3>
+                  <p>{step.copy}</p>
                 </div>
-                <h3>Your rhythm, not the app&rsquo;s</h3>
-                <p>
-                  A morning stretch is daily. A long run is weekly. A budget
-                  review is monthly. Dawn Song lets every habit live at its
-                  natural pace — together, inside the same routine, scored
-                  fairly.
-                </p>
-              </article>
+              </li>
+            ))}
+          </ol>
+        </section>
 
+        {/* ------------------------------------------------ reframe band */}
+        <section className="reframe" aria-label="The idea behind Daybreak">
+          <div className="wrap reframe-inner" data-reveal>
+            <p className="eyebrow eyebrow-center">The whole idea</p>
+            <p className="reframe-line">
+              A missed day should be a <em>dip</em>, not a reset to zero.
+            </p>
+            <p className="reframe-sub">
+              Every habit app you quit punished you for one bad day. Daybreak is
+              built the opposite way: your score bends, recovers, and keeps
+              counting, because returning is the only skill that actually builds
+              a life.
+            </p>
+          </div>
+        </section>
+
+        {/* ------------------------------------------------ walkthrough */}
+        <section id="features" className="walk section-pad">
+          <div className="wrap walk-intro" data-reveal>
+            <p className="eyebrow eyebrow-center">Why it works when others didn&rsquo;t</p>
+            <h2 className="display">
+              Every piece is built to help you <em>come back</em>.
+            </h2>
+          </div>
+
+          <div className="wrap walk-steps">
+            {steps.map((step, index) => (
               <article
-                className="human-card"
+                id={step.id}
+                key={step.shot}
+                className={`walk-row ${
+                  index % 2 === 1 ? "walk-row-reverse" : ""
+                }`}
                 data-reveal
-                data-reveal-delay="0.16"
               >
-                <div className="zero-mark" aria-hidden="true">
-                  <s>Day 0</s>
-                  <span>Day 213</span>
+                <div className="walk-text">
+                  <p className="eyebrow">{step.eyebrow}</p>
+                  <h3 className="display">{step.title}</h3>
+                  <p className="walk-copy">{step.copy}</p>
+                  {step.chip && <span className="walk-chip">{step.chip}</span>}
                 </div>
-                <h3>No streak counter. Anywhere.</h3>
-                <p>
-                  There is no number in Dawn Song that resets to zero, and no
-                  day zero waiting to greet you after a hard week. Just a long
-                  run of returning that keeps counting <em>with</em> you.
-                </p>
+                <div className="walk-media">
+                  <div className="walk-glow" aria-hidden="true" />
+                  <Placeholder
+                    label={step.shot}
+                    ratio={step.ratio}
+                    shape={step.shape}
+                    className={
+                      step.shape === "phone" ? "walk-shot-phone" : "walk-shot-card"
+                    }
+                  />
+                </div>
               </article>
+            ))}
+          </div>
+        </section>
+
+        {/* ------------------------------------------------ mid CTA */}
+        <section className="mid-cta" aria-label="Download Daybreak">
+          <div className="wrap mid-cta-inner" data-reveal>
+            <h2 className="display">
+              Your next year is built from <em>small days like today.</em>
+            </h2>
+            <p className="lede">
+              Start one space. Keep one promise. Let Daybreak hold the rest.
+            </p>
+            <div className="mid-cta-actions">
+              <DownloadButton />
+              <span className="mid-cta-note">
+                Free to download · iOS now, Android coming soon
+              </span>
             </div>
           </div>
         </section>
@@ -892,31 +665,35 @@ export default function Home() {
               Make your life <em>extraordinary</em>.
             </h2>
             <p className="lede">
-              One routine. A few small promises. A painting worth returning
-              to. The rest is just days — and the days are what Dawn Song is
-              for.
+              One space. A few small promises. A painting worth returning to.
+              The rest is just days, and the days are what Daybreak is for.
             </p>
             <div className="final-actions">
               <DownloadButton />
+              <AndroidSoon />
+            </div>
+            <div className="final-secondary">
               <Link href="/support" className="ghost-link">
                 Questions? We&rsquo;re here
               </Link>
             </div>
-            <p className="final-note">Free to download · iOS</p>
+            <p className="final-note">
+              Free to download · iOS now, Android coming soon
+            </p>
           </div>
         </section>
       </main>
 
       <footer className="footer">
-        <Link href="/" className="brand-lockup" aria-label="Dawn Song home">
+        <Link href="/" className="brand-lockup" aria-label="Daybreak home">
           <Image
-            src="/icon.png"
+            src="/brand-icon.png"
             alt=""
             width={28}
             height={28}
             className="brand-icon"
           />
-          <span>Dawn Song</span>
+          <span>Daybreak</span>
         </Link>
         <div className="footer-links">
           <Link href="/privacy">Privacy</Link>
@@ -927,7 +704,7 @@ export default function Home() {
             href="https://www.reddit.com/r/SonaHabits/"
             target="_blank"
             rel="noreferrer"
-            aria-label="Dawn Song on Reddit"
+            aria-label="Daybreak on Reddit"
           >
             <Icon icon="simple-icons:reddit" className="h-4 w-4" />
           </a>
@@ -935,12 +712,12 @@ export default function Home() {
             href="https://x.com/sonahabits"
             target="_blank"
             rel="noreferrer"
-            aria-label="Dawn Song on X"
+            aria-label="Daybreak on X"
           >
             <Icon icon="simple-icons:x" className="h-4 w-4" />
           </a>
         </div>
-        <p>© 2026 Dawn Song.</p>
+        <p>© 2026 Daybreak.</p>
       </footer>
     </div>
   );

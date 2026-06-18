@@ -49,3 +49,6 @@ next-env.d.ts
 !.dev.vars.example
 
 !.env.example
+
+# Raw source screenshots (kept local, not used by the site)
+daybreak_screenshots/

@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Terms of Use - Dawn Song",
-  description: "Terms of Use for the Dawn Song mobile application and services.",
+  title: "Terms of Use - Daybreak",
+  description: "Terms of Use for the Daybreak mobile application and services.",
 };
 
 export default function TermsPage() {
@@ -16,7 +16,7 @@ export default function TermsPage() {
 
         <section className="space-y-4 text-[#4b4742] leading-relaxed">
           <p>
-            These Terms of Use govern your use of the Dawn Song mobile application
+            These Terms of Use govern your use of the Daybreak mobile application
             and related services (the “Service”). By using the Service, you
             agree to these terms.
           </p>
@@ -95,9 +95,9 @@ export default function TermsPage() {
             <br />
             <a
               className="text-[#4a6fa5] underline"
-              href="mailto:sona@englemanconsulting.com"
+              href="mailto:support@daybreakhabits.com"
             >
-              sona@englemanconsulting.com
+              support@daybreakhabits.com
             </a>
           </p>
         </section>

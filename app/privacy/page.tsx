@@ -1,7 +1,7 @@
 export const metadata = {
-  title: "Privacy Policy - Dawn Song",
+  title: "Privacy Policy - Daybreak",
   description:
-    "Dawn Song privacy policy describing data collection, use, and user rights.",
+    "Daybreak privacy policy describing data collection, use, and user rights.",
 };
 
 export default function PrivacyPage() {
@@ -17,8 +17,8 @@ export default function PrivacyPage() {
 
         <section className="space-y-4 text-[#4b4742] leading-relaxed">
           <p>
-            This Privacy Policy explains how Dawn Song (“we,” “us,” or “our”) handles
-            information when you use the Dawn Song mobile application and related
+            This Privacy Policy explains how Daybreak (“we,” “us,” or “our”) handles
+            information when you use the Daybreak mobile application and related
             services (the “Service”).
           </p>
 
@@ -103,9 +103,9 @@ export default function PrivacyPage() {
             <br />
             <a
               className="text-[#4a6fa5] underline"
-              href="mailto:sona@englemanconsulting.com"
+              href="mailto:support@daybreakhabits.com"
             >
-              sona@englemanconsulting.com
+              support@daybreakhabits.com
             </a>
           </p>
         </section>
