@@ -101,19 +101,22 @@ const becomingLines = [
  * a baked-in preset. Keep the list broad (no niche) so every visitor sees
  * theirs. Split across two marquee rows below.
  */
+// Each space maps to a painted scene in /public/spaces/<slug>-light.webp and
+// -dark.webp (the clean AI paintings, no name/UI overlaid). Top row shows the
+// light paintings, bottom row the dark ones, so visitors see both palettes.
 const spaceGallery = [
-  "Morning Routine",
-  "Better Sleep",
-  "Get Strong",
-  "Eat Well",
-  "Wind Down",
-  "Quiet Mind",
-  "Read More",
-  "Money Habits",
-  "A Tidy Home",
-  "Time With Family",
-  "Deep Work",
-  "Quit the Scroll",
+  { name: "Morning Routine", slug: "morning-routine" },
+  { name: "Better Sleep", slug: "better-sleep" },
+  { name: "Get Strong", slug: "get-strong" },
+  { name: "Eat Well", slug: "eat-well" },
+  { name: "Move More", slug: "move-more" },
+  { name: "Quiet Mind", slug: "quiet-mind" },
+  { name: "Read More", slug: "read-more" },
+  { name: "Save Money", slug: "save-money" },
+  { name: "A Tidy Home", slug: "tidy-home" },
+  { name: "Time With Family", slug: "time-with-family" },
+  { name: "Deep Work", slug: "deep-work" },
+  { name: "Time Outside", slug: "time-outside" },
 ];
 const galleryRowA = spaceGallery.slice(0, 6);
 const galleryRowB = spaceGallery.slice(6);
@@ -556,15 +559,18 @@ export default function Home() {
         {/* ------------------------------------------------ spaces gallery */}
         <section id="spaces" className="gallery" aria-label="Spaces people build in Daybreak">
           <div className="wrap gallery-head" data-reveal>
-            <p className="eyebrow eyebrow-center">Picture the life you want</p>
+            <p className="eyebrow eyebrow-center">You describe it · Daybreak paints it</p>
             <h2 className="display">
-              Whatever you&rsquo;re building, <em>Daybreak paints it.</em>
+              You <em>create</em> these worlds. <br className="gallery-br" />
+              Then you <em>steer</em> them.
             </h2>
             <p className="lede">
-              Describe it in a few words and a personal world appears. Regenerate
-              it, restyle it, or describe exactly what you see, and keep adjusting
-              until you love it. Nothing here is a preset. Every space is made for
-              you, and your habits live inside the life it pictures.
+              Every scene below was <strong>made from a few typed words</strong>.
+              You <strong>describe</strong> the life you&rsquo;re building, Daybreak{" "}
+              <strong>paints</strong> it, and you <strong>regenerate and restyle</strong>{" "}
+              until&nbsp;it&rsquo;s&nbsp;<strong>yours</strong>. Nothing here is a
+              preset or a stock photo. Your habits then live inside the world you
+              made.
             </p>
           </div>
 
@@ -573,13 +579,13 @@ export default function Home() {
           <div className="gallery-rows">
             <div className="gallery-row gallery-row-a">
               <div className="gallery-track">
-                {galleryRowA.map((name) => (
-                  <SpaceTile key={name} name={name} variant="light" />
+                {galleryRowA.map((s) => (
+                  <SpaceTile key={s.slug} name={s.name} slug={s.slug} variant="light" />
                 ))}
                 <SpaceTileCustom variant="light" />
                 {/* duplicate for a seamless loop */}
-                {galleryRowA.map((name) => (
-                  <SpaceTile key={`dup-${name}`} name={name} variant="light" />
+                {galleryRowA.map((s) => (
+                  <SpaceTile key={`dup-${s.slug}`} name={s.name} slug={s.slug} variant="light" />
                 ))}
                 <SpaceTileCustom variant="light" />
               </div>
@@ -587,11 +593,11 @@ export default function Home() {
 
             <div className="gallery-row gallery-row-b">
               <div className="gallery-track">
-                {galleryRowB.map((name) => (
-                  <SpaceTile key={name} name={name} variant="dark" />
+                {galleryRowB.map((s) => (
+                  <SpaceTile key={s.slug} name={s.name} slug={s.slug} variant="dark" />
                 ))}
-                {galleryRowB.map((name) => (
-                  <SpaceTile key={`dup-${name}`} name={name} variant="dark" />
+                {galleryRowB.map((s) => (
+                  <SpaceTile key={`dup-${s.slug}`} name={s.name} slug={s.slug} variant="dark" />
                 ))}
               </div>
             </div>
@@ -601,7 +607,7 @@ export default function Home() {
         {/* ------------------------------------------------ paint iteration */}
         <section className="paint" aria-label="How Daybreak paints your space">
           <div className="wrap paint-head" data-reveal>
-            <p className="eyebrow eyebrow-center">From a few words to a world</p>
+            <p className="eyebrow eyebrow-center">Here&rsquo;s exactly how it works</p>
             <h2 className="display">
               You stay in the chair until <em>it&rsquo;s yours.</em>
             </h2>

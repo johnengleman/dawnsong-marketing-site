@@ -16,6 +16,7 @@
   --text-faint: rgba(31, 58, 44, 0.46);
   --gold: #9a7430;
   --gold-bright: #c89a4d;
+  --gold-hl: rgba(200, 154, 77, 0.28);
   --honey: #e8bd73;
   --moon: #5c7fa3;
   /* icon-matched blue accents (sampled from the Daybreak app icon) */
@@ -114,6 +115,7 @@ html[data-theme="dark"] {
   --text-faint: rgba(243, 233, 214, 0.4);
   --gold: #e6bc7d;
   --gold-bright: #e6bc7d;
+  --gold-hl: rgba(230, 188, 125, 0.22);
   --honey: #e8bd73;
   --moon: #8fa9c9;
   --moon-bright: #8aa4ee;
@@ -755,6 +757,30 @@ html[data-theme="dark"] .hero-glow {
   font-size: clamp(2.2rem, 4.4vw, 3.6rem);
 }
 
+/* scannable keyword highlights in the gallery intro: warm, weighted, with a
+   soft gold underline-highlight so a glancing eye lands on "describe / paints /
+   regenerate / yours" and gets the create-and-steer idea without reading the
+   whole line. Uses a background-image underline that reads in both themes. */
+.gallery-head .lede strong {
+  color: var(--gold);
+  font-weight: 700;
+  background-image: linear-gradient(var(--gold-hl), var(--gold-hl));
+  background-repeat: no-repeat;
+  background-position: 0 88%;
+  background-size: 100% 0.42em;
+  padding-bottom: 0.02em;
+}
+
+.gallery-br {
+  display: none;
+}
+
+@media (min-width: 700px) {
+  .gallery-br {
+    display: inline;
+  }
+}
+
 .gallery-rows {
   display: grid;
   gap: 22px;
@@ -882,29 +908,41 @@ html[data-theme="dark"] .hero-glow {
   background-size: 30px 30px;
 }
 
-.space-tile-badge {
-  position: relative;
+/* the real painting fills the tile, sitting above the placeholder grid */
+.space-tile-img {
+  position: absolute;
+  inset: 0;
   z-index: 1;
-  border-radius: 999px;
-  border: 1px solid var(--tile-chip-border);
-  background: var(--tile-chip-bg);
-  padding: 5px 12px;
-  color: var(--tile-gold);
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  object-fit: cover;
 }
 
-.space-tile-name {
-  padding-left: 4px;
-  color: var(--text-strong);
+/* space name overlaid on the painting, with a scrim so it stays legible */
+.space-tile-art-name {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 36px 20px 16px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(8, 10, 16, 0.06) 36%,
+    rgba(8, 10, 16, 0.58)
+  );
+  color: #fff;
   font-family: var(--font-display), ui-serif, Georgia, serif;
-  font-size: 1.15rem;
+  font-size: 1.22rem;
   font-weight: 500;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
 }
 
+/* custom "describe your own" tile: dashed swatch with a centered label */
 .space-tile-custom .space-tile-art-custom {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  place-items: center;
   border-style: dashed;
   border-color: var(--tile-chip-border);
 }
@@ -914,9 +952,12 @@ html[data-theme="dark"] .hero-glow {
   filter: saturate(0.85);
 }
 
-.space-tile-custom .space-tile-name {
-  color: var(--gold);
+.space-tile-custom-label {
+  color: var(--tile-gold);
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-size: 1.1rem;
   font-style: italic;
+  font-weight: 500;
 }
 
 @media (prefers-reduced-motion: reduce) {

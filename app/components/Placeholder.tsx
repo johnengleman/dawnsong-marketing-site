@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 /**
  * Labeled image placeholder. Stands in for a real Daybreak screenshot that
  * will be dropped in later. The `label` names the exact screen/state to
@@ -40,20 +42,22 @@ export function Placeholder({
 }
 
 /**
- * A single painted-space tile for the gallery marquee. Stands in for an
- * AI-painted scene with the space name overlaid.
+ * A single painted-space tile for the gallery marquee.
  *
- * `variant` FORCES the tile's look to light or dark regardless of the page
- * theme — the gallery deliberately shows light paintings in the top row and
- * dark paintings in the bottom row so every visitor sees both. Swap the inner
- * gradient for a real painting <Image fill /> when assets land (use the
- * matching light/dark capture for the variant); the name overlay stays.
+ * `variant` FORCES the look to light or dark regardless of the page theme: the
+ * gallery shows light paintings in the top row and dark ones in the bottom row
+ * so every visitor sees both palettes. The painting is loaded from
+ * /public/spaces/<slug>-<variant>.webp. A placeholder grid sits behind it, so
+ * until the real images are dropped in (or if one is missing) the tile still
+ * renders cleanly. The space name is overlaid on the painting.
  */
 export function SpaceTile({
   name,
+  slug,
   variant,
 }: {
   name: string;
+  slug: string;
   variant: "light" | "dark";
 }) {
   return (
@@ -61,11 +65,20 @@ export function SpaceTile({
       className={`space-tile space-tile-${variant}`}
       aria-label={`Painted space: ${name} (${variant})`}
     >
-      <div className="space-tile-art" aria-hidden="true">
-        <div className="ph-grid" />
-        <span className="space-tile-badge">{variant} painting</span>
+      <div className="space-tile-art">
+        {/* placeholder behind the image: shows if the painting isn't there yet */}
+        <div className="ph-grid" aria-hidden="true" />
+        <Image
+          src={`/spaces/${slug}-${variant}.webp`}
+          alt={`${name} space, painted by Daybreak`}
+          fill
+          sizes="(max-width: 640px) 70vw, 300px"
+          className="space-tile-img"
+        />
+        <span className="space-tile-art-name" aria-hidden="true">
+          {name}
+        </span>
       </div>
-      <figcaption className="space-tile-name">{name}</figcaption>
     </figure>
   );
 }
@@ -81,10 +94,12 @@ export function SpaceTileCustom({
       className={`space-tile space-tile-${variant} space-tile-custom`}
       aria-label="Describe your own space"
     >
-      <div className="space-tile-art space-tile-art-custom" aria-hidden="true">
-        <span className="space-tile-spark">✨</span>
+      <div className="space-tile-art space-tile-art-custom">
+        <span className="space-tile-spark" aria-hidden="true">
+          ✨
+        </span>
+        <span className="space-tile-custom-label">Describe your own…</span>
       </div>
-      <figcaption className="space-tile-name">Describe your own…</figcaption>
     </figure>
   );
 }
