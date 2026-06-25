@@ -19,7 +19,7 @@
   --gold-hl: rgba(200, 154, 77, 0.28);
   --honey: #e8bd73;
   --moon: #5c7fa3;
-  /* icon-matched blue accents (sampled from the Daybreak app icon) */
+  /* icon-matched blue accents (sampled from the Sona app icon) */
   --moon-bright: #4a6bc4;
   --moon-ink: #3a558f;
   --moon-soft: rgba(83, 124, 222, 0.1);
@@ -247,6 +247,37 @@ h3,
   letter-spacing: 0;
 }
 
+.locale-cjk h1,
+.locale-cjk h2,
+.locale-cjk h3,
+.locale-cjk .font-display,
+.locale-cjk .display,
+.locale-cjk .brand-lockup,
+.locale-cjk .ph-label,
+.locale-cjk .space-tile-art-name,
+.locale-cjk .paint-step-num,
+.locale-cjk .paint-step-text h3,
+.locale-cjk .reframe-line,
+.locale-cjk .walk-chip,
+.locale-cjk .becoming-line,
+.locale-cjk .faq-item summary,
+.locale-cjk .article-card h2,
+.locale-cjk .article-body h2,
+.locale-cjk .article-body h3,
+.locale-cjk .article-body blockquote {
+  font-family:
+    var(--font-body), "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Noto Sans JP", "Apple SD Gothic Neo", "Noto Sans KR", system-ui,
+    sans-serif;
+}
+
+.locale-cjk .display em,
+.locale-cjk .reframe-line em,
+.locale-cjk .becoming-line em {
+  font-style: normal;
+  font-weight: 700;
+}
+
 a,
 button {
   -webkit-tap-highlight-color: transparent;
@@ -357,6 +388,79 @@ button:focus-visible {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.language-switcher {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.language-switcher summary {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--text-soft);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  list-style: none;
+  transition: color 200ms ease, border-color 200ms ease;
+}
+
+.language-switcher summary::-webkit-details-marker {
+  display: none;
+}
+
+.language-switcher summary:hover,
+.language-switcher[open] summary {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+.language-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 80;
+  display: grid;
+  min-width: 210px;
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: 0 22px 60px rgba(var(--shadow-rgb), 0.18);
+}
+
+.language-menu a {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  padding: 10px 14px;
+  color: var(--text-soft);
+  text-decoration: none;
+}
+
+.language-menu a:hover,
+.language-menu a[aria-current="page"] {
+  background: var(--chip-on-bg);
+  color: var(--text-strong);
+}
+
+.language-menu span {
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.language-menu small {
+  font-size: 0.88rem;
+  font-weight: 600;
 }
 
 .brand-lockup {
@@ -559,6 +663,125 @@ button:focus-visible {
   letter-spacing: 0.04em;
 }
 
+.hero-waitlist {
+  width: min(100%, 540px);
+  margin-top: 28px;
+  border: 1px solid var(--card-border);
+  border-radius: 30px;
+  background:
+    radial-gradient(
+      120% 120% at 8% 0%,
+      rgba(232, 189, 115, 0.24),
+      transparent 58%
+    ),
+    var(--glass);
+  padding: clamp(26px, 3vw, 34px);
+  box-shadow:
+    0 24px 62px rgba(var(--shadow-rgb), 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.48);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.hero-waitlist-eyebrow {
+  display: inline-flex;
+  margin: 0 0 16px;
+  border: 1px solid var(--chip-on-border);
+  border-radius: 999px;
+  background: var(--chip-on-bg);
+  padding: 8px 16px;
+  color: var(--gold);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.hero-waitlist h2 {
+  margin: 0;
+  color: var(--text-strong);
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-size: clamp(1.6rem, 2.55vw, 2.12rem);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+.locale-cjk .hero-waitlist h2 {
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-weight: 700;
+  line-height: 1.16;
+}
+
+.locale-cjk .hero-waitlist-eyebrow {
+  letter-spacing: 0.06em;
+}
+
+.hero-waitlist p {
+  max-width: 34rem;
+  margin: 18px 0 0;
+  color: var(--text-soft);
+  font-size: clamp(1rem, 1.25vw, 1.1rem);
+  line-height: 1.62;
+  text-wrap: pretty;
+}
+
+.hero-waitlist-button {
+  display: inline-flex;
+  min-height: 60px;
+  margin-top: 24px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1px solid var(--cta-border);
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--cta-top), var(--cta-bottom));
+  color: var(--cta-text);
+  padding: 0 26px;
+  font-size: 0.98rem;
+  font-weight: 800;
+  line-height: 1.1;
+  box-shadow:
+    0 16px 34px rgba(var(--cta-shadow-rgb), 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.hero-waitlist-button svg {
+  flex: 0 0 auto;
+}
+
+.hero-waitlist-button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow:
+    0 20px 42px rgba(var(--cta-shadow-rgb), 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.hero-waitlist-button:active {
+  transform: translateY(0);
+}
+
+.hero-waitlist .hero-waitlist-note {
+  margin-top: 14px;
+  color: var(--text-faint);
+  font-size: 0.9rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
 .hero-stage {
   position: relative;
   display: flex;
@@ -607,7 +830,14 @@ html[data-theme="dark"] .hero-glow {
 .hero-phone {
   position: relative;
   z-index: 1;
-  width: min(330px, 78vw);
+  width: min(390px, 82vw);
+}
+
+.hero-phone-shot {
+  display: block;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 34px 72px rgba(var(--shadow-rgb), 0.32));
 }
 
 .hero-float {
@@ -1069,6 +1299,16 @@ html[data-theme="dark"] .hero-glow {
   margin-inline: auto;
 }
 
+.paint-shot-image {
+  display: block;
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+  margin-inline: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 22px 44px rgba(var(--shadow-rgb), 0.2));
+}
+
 .paint-step-num {
   position: absolute;
   top: -14px;
@@ -1273,6 +1513,13 @@ html[data-theme="dark"] .walk-glow {
   position: relative;
   z-index: 1;
   width: min(330px, 78vw);
+}
+
+.walk-shot-image {
+  display: block;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 28px 58px rgba(var(--shadow-rgb), 0.24));
 }
 
 .walk-shot-card {
@@ -1533,6 +1780,18 @@ html[data-theme="dark"] .walk-glow {
     width: 100%;
   }
 
+  .hero-waitlist {
+    margin-top: 24px;
+    border-radius: 26px;
+    padding: 24px 20px;
+  }
+
+  .hero-waitlist-button {
+    width: 100%;
+    min-height: 58px;
+    padding: 0 20px;
+  }
+
   .hero-float-rest {
     display: none;
   }
@@ -1554,6 +1813,20 @@ html[data-theme="dark"] .walk-glow {
   .cta-button-sm {
     padding: 0 14px;
     font-size: 0.85rem;
+  }
+
+  .header-actions {
+    gap: 8px;
+  }
+
+  .language-switcher summary {
+    width: 38px;
+    height: 38px;
+    font-size: 0.72rem;
+  }
+
+  .language-menu {
+    right: -58px;
   }
 
   .theme-toggle {

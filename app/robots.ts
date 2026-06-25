@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL = "https://daybreakhabits.com";
+const SITE_URL = "https://sonahabits.com";
 
 /**
  * Allow all crawlers — including AI/agent crawlers (GPTBot, ClaudeBot,

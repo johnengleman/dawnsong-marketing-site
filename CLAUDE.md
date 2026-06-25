@@ -1,6 +1,6 @@
 # Daybreak marketing site — working notes
 
-This is the marketing site for **Daybreak**, a habit app (Next.js 16, React 19, deployed on **Vercel** — not Cloudflare; the old CF config was removed). The app's source lives at `~/Desktop/Daybreak`.
+This is the marketing site for **Daybreak**, a habit app (Next.js 16, React 19, deployed on **Vercel** — not Cloudflare; the old CF config was removed). The app source lives at `../app` inside the Daybreak workspace.
 
 ## Writing & copy workflow (required)
 

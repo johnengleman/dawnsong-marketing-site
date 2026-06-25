@@ -1,14 +1,12 @@
 import { ImageResponse } from "next/og";
 
-export const alt =
-  "Daybreak — the only habit app as beautiful as your goals";
+export const alt = "Sona";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 /**
- * Branded Open Graph card (1200x630) rendered at build/edge. Uses the brand's
- * warm palette so links shared to social and agents render a rich preview.
- * Swap for a real painted-scene image when one is available.
+ * Language-neutral branded Open Graph card. The page metadata carries
+ * localized titles/descriptions; the shared image avoids English-only text.
  */
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -30,43 +28,20 @@ export default function OpengraphImage() {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "16px",
-            color: "#9a7430",
-            fontSize: "30px",
-            fontWeight: 700,
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-          }}
-        >
-          Daybreak
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            marginTop: "28px",
+            justifyContent: "center",
+            borderRadius: "48px",
+            border: "2px solid rgba(154, 116, 48, 0.25)",
+            background: "rgba(255, 250, 240, 0.65)",
             color: "#1f3a2c",
-            fontSize: "76px",
-            lineHeight: 1.05,
-            fontWeight: 500,
-            maxWidth: "900px",
+            fontSize: "104px",
+            lineHeight: 1,
+            fontWeight: 600,
+            width: "100%",
+            height: "100%",
+            boxShadow: "0 32px 80px rgba(96, 66, 28, 0.16)",
           }}
         >
-          <span>The only habit app as beautiful as&nbsp;</span>
-          <span style={{ color: "#9a7430", fontStyle: "italic" }}>
-            your goals.
-          </span>
-        </div>
-        <div
-          style={{
-            marginTop: "36px",
-            color: "#48634f",
-            fontSize: "34px",
-            lineHeight: 1.4,
-            maxWidth: "860px",
-          }}
-        >
-          No streaks to break. A missed day is a dip, not a reset to zero.
+          Sona
         </div>
       </div>
     ),

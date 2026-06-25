@@ -4,6 +4,8 @@ import { Analytics } from "@vercel/analytics/next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
+import { homeContent } from "./lib/siteContent";
+
 const inter = Inter({
   variable: "--font-body",
   subsets: ["latin"],
@@ -17,10 +19,9 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://daybreakhabits.com"),
-  title: "Daybreak: The Only Habit App as Beautiful as Your Goals",
-  description:
-    "The only habit app as beautiful as the life you're building, and the first that won't punish you for being human. Describe a goal in a few words and Daybreak's AI paints a personal world for its habits, with a calm consistency score that survives the days you miss. No streaks to break. No shame.",
+  metadataBase: new URL("https://sonahabits.com"),
+  title: homeContent["en-US"].metadata.title,
+  description: homeContent["en-US"].metadata.description,
   icons: {
     icon: [
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
@@ -47,6 +48,12 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html:
               "try{if(localStorage.getItem('ds-theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}",
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{var p=location.pathname;var l=p.startsWith('/ja')?'ja':p.startsWith('/ko')?'ko':p.startsWith('/es-MX')?'es-MX':p.startsWith('/pt-BR')?'pt-BR':'en-US';document.documentElement.lang=l;document.documentElement.dataset.locale=l}catch(e){}",
           }}
         />
         {children}

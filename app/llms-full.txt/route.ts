@@ -1,28 +1,35 @@
 import { getAllArticles } from "../lib/articles";
+import { localeConfig, localizePath, SITE_URL, siteLocales } from "../lib/locales";
+import { homeContent } from "../lib/siteContent";
 
 /**
- * /llms-full.txt — the full text of every article in clean Markdown at one
- * URL, so a retrieval bot can ingest Daybreak's actual content in a single
- * fetch (complements the short summary at /llms.txt). Generated at build time.
+ * /llms-full.txt — full localized article text in clean Markdown, grouped by
+ * locale, so retrieval bots can ingest Sona's public content in one fetch.
  */
 export const dynamic = "force-static";
 
 export function GET() {
-  const articles = getAllArticles();
+  const header = `# Sona: full localized content
 
-  const header = `# Daybreak: full content
+> Sona is a beautiful, forgiving habit and routine app for iOS (Android coming soon).
+> It replaces the punishing streak that resets to zero with a consistency score
+> that absorbs missed days, and it turns each goal into a personal AI-painted world.
 
-> Daybreak is a beautiful, forgiving habit app for iOS (Android coming soon).
-> No streaks to break: a missed day is a dip in your consistency score, not a
-> reset to zero. Each goal becomes a personal AI-painted world that holds its
-> habits. Below is the full text of every published article.
-
-Site: https://daybreakhabits.com
+Site: ${SITE_URL}
+Locales: ${siteLocales.map((locale) => localeConfig[locale].htmlLang).join(", ")}
 `;
 
-  const body = articles
-    .map((a) => {
-      return `\n\n---\n\n# ${a.title}\n\n_${a.date} · ${a.readTime}_\nURL: https://daybreakhabits.com/articles/${a.slug}\n\n${a.content.trim()}`;
+  const body = siteLocales
+    .map((locale) => {
+      const articles = getAllArticles(locale);
+      const home = homeContent[locale];
+      const articleText = articles
+        .map((a) => {
+          return `\n\n---\n\n# ${a.title}\n\nLocale: ${localeConfig[locale].htmlLang}\n_${a.date} · ${a.readTime}_\nURL: ${SITE_URL}${localizePath(locale, `/articles/${a.slug}`)}\n\n${a.content.trim()}`;
+        })
+        .join("");
+
+      return `\n\n## ${localeConfig[locale].label}\n\nHome: ${SITE_URL}${localizePath(locale, "/")}\nTitle: ${home.metadata.title}\nDescription: ${home.metadata.description}${articleText}`;
     })
     .join("");
 

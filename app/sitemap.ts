@@ -1,25 +1,28 @@
 import type { MetadataRoute } from "next";
 
-import { getAllArticleMeta } from "./lib/articles";
+import { getArticleSlugs } from "./lib/articles";
+import { localizePath, SITE_URL, siteLocales } from "./lib/locales";
 
-const SITE_URL = "https://daybreakhabits.com";
+const staticPaths = ["/", "/articles", "/privacy", "/terms", "/support"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = ["", "/articles", "/privacy", "/terms", "/support"].map(
-    (route) => ({
-      url: `${SITE_URL}${route}`,
+  const staticRoutes = siteLocales.flatMap((locale) =>
+    staticPaths.map((path) => ({
+      url: `${SITE_URL}${localizePath(locale, path)}`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
-      priority: route === "" ? 1 : 0.7,
-    }),
+      priority: path === "/" ? 1 : 0.7,
+    })),
   );
 
-  const articleRoutes = getAllArticleMeta().map((a) => ({
-    url: `${SITE_URL}/articles/${a.slug}`,
-    lastModified: a.date ? new Date(a.date) : new Date(),
-    changeFrequency: "yearly" as const,
-    priority: 0.6,
-  }));
+  const articleRoutes = siteLocales.flatMap((locale) =>
+    getArticleSlugs(locale).map((slug) => ({
+      url: `${SITE_URL}${localizePath(locale, `/articles/${slug}`)}`,
+      lastModified: new Date(),
+      changeFrequency: "yearly" as const,
+      priority: 0.6,
+    })),
+  );
 
   return [...staticRoutes, ...articleRoutes];
 }

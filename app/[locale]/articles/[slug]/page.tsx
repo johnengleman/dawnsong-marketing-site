@@ -3,55 +3,65 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 
-import { Icon } from "../../components/Icon";
-import NoiseOverlay from "../../components/NoiseOverlay";
-import { RichText } from "../../components/RichText";
-import { SiteFooter } from "../../components/SiteFooter";
-import { SubHeader } from "../../components/SubHeader";
+import { Icon } from "../../../components/Icon";
+import NoiseOverlay from "../../../components/NoiseOverlay";
+import { RichText } from "../../../components/RichText";
+import { SiteFooter } from "../../../components/SiteFooter";
+import { SubHeader } from "../../../components/SubHeader";
 import {
   formatDate,
   getArticle,
   getArticleSlugs,
-} from "../../lib/articles";
+} from "../../../lib/articles";
 import {
-  defaultLocale,
+  isRoutedLocale,
   localeConfig,
   localePageClass,
   localizePath,
   metadataAlternates,
+  routedLocales,
   SITE_URL,
-} from "../../lib/locales";
+  type SiteLocale,
+} from "../../../lib/locales";
 import {
   appStoreUrl,
   articleUiContent,
   commonContent,
-} from "../../lib/siteContent";
+} from "../../../lib/siteContent";
 
 export function generateStaticParams() {
-  return getArticleSlugs(defaultLocale).map((slug) => ({ slug }));
+  return routedLocales.flatMap((locale) =>
+    getArticleSlugs(locale).map((slug) => ({ locale, slug })),
+  );
+}
+
+function getLocale(value: string): SiteLocale {
+  if (!isRoutedLocale(value)) notFound();
+  return value;
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
-  const article = getArticle(defaultLocale, slug);
-  if (!article) return { title: articleUiContent[defaultLocale].notFoundTitle };
+  const { locale: rawLocale, slug } = await params;
+  const locale = getLocale(rawLocale);
+  const article = getArticle(locale, slug);
+  if (!article) return { title: articleUiContent[locale].notFoundTitle };
 
   const path = `/articles/${article.slug}`;
   return {
     title: `${article.title} — Sona`,
     description: article.description,
-    alternates: metadataAlternates(defaultLocale, path),
+    alternates: metadataAlternates(locale, path),
     openGraph: {
       title: article.title,
       description: article.description,
-      url: path,
+      url: localizePath(locale, path),
       type: "article",
       publishedTime: article.date,
-      locale: localeConfig[defaultLocale].htmlLang,
+      locale: localeConfig[locale].htmlLang,
     },
     twitter: {
       card: "summary_large_image",
@@ -61,13 +71,13 @@ export async function generateMetadata({
   };
 }
 
-export default async function ArticlePage({
+export default async function LocalizedArticlePage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { slug } = await params;
-  const locale = defaultLocale;
+  const { locale: rawLocale, slug } = await params;
+  const locale = getLocale(rawLocale);
   const article = getArticle(locale, slug);
   if (!article) notFound();
 

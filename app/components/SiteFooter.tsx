@@ -2,14 +2,27 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Icon } from "./Icon";
-
-const feedbackUrl = "https://sonahabitsapp.userjot.com/";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { localizePath, type SiteLocale } from "../lib/locales";
+import { commonContent, feedbackUrl } from "../lib/siteContent";
 
 /** Shared footer used across the homepage and sub-pages (articles, legal). */
-export function SiteFooter() {
+export function SiteFooter({
+  locale,
+  currentPath,
+}: {
+  locale: SiteLocale;
+  currentPath: string;
+}) {
+  const copy = commonContent[locale];
+
   return (
     <footer className="footer">
-      <Link href="/" className="brand-lockup" aria-label="Daybreak home">
+      <Link
+        href={localizePath(locale, "/")}
+        className="brand-lockup"
+        aria-label={copy.homeAria}
+      >
         <Image
           src="/brand-icon.png"
           alt=""
@@ -17,19 +30,25 @@ export function SiteFooter() {
           height={28}
           className="brand-icon"
         />
-        <span>Daybreak</span>
+        <span>Sona</span>
       </Link>
       <div className="footer-links">
-        <Link href="/articles">Articles</Link>
-        <Link href="/privacy">Privacy</Link>
-        <Link href="/terms">Terms</Link>
-        <Link href="/support">Support</Link>
-        <a href={feedbackUrl}>Feedback</a>
+        <Link href={localizePath(locale, "/articles")}>
+          {copy.footer.articles}
+        </Link>
+        <Link href={localizePath(locale, "/privacy")}>
+          {copy.footer.privacy}
+        </Link>
+        <Link href={localizePath(locale, "/terms")}>{copy.footer.terms}</Link>
+        <Link href={localizePath(locale, "/support")}>
+          {copy.footer.support}
+        </Link>
+        <a href={feedbackUrl}>{copy.footer.feedback}</a>
         <a
           href="https://www.reddit.com/r/SonaHabits/"
           target="_blank"
           rel="noreferrer"
-          aria-label="Daybreak on Reddit"
+          aria-label={copy.footer.redditAria}
         >
           <Icon icon="simple-icons:reddit" className="h-4 w-4" />
         </a>
@@ -37,12 +56,17 @@ export function SiteFooter() {
           href="https://x.com/sonahabits"
           target="_blank"
           rel="noreferrer"
-          aria-label="Daybreak on X"
+          aria-label={copy.footer.xAria}
         >
           <Icon icon="simple-icons:x" className="h-4 w-4" />
         </a>
+        <LanguageSwitcher
+          locale={locale}
+          currentPath={currentPath}
+          ariaLabel={copy.languageAria}
+        />
       </div>
-      <p>© 2026 Daybreak.</p>
+      <p>{copy.footer.copyright}</p>
     </footer>
   );
 }

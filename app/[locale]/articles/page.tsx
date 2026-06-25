@@ -1,36 +1,63 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
-import NoiseOverlay from "../components/NoiseOverlay";
-import { RichText } from "../components/RichText";
-import { SiteFooter } from "../components/SiteFooter";
-import { SubHeader } from "../components/SubHeader";
-import { formatDate, getAllArticleMeta } from "../lib/articles";
+import NoiseOverlay from "../../components/NoiseOverlay";
+import { RichText } from "../../components/RichText";
+import { SiteFooter } from "../../components/SiteFooter";
+import { SubHeader } from "../../components/SubHeader";
+import { formatDate, getAllArticleMeta } from "../../lib/articles";
 import {
-  defaultLocale,
+  isRoutedLocale,
   localeConfig,
   localePageClass,
   localizePath,
   metadataAlternates,
-} from "../lib/locales";
-import { articleUiContent } from "../lib/siteContent";
+  routedLocales,
+  type SiteLocale,
+} from "../../lib/locales";
+import { articleUiContent } from "../../lib/siteContent";
 
-export const metadata: Metadata = {
-  ...articleUiContent[defaultLocale].indexMetadata,
-  alternates: metadataAlternates(defaultLocale, "/articles"),
-  openGraph: {
-    ...articleUiContent[defaultLocale].indexMetadata,
-    url: "/articles",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    ...articleUiContent[defaultLocale].indexMetadata,
-  },
-};
+export function generateStaticParams() {
+  return routedLocales.map((locale) => ({ locale }));
+}
 
-export default function ArticlesIndex() {
-  const locale = defaultLocale;
+function getLocale(value: string): SiteLocale {
+  if (!isRoutedLocale(value)) notFound();
+  return value;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale: rawLocale } = await params;
+  const locale = getLocale(rawLocale);
+  const copy = articleUiContent[locale];
+
+  return {
+    ...copy.indexMetadata,
+    alternates: metadataAlternates(locale, "/articles"),
+    openGraph: {
+      ...copy.indexMetadata,
+      url: localizePath(locale, "/articles"),
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      ...copy.indexMetadata,
+    },
+  };
+}
+
+export default async function LocalizedArticlesIndex({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale: rawLocale } = await params;
+  const locale = getLocale(rawLocale);
   const copy = articleUiContent[locale];
   const articles = getAllArticleMeta(locale);
 

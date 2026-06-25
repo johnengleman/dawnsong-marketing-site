@@ -2,19 +2,31 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Icon } from "./Icon";
-
-const appStoreUrl =
-  "https://apps.apple.com/us/app/habit-tracker-sona/id6758967586";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { localizePath, type SiteLocale } from "../lib/locales";
+import { appStoreUrl, commonContent } from "../lib/siteContent";
 
 /**
  * Lightweight static header for sub-pages (articles, legal). No theme toggle
  * or scroll wiring — those live only on the interactive homepage. Theme still
  * applies via the persisted-theme script in layout.tsx.
  */
-export function SubHeader() {
+export function SubHeader({
+  locale,
+  currentPath,
+}: {
+  locale: SiteLocale;
+  currentPath: string;
+}) {
+  const copy = commonContent[locale];
+
   return (
     <header className="site-header">
-      <Link href="/" className="brand-lockup" aria-label="Daybreak home">
+      <Link
+        href={localizePath(locale, "/")}
+        className="brand-lockup"
+        aria-label={copy.homeAria}
+      >
         <Image
           src="/brand-icon.png"
           alt=""
@@ -22,23 +34,34 @@ export function SubHeader() {
           height={34}
           className="brand-icon"
         />
-        <span>Daybreak</span>
+        <span>Sona</span>
       </Link>
-      <nav className="site-nav" aria-label="Sections">
-        <Link href="/articles">Articles</Link>
-        <Link href="/#spaces">Your worlds</Link>
-        <Link href="/#features">How it works</Link>
+      <nav className="site-nav" aria-label={copy.sectionsAria}>
+        <Link href={localizePath(locale, "/articles")}>
+          {copy.nav.articles}
+        </Link>
+        <Link href={`${localizePath(locale, "/")}#spaces`}>
+          {copy.nav.worlds}
+        </Link>
+        <Link href={`${localizePath(locale, "/")}#features`}>
+          {copy.nav.features}
+        </Link>
       </nav>
       <div className="header-actions">
+        <LanguageSwitcher
+          locale={locale}
+          currentPath={currentPath}
+          ariaLabel={copy.languageAria}
+        />
         <a
           href={appStoreUrl}
           target="_blank"
           rel="noreferrer"
           className="cta-button cta-button-sm"
-          aria-label="Download Daybreak on the App Store"
+          aria-label={copy.downloadAria}
         >
           <Icon icon="simple-icons:apple" className="h-[18px] w-[18px]" />
-          <span>Download</span>
+          <span>{copy.downloadShort}</span>
         </a>
       </div>
     </header>

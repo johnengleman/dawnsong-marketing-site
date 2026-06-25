@@ -3,14 +3,19 @@ import path from "node:path";
 
 import matter from "gray-matter";
 
+import {
+  defaultLocale,
+  localeConfig,
+  siteLocales,
+  type SiteLocale,
+} from "./locales";
+
 /**
- * Filesystem-backed article store. Articles are MDX files in /content/articles
- * with frontmatter. Everything here runs at build time (Vercel, full Node), so
- * the site stays fully static — no runtime file access. To publish a new
- * article, drop a .mdx file in /content/articles and push.
+ * Filesystem-backed localized article store. Articles live in
+ * /content/articles/<locale>/<slug>.mdx and are read at build time.
  */
 
-const ARTICLES_DIR = path.join(process.cwd(), "content", "articles");
+const ARTICLES_ROOT = path.join(process.cwd(), "content", "articles");
 
 export type ArticleMeta = {
   slug: string;
@@ -25,16 +30,42 @@ export type Article = ArticleMeta & {
   content: string;
 };
 
-function readSlugs(): string[] {
-  if (!fs.existsSync(ARTICLES_DIR)) return [];
+function articlesDir(locale: SiteLocale): string {
+  return path.join(ARTICLES_ROOT, locale);
+}
+
+function readSlugs(locale: SiteLocale): string[] {
+  const dir = articlesDir(locale);
+  if (!fs.existsSync(dir)) return [];
   return fs
-    .readdirSync(ARTICLES_DIR)
+    .readdirSync(dir)
     .filter((f) => f.endsWith(".mdx"))
     .map((f) => f.replace(/\.mdx$/, ""));
 }
 
-function parse(slug: string): Article {
-  const raw = fs.readFileSync(path.join(ARTICLES_DIR, `${slug}.mdx`), "utf8");
+function assertLocaleCoverage(locale: SiteLocale) {
+  if (locale === defaultLocale) return;
+
+  const defaultSlugs = readSlugs(defaultLocale).sort();
+  const localeSlugs = readSlugs(locale).sort();
+  const missing = defaultSlugs.filter((slug) => !localeSlugs.includes(slug));
+
+  if (missing.length > 0) {
+    throw new Error(
+      `Missing localized articles for ${locale}: ${missing.join(", ")}`,
+    );
+  }
+}
+
+function parse(locale: SiteLocale, slug: string): Article {
+  assertLocaleCoverage(locale);
+
+  const filePath = path.join(articlesDir(locale), `${slug}.mdx`);
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`Article not found for ${locale}: ${slug}`);
+  }
+
+  const raw = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(raw);
   return {
     slug,
@@ -48,33 +79,49 @@ function parse(slug: string): Article {
 }
 
 /** All articles, newest first. */
-export function getAllArticles(): Article[] {
-  return readSlugs()
-    .map(parse)
+export function getAllArticles(locale: SiteLocale = defaultLocale): Article[] {
+  assertLocaleCoverage(locale);
+  return readSlugs(locale)
+    .map((slug) => parse(locale, slug))
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
 /** Lightweight metadata for the index, newest first. */
-export function getAllArticleMeta(): ArticleMeta[] {
+export function getAllArticleMeta(
+  locale: SiteLocale = defaultLocale,
+): ArticleMeta[] {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  return getAllArticles().map(({ content, ...meta }) => meta);
+  return getAllArticles(locale).map(({ content, ...meta }) => meta);
 }
 
-export function getArticle(slug: string): Article | null {
-  if (!readSlugs().includes(slug)) return null;
-  return parse(slug);
+export function getArticle(
+  locale: SiteLocale,
+  slug: string,
+): Article | null {
+  if (!readSlugs(locale).includes(slug)) return null;
+  return parse(locale, slug);
 }
 
-export function getArticleSlugs(): string[] {
-  return readSlugs();
+export function getArticleSlugs(locale: SiteLocale = defaultLocale): string[] {
+  assertLocaleCoverage(locale);
+  return readSlugs(locale);
 }
 
-/** Human-friendly date, e.g. "June 17, 2026". */
-export function formatDate(iso: string): string {
+export function getAllLocalizedArticleParams() {
+  return siteLocales.flatMap((locale) =>
+    getArticleSlugs(locale).map((slug) => ({ locale, slug })),
+  );
+}
+
+/** Human-friendly localized date. */
+export function formatDate(
+  iso: string,
+  locale: SiteLocale = defaultLocale,
+): string {
   if (!iso) return "";
-  const d = new Date(iso + "T00:00:00");
+  const d = new Date(`${iso}T00:00:00`);
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString("en-US", {
+  return d.toLocaleDateString(localeConfig[locale].htmlLang, {
     year: "numeric",
     month: "long",
     day: "numeric",
