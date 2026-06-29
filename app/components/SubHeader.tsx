@@ -1,10 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { Icon } from "./Icon";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { localizePath, type SiteLocale } from "../lib/locales";
-import { appStoreUrl, commonContent } from "../lib/siteContent";
+import { commonContent } from "../lib/siteContent";
 
 /**
  * Lightweight static header for sub-pages (articles, legal). No theme toggle
@@ -53,16 +52,6 @@ export function SubHeader({
           currentPath={currentPath}
           ariaLabel={copy.languageAria}
         />
-        <a
-          href={appStoreUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="cta-button cta-button-sm"
-          aria-label={copy.downloadAria}
-        >
-          <Icon icon="simple-icons:apple" className="h-[18px] w-[18px]" />
-          <span>{copy.downloadShort}</span>
-        </a>
       </div>
     </header>
   );

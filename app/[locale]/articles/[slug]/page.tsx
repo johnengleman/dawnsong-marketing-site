@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 
-import { Icon } from "../../../components/Icon";
 import NoiseOverlay from "../../../components/NoiseOverlay";
 import { RichText } from "../../../components/RichText";
 import { SiteFooter } from "../../../components/SiteFooter";
@@ -23,11 +22,7 @@ import {
   SITE_URL,
   type SiteLocale,
 } from "../../../lib/locales";
-import {
-  appStoreUrl,
-  articleUiContent,
-  commonContent,
-} from "../../../lib/siteContent";
+import { articleUiContent, commonContent } from "../../../lib/siteContent";
 
 export function generateStaticParams() {
   return routedLocales.flatMap((locale) =>
@@ -129,16 +124,6 @@ export default async function LocalizedArticlePage({
               <RichText parts={ui.ctaTitle} />
             </h2>
             <p>{ui.ctaCopy}</p>
-            <a
-              href={appStoreUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="cta-button"
-              aria-label={common.downloadAria}
-            >
-              <Icon icon="simple-icons:apple" className="h-[18px] w-[18px]" />
-              <span>{common.download}</span>
-            </a>
             <p className="article-cta-note">{common.note}</p>
           </aside>
         </article>

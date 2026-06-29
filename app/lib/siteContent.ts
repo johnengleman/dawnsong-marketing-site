@@ -61,10 +61,7 @@ export type HomeContent = {
     lede: string;
     seeHow: string;
     imageAlt: string;
-    floatScore: string;
-    floatPainted: string;
     waitlist: {
-      eyebrow: string;
       title: string;
       copy: string;
       button: string;
@@ -352,15 +349,12 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
       seeHow: "See how it works",
       imageAlt:
         "Sona Better Sleep space showing habit cards on an iPhone.",
-      floatScore: "consistency that survives missed days",
-      floatPainted: "painted from a few words",
       waitlist: {
-        eyebrow: "Launching June 2026",
         title: "Join the waiting list",
         copy:
           "Get the launch note when Sona opens. One email, then you can try it when it is ready.",
         button: "Join the waiting list",
-        note: "Opens a short Tally form in a new tab.",
+        note: "",
       },
     },
     trust: {
@@ -450,6 +444,12 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
           shot: "Painting review · Tweak / New scene / Describe controls",
           ratio: "1170 / 2532",
           shape: "phone",
+          image: {
+            light: "/walk-describe-world-152-light.png",
+            dark: "/walk-describe-world-18-dark.png",
+            width: 1080,
+            height: 1920,
+          },
           chip: "painted by Sona",
         },
         {
@@ -460,27 +460,13 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
           shot: "Space painted header + habit list (Morning Routine)",
           ratio: "1170 / 2532",
           shape: "phone",
+          image: {
+            light: "/walk-step-into-space-767-light.png",
+            dark: "/walk-step-into-space-847-dark.png",
+            width: 1080,
+            height: 1920,
+          },
           chip: "a world per goal",
-        },
-        {
-          eyebrow: "One day, many times",
-          title: ["Some habits aren’t ", { em: "once" }, " a day."],
-          copy:
-            "Drink water eight times. Stretch twice. Set how many completions a day needs, and tap them off one by one as the ring quietly fills.",
-          shot: "Habit card · multi-completion in progress",
-          ratio: "734 / 520",
-          shape: "card",
-          chip: "0 / 3 → done",
-        },
-        {
-          eyebrow: "Daily · weekly · monthly",
-          title: ["Every habit at its ", { em: "own" }, " rhythm."],
-          copy:
-            "A morning stretch is daily. A long run lives in your week. A budget review lives in your month. Sona respects each one’s natural cadence instead of forcing it into a daily checkbox, and every one strengthens the space it belongs to.",
-          shot: "Space with Today / Week / Month cadence tabs",
-          ratio: "1170 / 2532",
-          shape: "phone",
-          chip: "Today · Week · Month",
         },
         {
           eyebrow: "Rest is part of the practice",
@@ -489,7 +475,13 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
             "Sick, traveling, or just spent? Rest a habit and nothing breaks. Its score holds, and Sona resumes with you when you’re ready. Rest isn’t a loophole here. It’s the system working as designed.",
           shot: "Habit resting state + rest sheet",
           ratio: "734 / 560",
-          shape: "card",
+          shape: "phone",
+          image: {
+            light: "/walk-hard-week-rest-320-light.png",
+            dark: "/walk-hard-week-rest-504-dark.png",
+            width: 1080,
+            height: 1920,
+          },
           chip: "your score stays steady",
         },
         {
@@ -501,6 +493,12 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
           shot: "Per-space Progress reveal",
           ratio: "1170 / 2532",
           shape: "phone",
+          image: {
+            light: "/walk-missed-day-dip-531-light.png",
+            dark: "/walk-missed-day-dip-89-dark.png",
+            width: 1080,
+            height: 1920,
+          },
           chip: "no resets, ever",
         },
         {
@@ -511,6 +509,12 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
           shot: "Settings · local backup",
           ratio: "1170 / 2532",
           shape: "phone",
+          image: {
+            light: "/walk-yours-alone-device-787-light.png",
+            dark: "/walk-yours-alone-device-754-dark.png",
+            width: 1080,
+            height: 1920,
+          },
           chip: "no account · no cloud",
         },
       ],
@@ -586,10 +590,7 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
       seeHow: "仕組みを見る",
       imageAlt:
         "iPhoneに表示されたSonaのBetter Sleepスペースと習慣カード。",
-      floatScore: "休んだ日があっても続く一貫性",
-      floatPainted: "数語から描かれる世界",
       waitlist: {
-        eyebrow: "2026年6月リリース予定",
         title: "ウェイトリストに参加",
         copy:
           "Sonaのリリース時にお知らせします。メールは1通だけ。そのあと、準備ができたら試せます。",
@@ -716,10 +717,7 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
       seeHow: "어떻게 작동하는지 보기",
       imageAlt:
         "iPhone에 표시된 Sona Better Sleep 스페이스와 습관 카드.",
-      floatScore: "놓친 날에도 이어지는 일관성",
-      floatPainted: "몇 마디에서 그려지는 세계",
       waitlist: {
-        eyebrow: "2026년 6월 출시 예정",
         title: "대기자 명단에 등록",
         copy:
           "Sona가 열리면 출시 안내를 보내드릴게요. 메일은 한 번만 보내고, 준비되면 바로 써볼 수 있습니다.",
@@ -846,10 +844,7 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
       seeHow: "Ver cómo funciona",
       imageAlt:
         "Espacio Better Sleep de Sona con tarjetas de hábitos en un iPhone.",
-      floatScore: "consistencia que sobrevive días perdidos",
-      floatPainted: "pintado a partir de unas palabras",
       waitlist: {
-        eyebrow: "Lanzamiento en junio de 2026",
         title: "Únete a la lista de espera",
         copy:
           "Recibe el aviso cuando Sona abra. Un solo correo, y luego podrás probarlo cuando esté listo.",
@@ -978,10 +973,7 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
       seeHow: "Ver como funciona",
       imageAlt:
         "Espaço Better Sleep do Sona com cartões de hábitos em um iPhone.",
-      floatScore: "consistência que sobrevive aos dias perdidos",
-      floatPainted: "pintado a partir de algumas palavras",
       waitlist: {
-        eyebrow: "Lançamento em junho de 2026",
         title: "Entre na lista de espera",
         copy:
           "Receba o aviso quando o Sona abrir. Um único e-mail, e então você poderá testar quando estiver pronto.",

@@ -23,7 +23,6 @@ import {
 import {
   appStoreUrl,
   commonContent,
-  type CommonContent,
   type HomeContent,
   waitlistUrl,
 } from "../lib/siteContent";
@@ -107,66 +106,22 @@ const themeCopy: Record<
 
 const paintStepShots: Record<string, { light: string; dark: string }> = {
   "01": {
-    light: "/paint-describe-light.png",
-    dark: "/paint-describe-dark.png",
+    light: "/paint-describe-start-light.png",
+    dark: "/paint-describe-start-dark.png",
   },
   "02": {
-    light: "/paint-watch-light.png",
-    dark: "/paint-watch-dark.png",
+    light: "/paint-watch-generating-502-light.png",
+    dark: "/paint-watch-generating-431-dark.png",
   },
   "03": {
-    light: "/paint-direction-light.png",
-    dark: "/paint-direction-dark.png",
+    light: "/paint-direction-review-927-light.png",
+    dark: "/paint-direction-review-324-dark.png",
   },
   "04": {
-    light: "/paint-tweak-light.png",
-    dark: "/paint-tweak-dark.png",
+    light: "/paint-tweak-scene-537-light.png",
+    dark: "/paint-tweak-scene-201-dark.png",
   },
 };
-
-function DownloadButton({
-  common,
-  className = "",
-  label = common.download,
-}: {
-  common: CommonContent;
-  className?: string;
-  label?: string;
-}) {
-  return (
-    <a
-      href={appStoreUrl}
-      target="_blank"
-      rel="noreferrer"
-      className={`cta-button ${className}`}
-      aria-label={common.downloadAria}
-    >
-      <Icon icon="simple-icons:apple" className="h-[18px] w-[18px]" />
-      <span>{label}</span>
-    </a>
-  );
-}
-
-function AndroidSoon({
-  common,
-  className = "",
-}: {
-  common: CommonContent;
-  className?: string;
-}) {
-  return (
-    <span
-      className={`android-soon ${className}`}
-      role="note"
-      aria-label={common.androidAria}
-    >
-      <Icon icon="simple-icons:android" className="h-[18px] w-[18px]" />
-      <span>
-        {common.androidPrefix} <em>{common.androidEmphasis}</em>
-      </span>
-    </span>
-  );
-}
 
 export function HomePageClient({
   locale,
@@ -263,14 +218,6 @@ export function HomePageClient({
         duration: 1.3,
         ease: "power3.out",
         delay: 0.25,
-      });
-      gsap.from($(".hero-float"), {
-        opacity: 0,
-        y: 26,
-        duration: 0.9,
-        ease: "power3.out",
-        stagger: 0.16,
-        delay: 1.05,
       });
       gsap.to($(".hero-stage"), {
         y: -60,
@@ -386,11 +333,6 @@ export function HomePageClient({
               className="h-5 w-5"
             />
           </button>
-          <DownloadButton
-            common={common}
-            className="cta-button-sm"
-            label={common.downloadShort}
-          />
         </div>
       </header>
 
@@ -411,22 +353,10 @@ export function HomePageClient({
                 ))}
               </h1>
               <p className="lede">{content.hero.lede}</p>
-              <div className="hero-actions">
-                <DownloadButton common={common} />
-                <AndroidSoon common={common} />
-                <a href="#spaces" className="ghost-link">
-                  {content.hero.seeHow}
-                  <Icon icon="solar:arrow-down-linear" className="h-4 w-4" />
-                </a>
-              </div>
-              <p className="hero-note">{common.note}</p>
               <section
                 className="hero-waitlist"
                 aria-labelledby="hero-waitlist-title"
               >
-                <p className="hero-waitlist-eyebrow">
-                  {content.hero.waitlist.eyebrow}
-                </p>
                 <h2 id="hero-waitlist-title">
                   {content.hero.waitlist.title}
                 </h2>
@@ -436,7 +366,6 @@ export function HomePageClient({
                   target="_blank"
                   rel="noreferrer"
                   className="hero-waitlist-button"
-                  aria-describedby="hero-waitlist-note"
                 >
                   <Icon
                     icon="solar:letter-unread-bold"
@@ -448,10 +377,19 @@ export function HomePageClient({
                     className="h-4 w-4"
                   />
                 </a>
-                <p className="hero-waitlist-note">
-                  {content.hero.waitlist.note}
-                </p>
+                {content.hero.waitlist.note ? (
+                  <p className="hero-waitlist-note">
+                    {content.hero.waitlist.note}
+                  </p>
+                ) : null}
               </section>
+              <div className="hero-actions">
+                <a href="#spaces" className="ghost-link">
+                  {content.hero.seeHow}
+                  <Icon icon="solar:arrow-down-linear" className="h-4 w-4" />
+                </a>
+              </div>
+              <p className="hero-note">{common.note}</p>
             </div>
 
             <div className="hero-stage">
@@ -459,29 +397,16 @@ export function HomePageClient({
               <Image
                 src={
                   dark
-                    ? "/hero-better-sleep-dark.png"
-                    : "/hero-better-sleep-light.png"
+                    ? "/hero-morning-routine-467-dark.png"
+                    : "/hero-morning-routine-47-light.png"
                 }
                 alt={content.hero.imageAlt}
-                width={787}
-                height={1400}
+                width={1080}
+                height={1920}
                 priority
                 sizes="(max-width: 900px) 82vw, 390px"
                 className="hero-phone hero-phone-shot"
               />
-              <div className="hero-float hero-float-score">
-                <strong>93%</strong>
-                <span>{content.hero.floatScore}</span>
-              </div>
-              <div className="hero-float hero-float-rest">
-                <strong>
-                  <Icon
-                    icon="solar:magic-stick-3-bold"
-                    className="inline h-6 w-6 text-[var(--gold)]"
-                  />
-                </strong>
-                <span>{content.hero.floatPainted}</span>
-              </div>
             </div>
           </div>
           <div className="hero-fade" aria-hidden="true" />
@@ -719,10 +644,6 @@ export function HomePageClient({
               <RichText parts={content.midCta.title} />
             </h2>
             <p className="lede">{content.midCta.lede}</p>
-            <div className="mid-cta-actions">
-              <DownloadButton common={common} />
-              <span className="mid-cta-note">{common.note}</span>
-            </div>
           </div>
         </section>
 
@@ -775,10 +696,6 @@ export function HomePageClient({
               <RichText parts={content.final.title} />
             </h2>
             <p className="lede">{content.final.lede}</p>
-            <div className="final-actions">
-              <DownloadButton common={common} />
-              <AndroidSoon common={common} />
-            </div>
             <div className="final-secondary">
               <Link href={localizePath(locale, "/support")} className="ghost-link">
                 {content.final.support}
