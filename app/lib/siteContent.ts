@@ -329,6 +329,41 @@ const englishSpaces = [
   { name: "Time Outside", slug: "time-outside" },
 ];
 
+type WalkStepImage = NonNullable<HomeContent["walk"]["steps"][number]["image"]>;
+
+const walkImages = {
+  describeWorld: {
+    light: "/walk-describe-world-152-light.png",
+    dark: "/walk-describe-world-18-dark.png",
+    width: 1080,
+    height: 1920,
+  },
+  stepIntoSpace: {
+    light: "/walk-step-into-space-767-light.png",
+    dark: "/walk-step-into-space-847-dark.png",
+    width: 1080,
+    height: 1920,
+  },
+  restWeek: {
+    light: "/walk-hard-week-rest-320-light.png",
+    dark: "/walk-hard-week-rest-504-dark.png",
+    width: 1080,
+    height: 1920,
+  },
+  missedDayDip: {
+    light: "/walk-missed-day-dip-531-light.png",
+    dark: "/walk-missed-day-dip-89-dark.png",
+    width: 1080,
+    height: 1920,
+  },
+  privateDevice: {
+    light: "/walk-yours-alone-device-787-light.png",
+    dark: "/walk-yours-alone-device-754-dark.png",
+    width: 1080,
+    height: 1920,
+  },
+} satisfies Record<string, WalkStepImage>;
+
 export const homeContent: Record<SiteLocale, HomeContent> = {
   "en-US": {
     metadata: {
@@ -444,12 +479,7 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
           shot: "Painting review · Tweak / New scene / Describe controls",
           ratio: "1170 / 2532",
           shape: "phone",
-          image: {
-            light: "/walk-describe-world-152-light.png",
-            dark: "/walk-describe-world-18-dark.png",
-            width: 1080,
-            height: 1920,
-          },
+          image: walkImages.describeWorld,
           chip: "painted by Sona",
         },
         {
@@ -460,12 +490,7 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
           shot: "Space painted header + habit list (Morning Routine)",
           ratio: "1170 / 2532",
           shape: "phone",
-          image: {
-            light: "/walk-step-into-space-767-light.png",
-            dark: "/walk-step-into-space-847-dark.png",
-            width: 1080,
-            height: 1920,
-          },
+          image: walkImages.stepIntoSpace,
           chip: "a world per goal",
         },
         {
@@ -476,12 +501,7 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
           shot: "Habit resting state + rest sheet",
           ratio: "734 / 560",
           shape: "phone",
-          image: {
-            light: "/walk-hard-week-rest-320-light.png",
-            dark: "/walk-hard-week-rest-504-dark.png",
-            width: 1080,
-            height: 1920,
-          },
+          image: walkImages.restWeek,
           chip: "your score stays steady",
         },
         {
@@ -493,12 +513,7 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
           shot: "Per-space Progress reveal",
           ratio: "1170 / 2532",
           shape: "phone",
-          image: {
-            light: "/walk-missed-day-dip-531-light.png",
-            dark: "/walk-missed-day-dip-89-dark.png",
-            width: 1080,
-            height: 1920,
-          },
+          image: walkImages.missedDayDip,
           chip: "no resets, ever",
         },
         {
@@ -509,12 +524,7 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
           shot: "Settings · local backup",
           ratio: "1170 / 2532",
           shape: "phone",
-          image: {
-            light: "/walk-yours-alone-device-787-light.png",
-            dark: "/walk-yours-alone-device-754-dark.png",
-            width: 1080,
-            height: 1920,
-          },
+          image: walkImages.privateDevice,
           chip: "no account · no cloud",
         },
       ],
@@ -659,13 +669,11 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
       eyebrow: "続かなかったアプリと違う理由",
       title: ["すべてが、もう一度", { em: "戻る" }, "ために作られています。"],
       steps: [
-        { id: "spaces", eyebrow: "ルーティンとアート", title: ["数語で伝える。", { em: "世界が現れる。" }], copy: "「柔らかな光の朝」や「春までに強い体へ」のように、つくりたいものを伝えるだけ。最初の絵が違うと感じたら、再生成、スタイル変更、詳しい説明で調整できます。", shot: "絵の確認 · 調整 / 新しい場面 / 説明", ratio: "1170 / 2532", shape: "phone", chip: "Sonaが描く" },
-        { eyebrow: "チェックリストではなく場所", title: ["自分でつくった場所へ", { em: "戻る" }, "。"], copy: "各スペースには、そのための絵と習慣があります。無機質なリストではなく、入りたくなる世界に戻ります。", shot: "描かれたヘッダー + 習慣リスト", ratio: "1170 / 2532", shape: "phone", chip: "目標ごとの世界" },
-        { eyebrow: "一日に何度でも", title: ["一日一回ではない習慣も", { em: "自然に" }, "。"], copy: "水を八回飲む、ストレッチを二回する。必要な回数を決めて、リングが静かに満ちていくのを見られます。", shot: "習慣カード · 複数回の進捗", ratio: "734 / 520", shape: "card", chip: "0 / 3 → 完了" },
-        { eyebrow: "毎日 · 毎週 · 毎月", title: ["習慣ごとの", { em: "自然なリズム" }, "で。"], copy: "朝のストレッチは毎日、長いランニングは毎週、予算の見直しは毎月。Sonaはすべてを毎日に押し込めません。", shot: "今日 / 週 / 月の切り替え", ratio: "1170 / 2532", shape: "phone", chip: "今日 · 週 · 月" },
-        { eyebrow: "休みも練習の一部", title: ["大変な週で全部を", { em: "失わない" }, "。"], copy: "体調不良、旅行、しんどい週。習慣を休ませてもスコアは守られ、準備ができたら再開できます。", shot: "休止中の習慣 + 休み設定", ratio: "734 / 560", shape: "card", chip: "スコアは保たれる" },
-        { id: "progress", eyebrow: "ストリークではなくスコア", title: ["休んだ日は", { em: "少し下がる" }, "だけ。"], copy: "ゼロに落ちるカウンターはありません。一貫性スコアが休んだ日を吸収し、あなたと一緒に数え続けます。", shot: "スペースごとの進捗表示", ratio: "1170 / 2532", shape: "phone", chip: "ゼロ戻りなし" },
-        { eyebrow: "プライバシー重視", title: ["あなただけのもの。", { em: "あなたの端末に。" }], copy: "データは端末にあります。アカウントなし、クラウドなし、誰かに見られる場所ではありません。", shot: "設定 · ローカルバックアップ", ratio: "1170 / 2532", shape: "phone", chip: "アカウントなし · クラウドなし" },
+        { id: "spaces", eyebrow: "ルーティンとアート", title: ["数語で伝える。", { em: "世界が現れる。" }], copy: "「柔らかな光の朝」や「春までに強い体へ」のように、つくりたいものを伝えるだけ。最初の絵が違うと感じたら、再生成、スタイル変更、詳しい説明で調整できます。", shot: "絵の確認 · 調整 / 新しい場面 / 説明", ratio: "1170 / 2532", shape: "phone", image: walkImages.describeWorld, chip: "Sonaが描く" },
+        { eyebrow: "チェックリストではなく場所", title: ["自分でつくった場所へ", { em: "戻る" }, "。"], copy: "各スペースには、そのための絵と習慣があります。無機質なリストではなく、入りたくなる世界に戻ります。", shot: "描かれたヘッダー + 習慣リスト", ratio: "1170 / 2532", shape: "phone", image: walkImages.stepIntoSpace, chip: "目標ごとの世界" },
+        { eyebrow: "休みも練習の一部", title: ["大変な週で全部を", { em: "失わない" }, "。"], copy: "体調不良、旅行、しんどい週。習慣を休ませてもスコアは守られ、準備ができたら再開できます。", shot: "休止中の習慣 + 休み設定", ratio: "734 / 560", shape: "phone", image: walkImages.restWeek, chip: "スコアは保たれる" },
+        { id: "progress", eyebrow: "ストリークではなくスコア", title: ["休んだ日は", { em: "少し下がる" }, "だけ。"], copy: "ゼロに落ちるカウンターはありません。一貫性スコアが休んだ日を吸収し、あなたと一緒に数え続けます。", shot: "スペースごとの進捗表示", ratio: "1170 / 2532", shape: "phone", image: walkImages.missedDayDip, chip: "ゼロ戻りなし" },
+        { eyebrow: "プライバシー重視", title: ["あなただけのもの。", { em: "あなたの端末に。" }], copy: "データは端末にあります。アカウントなし、クラウドなし、誰かに見られる場所ではありません。", shot: "設定 · ローカルバックアップ", ratio: "1170 / 2532", shape: "phone", image: walkImages.privateDevice, chip: "アカウントなし · クラウドなし" },
       ],
     },
     midCta: {
@@ -786,13 +794,11 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
       eyebrow: "다른 앱이 어려웠던 이유를 바꾸다",
       title: ["모든 요소가 다시 ", { em: "돌아오도록" }, " 돕습니다."],
       steps: [
-        { id: "spaces", eyebrow: "루틴과 나만의 그림", title: ["몇 마디로 말하면 ", { em: "세계가 나타납니다." }], copy: "“부드러운 빛의 아침”이나 “봄까지 더 강한 몸”처럼 만들고 싶은 것을 적어 보세요. 첫 그림이 마음에 들지 않으면 다시 만들고, 스타일을 바꾸고, 더 자세히 설명할 수 있습니다.", shot: "그림 검토 · 조정 / 새 장면 / 설명", ratio: "1170 / 2532", shape: "phone", chip: "Sona가 그린 세계" },
-        { eyebrow: "체크리스트가 아닌 장소", title: ["내가 만든 공간으로 ", { em: "들어갑니다" }, "."], copy: "각 스페이스는 고유한 그림과 그 안에 속한 습관을 함께 보여 줍니다. 해야 할 일 목록이 아니라 머물고 싶은 세계로 돌아옵니다.", shot: "그려진 헤더 + 습관 목록", ratio: "1170 / 2532", shape: "phone", chip: "목표마다 하나의 세계" },
-        { eyebrow: "하루에도 여러 번", title: ["어떤 습관은 하루 ", { em: "한 번" }, "이 아닙니다."], copy: "물 여덟 잔, 스트레칭 두 번. 필요한 횟수를 정하고 하나씩 채우면 링이 조용히 차오릅니다.", shot: "습관 카드 · 여러 번 완료 진행", ratio: "734 / 520", shape: "card", chip: "0 / 3 → 완료" },
-        { eyebrow: "매일 · 매주 · 매월", title: ["각 습관의 ", { em: "자연스러운 리듬" }, "대로."], copy: "아침 스트레칭은 매일, 긴 달리기는 매주, 예산 점검은 매월. Sona는 모든 것을 매일 체크박스로 밀어 넣지 않습니다.", shot: "오늘 / 주 / 월 탭", ratio: "1170 / 2532", shape: "phone", chip: "오늘 · 주 · 월" },
-        { eyebrow: "쉼도 연습의 일부", title: ["힘든 한 주가 전부를 ", { em: "빼앗지 않게" }, "."], copy: "아프거나, 여행 중이거나, 지친 주라면 습관을 쉬게 할 수 있습니다. 점수는 보호되고 준비되면 다시 이어집니다.", shot: "쉬는 습관 상태 + 휴식 시트", ratio: "734 / 560", shape: "card", chip: "점수는 유지됩니다" },
-        { id: "progress", eyebrow: "스트릭이 아닌 점수", title: ["놓친 하루는 ", { em: "작은 하락" }, "입니다."], copy: "0으로 무너지는 카운터는 없습니다. 부드러운 일관성 점수가 놓친 날을 흡수하고 계속 함께 세어 갑니다.", shot: "스페이스별 진행 공개", ratio: "1170 / 2532", shape: "phone", chip: "0으로 리셋 없음" },
-        { eyebrow: "개인정보 중심", title: ["오직 당신의 것. ", { em: "당신의 기기에." }], copy: "모든 것은 휴대폰에 남습니다. 계정도, 클라우드도, 누군가 지켜보는 느낌도 없습니다.", shot: "설정 · 로컬 백업", ratio: "1170 / 2532", shape: "phone", chip: "계정 없음 · 클라우드 없음" },
+        { id: "spaces", eyebrow: "루틴과 나만의 그림", title: ["몇 마디로 말하면 ", { em: "세계가 나타납니다." }], copy: "“부드러운 빛의 아침”이나 “봄까지 더 강한 몸”처럼 만들고 싶은 것을 적어 보세요. 첫 그림이 마음에 들지 않으면 다시 만들고, 스타일을 바꾸고, 더 자세히 설명할 수 있습니다.", shot: "그림 검토 · 조정 / 새 장면 / 설명", ratio: "1170 / 2532", shape: "phone", image: walkImages.describeWorld, chip: "Sona가 그린 세계" },
+        { eyebrow: "체크리스트가 아닌 장소", title: ["내가 만든 공간으로 ", { em: "들어갑니다" }, "."], copy: "각 스페이스는 고유한 그림과 그 안에 속한 습관을 함께 보여 줍니다. 해야 할 일 목록이 아니라 머물고 싶은 세계로 돌아옵니다.", shot: "그려진 헤더 + 습관 목록", ratio: "1170 / 2532", shape: "phone", image: walkImages.stepIntoSpace, chip: "목표마다 하나의 세계" },
+        { eyebrow: "쉼도 연습의 일부", title: ["힘든 한 주가 전부를 ", { em: "빼앗지 않게" }, "."], copy: "아프거나, 여행 중이거나, 지친 주라면 습관을 쉬게 할 수 있습니다. 점수는 보호되고 준비되면 다시 이어집니다.", shot: "쉬는 습관 상태 + 휴식 시트", ratio: "734 / 560", shape: "phone", image: walkImages.restWeek, chip: "점수는 유지됩니다" },
+        { id: "progress", eyebrow: "스트릭이 아닌 점수", title: ["놓친 하루는 ", { em: "작은 하락" }, "입니다."], copy: "0으로 무너지는 카운터는 없습니다. 부드러운 일관성 점수가 놓친 날을 흡수하고 계속 함께 세어 갑니다.", shot: "스페이스별 진행 공개", ratio: "1170 / 2532", shape: "phone", image: walkImages.missedDayDip, chip: "0으로 리셋 없음" },
+        { eyebrow: "개인정보 중심", title: ["오직 당신의 것. ", { em: "당신의 기기에." }], copy: "모든 것은 휴대폰에 남습니다. 계정도, 클라우드도, 누군가 지켜보는 느낌도 없습니다.", shot: "설정 · 로컬 백업", ratio: "1170 / 2532", shape: "phone", image: walkImages.privateDevice, chip: "계정 없음 · 클라우드 없음" },
       ],
     },
     midCta: {
@@ -915,13 +921,11 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
       eyebrow: "Por qué funciona cuando otras no",
       title: ["Todo está hecho para ayudarte a ", { em: "volver" }, "."],
       steps: [
-        { id: "spaces", eyebrow: "Tus rutinas, tu arte", title: ["Descríbelo en unas palabras. ", { em: "Ve aparecer un mundo." }], copy: "Dile a Sona qué estás construyendo, como “mañanas lentas con luz suave” o “un cuerpo más fuerte para primavera”. Si la primera imagen no te encanta, puedes regenerarla, cambiar el estilo o describirla mejor.", shot: "Revisión de pintura · Ajustar / Nueva escena / Describir", ratio: "1170 / 2532", shape: "phone", chip: "pintado por Sona" },
-        { eyebrow: "Un lugar, no una lista", title: ["Entra al espacio que ", { em: "hiciste" }, "."], copy: "Cada espacio abre con su propia pintura y los hábitos que pertenecen ahí. No abres una lista de pendientes: regresas a un mundo en el que sí quieres estar.", shot: "Encabezado pintado + lista de hábitos", ratio: "1170 / 2532", shape: "phone", chip: "un mundo por meta" },
-        { eyebrow: "Un día, varias veces", title: ["Algunos hábitos no son de ", { em: "una vez" }, " al día."], copy: "Tomar agua ocho veces. Estirarte dos. Define cuántas veces cuenta el día y ve llenando el anillo poco a poco.", shot: "Tarjeta de hábito · avance de varias veces", ratio: "734 / 520", shape: "card", chip: "0 / 3 → listo" },
-        { eyebrow: "Diario · semanal · mensual", title: ["Cada hábito a su ", { em: "ritmo" }, "."], copy: "Un estiramiento puede ser diario. Una carrera larga vive en tu semana. Revisar presupuesto vive en tu mes. Sona no fuerza todo a una casilla diaria.", shot: "Pestañas Hoy / Semana / Mes", ratio: "1170 / 2532", shape: "phone", chip: "Hoy · Semana · Mes" },
-        { eyebrow: "Descansar también cuenta", title: ["Una semana pesada no debería ", { em: "costarte" }, " todo."], copy: "Si estás enfermo, de viaje o agotado, puedes pausar un hábito. Su progreso queda protegido y Sona vuelve contigo cuando estés listo.", shot: "Hábito en descanso + hoja de descanso", ratio: "734 / 560", shape: "card", chip: "tu puntuación se mantiene" },
-        { id: "progress", eyebrow: "Una puntuación, no una racha", title: ["Faltar un día es una ", { em: "baja" }, ", no un reinicio."], copy: "Aquí ningún contador cae a cero. Una puntuación de consistencia absorbe los días perdidos y sigue contando contigo.", shot: "Vista de progreso por espacio", ratio: "1170 / 2532", shape: "phone", chip: "sin reinicios" },
-        { eyebrow: "Privado por diseño", title: ["Solo tuyo. ", { em: "En tu dispositivo." }], copy: "Todo vive en tu teléfono. Sin cuenta, sin nube, sin sentir que alguien mira por encima de tu hombro.", shot: "Ajustes · respaldo local", ratio: "1170 / 2532", shape: "phone", chip: "sin cuenta · sin nube" },
+        { id: "spaces", eyebrow: "Tus rutinas, tu arte", title: ["Descríbelo en unas palabras. ", { em: "Ve aparecer un mundo." }], copy: "Dile a Sona qué estás construyendo, como “mañanas lentas con luz suave” o “un cuerpo más fuerte para primavera”. Si la primera imagen no te encanta, puedes regenerarla, cambiar el estilo o describirla mejor.", shot: "Revisión de pintura · Ajustar / Nueva escena / Describir", ratio: "1170 / 2532", shape: "phone", image: walkImages.describeWorld, chip: "pintado por Sona" },
+        { eyebrow: "Un lugar, no una lista", title: ["Entra al espacio que ", { em: "hiciste" }, "."], copy: "Cada espacio abre con su propia pintura y los hábitos que pertenecen ahí. No abres una lista de pendientes: regresas a un mundo en el que sí quieres estar.", shot: "Encabezado pintado + lista de hábitos", ratio: "1170 / 2532", shape: "phone", image: walkImages.stepIntoSpace, chip: "un mundo por meta" },
+        { eyebrow: "Descansar también cuenta", title: ["Una semana pesada no debería ", { em: "costarte" }, " todo."], copy: "Si estás enfermo, de viaje o agotado, puedes pausar un hábito. Su progreso queda protegido y Sona vuelve contigo cuando estés listo.", shot: "Hábito en descanso + hoja de descanso", ratio: "734 / 560", shape: "phone", image: walkImages.restWeek, chip: "tu puntuación se mantiene" },
+        { id: "progress", eyebrow: "Una puntuación, no una racha", title: ["Faltar un día es una ", { em: "baja" }, ", no un reinicio."], copy: "Aquí ningún contador cae a cero. Una puntuación de consistencia absorbe los días perdidos y sigue contando contigo.", shot: "Vista de progreso por espacio", ratio: "1170 / 2532", shape: "phone", image: walkImages.missedDayDip, chip: "sin reinicios" },
+        { eyebrow: "Privado por diseño", title: ["Solo tuyo. ", { em: "En tu dispositivo." }], copy: "Todo vive en tu teléfono. Sin cuenta, sin nube, sin sentir que alguien mira por encima de tu hombro.", shot: "Ajustes · respaldo local", ratio: "1170 / 2532", shape: "phone", image: walkImages.privateDevice, chip: "sin cuenta · sin nube" },
       ],
     },
     midCta: {
@@ -1044,13 +1048,11 @@ export const homeContent: Record<SiteLocale, HomeContent> = {
       eyebrow: "Por que funciona quando outros não funcionaram",
       title: ["Tudo foi feito para ajudar você a ", { em: "voltar" }, "."],
       steps: [
-        { id: "spaces", eyebrow: "Suas rotinas, sua arte", title: ["Descreva em poucas palavras. ", { em: "Veja um mundo aparecer." }], copy: "Diga ao Sona o que você está construindo, como “manhãs lentas com luz suave” ou “um corpo mais forte até a primavera”. Se a primeira imagem não encaixar, gere de novo, mude o estilo ou explique melhor.", shot: "Revisão da pintura · Ajustar / Nova cena / Descrever", ratio: "1170 / 2532", shape: "phone", chip: "pintado pelo Sona" },
-        { eyebrow: "Um lugar, não uma lista", title: ["Entre no espaço que você ", { em: "criou" }, "."], copy: "Cada espaço abre com sua própria pintura e os hábitos que pertencem a ele. Você não abre uma lista de tarefas: você volta para um mundo onde quer estar.", shot: "Cabeçalho pintado + lista de hábitos", ratio: "1170 / 2532", shape: "phone", chip: "um mundo por meta" },
-        { eyebrow: "Um dia, várias vezes", title: ["Alguns hábitos não são ", { em: "uma vez" }, " por dia."], copy: "Beber água oito vezes. Alongar duas. Defina quantas conclusões o dia precisa e vá preenchendo o anel aos poucos.", shot: "Cartão de hábito · progresso em múltiplas conclusões", ratio: "734 / 520", shape: "card", chip: "0 / 3 → feito" },
-        { eyebrow: "Diário · semanal · mensal", title: ["Cada hábito no seu ", { em: "próprio ritmo" }, "."], copy: "Um alongamento de manhã é diário. Uma corrida longa mora na semana. Revisar o orçamento mora no mês. O Sona não força tudo a virar uma caixa diária.", shot: "Abas Hoje / Semana / Mês", ratio: "1170 / 2532", shape: "phone", chip: "Hoje · Semana · Mês" },
-        { eyebrow: "Descanso faz parte", title: ["Uma semana difícil não deveria ", { em: "custar" }, " tudo."], copy: "Doente, viajando ou sem energia? Descanse um hábito e nada quebra. A pontuação fica protegida e o Sona retoma com você quando estiver pronto.", shot: "Hábito em descanso + folha de descanso", ratio: "734 / 560", shape: "card", chip: "sua pontuação fica estável" },
-        { id: "progress", eyebrow: "Uma pontuação, não uma sequência", title: ["Perder um dia é uma ", { em: "queda" }, ", não um reset."], copy: "Aqui nenhum contador cai para zero. Uma pontuação gentil de consistência absorve as faltas e continua contando com você.", shot: "Revelação de progresso por espaço", ratio: "1170 / 2532", shape: "phone", chip: "sem voltar ao zero" },
-        { eyebrow: "Privado por design", title: ["Só seu. ", { em: "No seu dispositivo." }], copy: "Tudo vive no seu celular. Sem conta, sem nuvem, sem alguém olhando por cima do seu ombro.", shot: "Ajustes · backup local", ratio: "1170 / 2532", shape: "phone", chip: "sem conta · sem nuvem" },
+        { id: "spaces", eyebrow: "Suas rotinas, sua arte", title: ["Descreva em poucas palavras. ", { em: "Veja um mundo aparecer." }], copy: "Diga ao Sona o que você está construindo, como “manhãs lentas com luz suave” ou “um corpo mais forte até a primavera”. Se a primeira imagem não encaixar, gere de novo, mude o estilo ou explique melhor.", shot: "Revisão da pintura · Ajustar / Nova cena / Descrever", ratio: "1170 / 2532", shape: "phone", image: walkImages.describeWorld, chip: "pintado pelo Sona" },
+        { eyebrow: "Um lugar, não uma lista", title: ["Entre no espaço que você ", { em: "criou" }, "."], copy: "Cada espaço abre com sua própria pintura e os hábitos que pertencem a ele. Você não abre uma lista de tarefas: você volta para um mundo onde quer estar.", shot: "Cabeçalho pintado + lista de hábitos", ratio: "1170 / 2532", shape: "phone", image: walkImages.stepIntoSpace, chip: "um mundo por meta" },
+        { eyebrow: "Descanso faz parte", title: ["Uma semana difícil não deveria ", { em: "custar" }, " tudo."], copy: "Doente, viajando ou sem energia? Descanse um hábito e nada quebra. A pontuação fica protegida e o Sona retoma com você quando estiver pronto.", shot: "Hábito em descanso + folha de descanso", ratio: "734 / 560", shape: "phone", image: walkImages.restWeek, chip: "sua pontuação fica estável" },
+        { id: "progress", eyebrow: "Uma pontuação, não uma sequência", title: ["Perder um dia é uma ", { em: "queda" }, ", não um reset."], copy: "Aqui nenhum contador cai para zero. Uma pontuação gentil de consistência absorve as faltas e continua contando com você.", shot: "Revelação de progresso por espaço", ratio: "1170 / 2532", shape: "phone", image: walkImages.missedDayDip, chip: "sem voltar ao zero" },
+        { eyebrow: "Privado por design", title: ["Só seu. ", { em: "No seu dispositivo." }], copy: "Tudo vive no seu celular. Sem conta, sem nuvem, sem alguém olhando por cima do seu ombro.", shot: "Ajustes · backup local", ratio: "1170 / 2532", shape: "phone", image: walkImages.privateDevice, chip: "sem conta · sem nuvem" },
       ],
     },
     midCta: {
